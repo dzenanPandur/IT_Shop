@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "Vp/m639PmZcJSzOwp+Rl8ABu65u2WbYIeCRrZmuHtzOR3W+a8bo5raps7sJUaZejbYU5ifLbrrVH4bjCBjdz4Q==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Dzeno\\Documents\\GitHub\\webapp\\backend_ITShop\\ITShop.API\\ITShop.API\\ITShop.API.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Dzeno\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "C:\\Users\\Dzeno\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\Dzeno\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
+    "C:\\Users\\Dzeno\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.2.3\\swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
+    "C:\\Users\\Dzeno\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.3\\swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
+    "C:\\Users\\Dzeno\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.2.3\\swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512"
+  ],
+  "logs": []
+}
