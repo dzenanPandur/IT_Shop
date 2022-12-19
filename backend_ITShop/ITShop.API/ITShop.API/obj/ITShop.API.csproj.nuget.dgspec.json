@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Dzeno\\Documents\\GitHub\\webapp\\backend_ITShop\\ITShop.API\\ITShop.API\\ITShop.API.csproj": {}
+    "C:\\Users\\WiMAX\\Documents\\GitHub\\webapp\\backend_ITShop\\ITShop.API\\ITShop.API\\ITShop.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Dzeno\\Documents\\GitHub\\webapp\\backend_ITShop\\ITShop.API\\ITShop.API\\ITShop.API.csproj": {
+    "C:\\Users\\WiMAX\\Documents\\GitHub\\webapp\\backend_ITShop\\ITShop.API\\ITShop.API\\ITShop.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Dzeno\\Documents\\GitHub\\webapp\\backend_ITShop\\ITShop.API\\ITShop.API\\ITShop.API.csproj",
+        "projectUniqueName": "C:\\Users\\WiMAX\\Documents\\GitHub\\webapp\\backend_ITShop\\ITShop.API\\ITShop.API\\ITShop.API.csproj",
         "projectName": "ITShop.API",
-        "projectPath": "C:\\Users\\Dzeno\\Documents\\GitHub\\webapp\\backend_ITShop\\ITShop.API\\ITShop.API\\ITShop.API.csproj",
-        "packagesPath": "C:\\Users\\Dzeno\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Dzeno\\Documents\\GitHub\\webapp\\backend_ITShop\\ITShop.API\\ITShop.API\\obj\\",
+        "projectPath": "C:\\Users\\WiMAX\\Documents\\GitHub\\webapp\\backend_ITShop\\ITShop.API\\ITShop.API\\ITShop.API.csproj",
+        "packagesPath": "C:\\Users\\WiMAX\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\WiMAX\\Documents\\GitHub\\webapp\\backend_ITShop\\ITShop.API\\ITShop.API\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Dzeno\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\WiMAX\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

@@ -8,6 +8,15 @@ namespace ITShop.API.Database
 {
     public class ITShop_DBContext : IdentityDbContext<User, Role, Guid>, IITShop_DBContext
     {
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductCategory> ProductCategories { get; set; }
+        public DbSet<ProductInventory> ProductInventories { get; set; }
+        public DbSet<PaymentDetails> PaymentDetails { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<OrderDetails> OrderDetails { get; set; }
+        public DbSet<Discount> Discounts { get; set; }
+        public DbSet<CartItems> CartItems { get; set; }
 
         public ITShop_DBContext(DbContextOptions<ITShop_DBContext> options) : base(options)
         {
