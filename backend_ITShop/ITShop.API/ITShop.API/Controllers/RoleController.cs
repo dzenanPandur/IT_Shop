@@ -8,7 +8,7 @@ namespace ITShop.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class RoleController:ControllerBase
     {
         private readonly IRoleService _roleService;
@@ -18,7 +18,7 @@ namespace ITShop.API.Controllers
             this._roleService = _roleService;
         }
 
-        [HttpPost("create-role"), AllowAnonymous]
+        [HttpPost("create-role")]
         public async Task<IActionResult> CreateRoleAsMessageAsync(RoleCreateVM roleCreateVM, CancellationToken cancellationToken)
         {
             var message = await _roleService.CreateRoleAsMessageAsync(roleCreateVM, cancellationToken);
@@ -27,7 +27,7 @@ namespace ITShop.API.Controllers
             return Ok(message);
         }
         [AllowAnonymous]
-        [HttpDelete("delete-role"), Authorize(Roles = "Admin")]
+        [HttpDelete("delete-role")]
         public async Task<IActionResult> DeleteRoleAsMessageAsync(Guid roleId, CancellationToken cancellationToken)
         {
             var message = await _roleService.DeleteRoleAsMessageAsync(roleId, cancellationToken);
@@ -35,7 +35,7 @@ namespace ITShop.API.Controllers
                 return BadRequest(message);
             return Ok(message);
         }
-        [HttpPost("add-role-to-user"), AllowAnonymous]
+        [HttpPost("add-role-to-user")]
         public async Task<IActionResult> AddRoleToUserAsMessageAsync(UserRoleVM userRoleVM, CancellationToken cancellationToken)
         {
             var message = await _roleService.AddRoleToUserAsMessageAsync(userRoleVM, cancellationToken);
