@@ -25,6 +25,7 @@ using ITShop.API.Services;
 using ITShop.API.Database;
 using ITShop.API.Entities;
 using ITShop.API.Helper;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -100,6 +101,7 @@ builder.Services.AddDbContext<ITShop_DBContext>(options =>
 
 var app = builder.Build();
 
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -113,4 +115,13 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = (RoleManager<Role>)scope.ServiceProvider.GetService(typeof(RoleManager<Role>));
+    CreateRolesHelper.CreateRoles(roleManager).Wait();
+}
+
+
 app.Run();
+
