@@ -92,28 +92,14 @@ namespace ITShop.API.Services
 
         private async Task<bool> ThrowOnCreateUserDuplicateEmailError(UserCreateVM userCreateVM, CancellationToken cancellationToken)
         {
-
-            var emailExists = await _dbContext.Users.
+            return await _dbContext.Users.
                 AnyAsync(x => x.Email == userCreateVM.Email, cancellationToken);
-
-            if (emailExists)
-                return true;
-
-            else
-                return false;
         }
 
         private async Task<bool> ThrowOnCreateDuplicateUsernameError(UserCreateVM userCreateVM, CancellationToken cancellationToken)
         {
-
-            var usernameExists = await _dbContext.Users.
+            return await _dbContext.Users.
                 AnyAsync(x => x.UserName == userCreateVM.UserName, cancellationToken);
-
-            if (usernameExists)
-                return true;
-
-            else
-                return false;
         }
 
         public async Task<Message> GetUsersAsMessageAsync(CancellationToken cancellationToken)
