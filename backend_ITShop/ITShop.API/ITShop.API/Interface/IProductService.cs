@@ -12,7 +12,7 @@ namespace ITShop.API.Interface
 
         Task<Message> Get(int id);
 
-        Task<Message> Snimi(ProductCreateVM x);
+        Task<Message> Snimi(ProductSnimiVM x);
 
         Task<Message> Delete(int id);
     }

@@ -73,7 +73,7 @@ namespace ITShop.API.Services
             };
         }
 
-        public async Task<Message> Snimi(ProductCreateVM x)
+        public async Task<Message> Snimi(ProductSnimiVM x)
         {
             Product? entity;
             if (x.Id == 0)

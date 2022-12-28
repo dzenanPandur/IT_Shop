@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ITShop.API.ViewModels.User
 {
 
-    public class ProductCreateVM
+    public class ProductSnimiVM
     {
         public int Id { get; set; }
         public string Name { get; set; }

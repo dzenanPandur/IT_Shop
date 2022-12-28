@@ -40,7 +40,7 @@ namespace ITShop.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Snimi([FromBody] ProductCreateVM x)
+        public async Task<ActionResult> Snimi([FromBody] ProductSnimiVM x)
         {
             var message = await _productService.Snimi(x);
             if (!message.IsValid)
