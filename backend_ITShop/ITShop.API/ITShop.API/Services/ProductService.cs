@@ -50,9 +50,9 @@ namespace ITShop.API.Services
         public async Task<Message> Get(int id)
         {
             var entity = await _dbContext.Products
-                .Include(x=>x.Discount)
-                .Include(x=>x.ProductCategory)
-                .Include(x=>x.ProductInventory.Location)
+                .Include(x => x.Discount)
+                .Include(x => x.ProductCategory)
+                .Include(x => x.ProductInventory.Location)
                 .FirstOrDefaultAsync(s => s.Id == id);
             if (entity is null)
             {
