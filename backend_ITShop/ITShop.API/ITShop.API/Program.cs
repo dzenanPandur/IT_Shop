@@ -90,6 +90,8 @@ builder.Services.AddTransient<IRoleService, RoleService>();
 builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<IDiscountService, DiscountService>();
 builder.Services.AddTransient<ILocationService, LocationService>();
+builder.Services.AddTransient<IProductCategoryService, ProductCategoryService>();
+builder.Services.AddTransient<IProductInventoryService, ProductInventoryService>();
 
 
 builder.Services.AddControllers()
