@@ -89,6 +89,7 @@ builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IRoleService, RoleService>();
 builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<IDiscountService, DiscountService>();
+builder.Services.AddTransient<ILocationService, LocationService>();
 
 
 builder.Services.AddControllers()
