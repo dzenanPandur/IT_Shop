@@ -10,9 +10,5 @@ namespace ITShop.API.Entities
         public int Amount { get; set; }
         public int Provider { get; set; }
         public int Status { get; set; }
-
-        [ForeignKey(nameof(Order))]
-        public int OrderID { get; set; }
-        public Order? Order { get; set; }
     }
 }
