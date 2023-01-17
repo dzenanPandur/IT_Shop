@@ -94,6 +94,7 @@ builder.Services.AddTransient<IProductCategoryService, ProductCategoryService>()
 builder.Services.AddTransient<IProductInventoryService, ProductInventoryService>();
 builder.Services.AddTransient<ICartItemsService, CartItemsService>();
 builder.Services.AddTransient<IOrderService, OrderService>();
+builder.Services.AddTransient<IOrderDetailsService, OrderDetailsService>();
 
 
 builder.Services.AddControllers()
