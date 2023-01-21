@@ -1,1 +1,21 @@
-<p>category works!</p>
+<div class="container">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Naziv</th>
+                <th>Akcija</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let x of tableData">
+            <td>{{x.name}}</td>
+            <td>
+                <button class="btn btn-danger">Izbriši</button>&nbsp;
+                <button class="btn btn-primary">Uredi</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <button class="form-label btn btn-success">Nova Kategorija</button>
+</div>
