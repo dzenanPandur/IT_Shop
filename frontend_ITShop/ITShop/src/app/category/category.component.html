@@ -10,12 +10,19 @@
         <tr *ngFor="let x of tableData">
             <td>{{x.name}}</td>
             <td>
-                <button class="btn btn-danger">Izbriši</button>&nbsp;
-                <button class="btn btn-primary">Uredi</button>
+                <button class="btn btn-danger" (click)="izbrisi(x.id)">Izbriši</button>&nbsp;
+                <button class="btn btn-primary" (click)="showModal=true; odabrani=x">Uredi</button>
             </td>
         </tr>
         </tbody>
     </table>
 
-    <button class="form-label btn btn-success">Nova Kategorija</button>
+    <button class="form-label btn btn-success" (click)="showModal=true; odabrani={}">Nova Kategorija</button>
 </div>
+
+<app-category-snimi 
+*ngIf="showModal"
+(closeModal)="showModal = false"
+(reloadData)="loadData()"
+[odabrani]="odabrani"
+></app-category-snimi>

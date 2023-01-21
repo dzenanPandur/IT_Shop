@@ -1,4 +1,4 @@
-export class MojConfig{
+export class MyConfig{
   static API_URL = "https://localhost:44330/api";
   /*static http_options = function (){
 

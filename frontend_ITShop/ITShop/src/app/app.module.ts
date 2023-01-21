@@ -9,6 +9,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { ShopComponent } from './shop/shop.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { CategoryComponent } from './category/category.component';
+import { CategorySnimiComponent } from './category-snimi/category-snimi.component';
 
 const routes: Routes = [
   {path: 'categories', component: CategoryComponent},
@@ -22,7 +23,8 @@ const routes: Routes = [
     NavbarComponent,
     NotFoundComponent,
     ShopComponent,
-    CategoryComponent
+    CategoryComponent,
+    CategorySnimiComponent
   ],
   imports: [
     BrowserModule,
