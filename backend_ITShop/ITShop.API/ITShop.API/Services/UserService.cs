@@ -2,6 +2,7 @@
 using ITShop.API.Entities;
 using ITShop.API.Enums;
 using ITShop.API.Interface;
+using ITShop.API.ViewModels.Role;
 using ITShop.API.ViewModels.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -110,10 +111,13 @@ namespace ITShop.API.Services
 
                 var users = await _dbContext.Users.Where(x => x.Id != loggedUser.Id).ToListAsync();
 
-
+                var userRoles = await _dbContext.UserRoles.ToListAsync(cancellationToken);
                 var list = new List<UserGetVM>();
+                var roles = await _dbContext.Roles.ToListAsync(cancellationToken);
                 foreach (var user in users)
                 {
+                    var x = new List<UserRoleGetVM>();
+
                     UserGetVM newUser = new UserGetVM
                     {
                         Email = user.Email,
@@ -124,6 +128,16 @@ namespace ITShop.API.Services
                         PhoneNumber = user.PhoneNumber,
                         UserName = user.UserName
                     };
+
+                    // can u try now
+                    x = userRoles.
+                        Where(x => x.UserId == user.Id)
+                        .Select(x => new UserRoleGetVM
+                        {
+                            RoleId = x.RoleId,
+                            RoleName = roles.Where(a => a.Id == x.RoleId).FirstOrDefault().Name
+                        }).ToList();
+                    newUser.Role = x;
                     list.Add(newUser);
 
 

@@ -23,20 +23,41 @@
         <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
         <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>
 
-        <li class="nav-item" ><a class="nav-link" routerLink="/categories" style=" border-left: 1px solid #000000;">Categories</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/categories" style=" border-left: 1px solid #000000;">Categories</a>
+        </li>
         <li class="nav-item"><a class="nav-link" href="#!">Products</a></li>
         <li class="nav-item"><a class="nav-link" href="#!">Orders</a></li>
         <li class="nav-item"><a class="nav-link" href="#!">Locations</a></li>
         <li class="nav-item"><a class="nav-link" href="#!">Discounts</a></li>
 
       </ul>
+      <label *ngIf="_cookieService.get('auth')!==undefined"> Welcome, {{fullName.firstName}} {{fullName.lastName}}
+        &nbsp;</label>
       <form class="d-flex">
-        <button class="btn btn-outline-dark" type="submit">
+        <button (click)="cc()" class="btn btn-outline-dark" type="submit">
           <i class="bi-cart-fill me-1"></i>
           Cart
           <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
         </button>
       </form>
+      <app-login></app-login>
+      <div class="btn-group" *ngIf="_cookieService.get('auth')!==undefined">
+        <button type="button" class="btn btn-elegant dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="far fa-user pr-2" aria-hidden="true"></i>
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#">Settings</a>
+          <a class="dropdown-item" href="#">Profile</a>
+          <a *ngIf="roles('Admin')" [routerLink]="'/admin'" class="dropdown-item" href="#">Admin</a>
+          <a *ngIf="roles('Zaposlenik')" [routerLink]="'/categories'" class="dropdown-item" href="#">Employee page</a>
+          <div  class="dropdown-divider"></div>
+          <a *ngIf="_cookieService.get('auth')!==undefined" (click)="logout(); cc()"  type="button" class="dropdown-item" >
+            Log out
+          </a>
+        </div>
+      </div>
+
     </div>
   </div>
 </nav>
+
