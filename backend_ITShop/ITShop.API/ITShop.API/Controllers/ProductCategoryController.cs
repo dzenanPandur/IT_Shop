@@ -8,7 +8,7 @@ namespace ITShop.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Zaposlenik")]
+    //[Authorize(Roles = "Zaposlenik")]
     public class ProductCategoryController: ControllerBase
     {
         private IProductCategoryService _productCategoryService;

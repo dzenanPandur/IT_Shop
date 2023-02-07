@@ -53,6 +53,12 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
+
+builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
+{
+    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
+
 var jwtConfig = builder.Configuration.GetSection("Jwt").Get<JwtConfiguration>();
 builder.Services.AddSingleton(jwtConfig);
 builder.Services.AddIdentity<User, Role>(options =>
@@ -117,6 +123,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("corsapp");
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
