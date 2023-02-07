@@ -1,0 +1,34 @@
+<div class="container">
+  <h2>Users</h2>
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th>Full name</th>
+<!--      <th>Current role</th>-->
+      <th>Role</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let x of tableData">
+      <td>{{x.firstName}} {{x.lastName}}</td>
+<!--      <td></td>-->
+      <td>
+        <select [(ngModel)]="x.role[0].roleId">
+        <option *ngFor="let y of selectData" [value]="y.roleId">{{y.roleName}}
+        </option>
+      </select>
+      </td>
+      <td>
+        <button class="btn btn-primary" (click)="changeRole(x.role[0].roleId, x.id)">Change role</button>
+      </td>
+    </tr>
+    <td>
+
+    </td>
+
+    </tbody>
+  </table>
+
+<!--  <button class="form-label btn btn-success">Nova Kategorija</button>-->
+</div>

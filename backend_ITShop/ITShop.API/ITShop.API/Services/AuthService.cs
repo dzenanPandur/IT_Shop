@@ -177,9 +177,21 @@ namespace ITShop.API.Services
         {
             await _signInManager.SignOutAsync();
 
-            user.RefreshToken = null;
-            user.RefreshTokenExpireDate = DateTime.MinValue;
-            await _dbContext.SaveChangesAsync(CancellationToken.None);
+            try
+            {
+                user.RefreshToken = null;
+                user.RefreshTokenExpireDate = DateTime.MinValue;
+                await _dbContext.SaveChangesAsync(CancellationToken.None);
+            }
+            catch(Exception ex)
+            {
+                return new Message
+                {
+                    Info = ex.Message,
+                    IsValid = false,
+                    Status = ExceptionCode.BadRequest,
+                };
+            }
 
             return new Message
             {

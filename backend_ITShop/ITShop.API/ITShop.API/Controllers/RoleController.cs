@@ -26,6 +26,14 @@ namespace ITShop.API.Controllers
                 return BadRequest(message);
             return Ok(message);
         }
+        [HttpPut("update-role")]
+        public async Task<IActionResult> UpdateRoleAsMessageAsync(RoleUpdateVM roleUpdateVM, CancellationToken cancellationToken)
+        {
+            var message = await _roleService.UpdateRoleToUserAsMessageAsync(roleUpdateVM, cancellationToken);
+            if (message.IsValid == false)
+                return BadRequest(message);
+            return Ok(message);
+        }
         [AllowAnonymous]
         [HttpDelete("delete-role")]
         public async Task<IActionResult> DeleteRoleAsMessageAsync(Guid roleId, CancellationToken cancellationToken)
@@ -39,6 +47,14 @@ namespace ITShop.API.Controllers
         public async Task<IActionResult> AddRoleToUserAsMessageAsync(UserRoleVM userRoleVM, CancellationToken cancellationToken)
         {
             var message = await _roleService.AddRoleToUserAsMessageAsync(userRoleVM, cancellationToken);
+            if (message.IsValid == false)
+                return BadRequest(message);
+            return Ok(message);
+        }
+        [HttpGet("get-roles")]
+        public async Task<IActionResult> GetRolesAsMessageAsync(CancellationToken cancellationToken)
+        {
+            var message = await _roleService.GetRolesAsMessageAsync(cancellationToken);
             if (message.IsValid == false)
                 return BadRequest(message);
             return Ok(message);

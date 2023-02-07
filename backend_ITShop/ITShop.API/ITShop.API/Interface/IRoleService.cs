@@ -7,5 +7,8 @@ namespace ITShop.API.Interface
         Task<Message> CreateRoleAsMessageAsync(RoleCreateVM roleCreateVM, CancellationToken cancellationToken);
         Task<Message> DeleteRoleAsMessageAsync(Guid roleId, CancellationToken cancellationToken);
         Task<Message> AddRoleToUserAsMessageAsync(UserRoleVM userRoleVM, CancellationToken cancellationToken);
+        Task<Message> GetRolesAsMessageAsync(CancellationToken cancellationToken);
+        Task<Message> UpdateRoleToUserAsMessageAsync(RoleUpdateVM userRoleVM, CancellationToken cancellationToken);
+
     }
 }

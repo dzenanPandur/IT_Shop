@@ -1,0 +1,93 @@
+<!--<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">-->
+<!--  <div class="modal-dialog modal-dialog-centered">-->
+<!--    <div class="modal-content">-->
+<!--      <div class="modal-header">-->
+<!--        <h5 class="modal-title" id="exampleModalToggleLabel">Log in</h5>-->
+<!--        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--      </div>-->
+<!--      <div class="modal-body">-->
+
+<!--        <div class="">-->
+<!--          <label class="col-sm-2 col-form-label d-block">Username</label>-->
+<!--          <div class="col-sm">-->
+<!--            <input class="form-control w-100"  [(ngModel)]="authRequest.username">-->
+<!--          </div>-->
+<!--        </div>-->
+
+<!--        <div class="">-->
+<!--          <label class="col-sm-2 col-form-label d-block">Password</label>-->
+<!--          <div class="col-sm">-->
+<!--            <input class="form-control w-100" type="password" [(ngModel)]="authRequest.password">-->
+<!--          </div>-->
+<!--        </div>-->
+
+
+<!--      </div>-->
+<!--      <div class="modal-footer">-->
+<!--        <button class="btn btn-outline-secondary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Register new account</button>-->
+<!--        <button class="btn btn-outline-dark float-end" (click)="login()">Log in</button>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+<!--<div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">-->
+<!--  <div class="modal-dialog modal-dialog-centered">-->
+<!--    <div class="modal-content">-->
+<!--      <div class="modal-header">-->
+<!--        <h5 class="modal-title" id="exampleModalToggleLabel2">Register new account</h5>-->
+<!--        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--      </div>-->
+<!--      <div class="modal-body">-->
+<!--        Hide this modal and show the first with the button below.-->
+<!--      </div>-->
+<!--      <div class="modal-footer">-->
+<!--        <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back to login</button>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>&nbsp;-->
+<!--<a class="btn btn-outline-dark" data-bs-toggle="modal" href="#exampleModalToggle" role="button" >Log in</a>-->
+
+&nbsp;
+<button *ngIf="_cookieService.get('auth')===undefined" type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#ModalForm">
+  Log in
+</button>
+<!--<button *ngIf="_cookieService.get('auth')!==undefined" (click)="logout(); cc()"  type="button" class="btn btn-dark" >-->
+<!--  Log out-->
+<!--</button>-->
+
+<div class="modal fade" id="ModalForm" tabindex="-1" aria-labelledby="ModalFormLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="myform bg-dark">
+          <h1 class="text-center">Login</h1>
+          <form >
+            <div class="mb-3 mt-4">
+              <label for="txtUsername" class="form-label">Username</label>
+              <input id="txtUsername" name="username" type="text" class="form-control"
+                     [(ngModel)]="authRequest.username" required>
+            </div>
+            <div class="mb-3">
+              <label for="txtPassword" class="form-label">Password</label>
+              <input id="txtPassword" type="password" name="password" class="form-control"
+                     [(ngModel)]="authRequest.password" required>
+            </div>
+            <button type="submit" class="btn btn-light mt-3" (click)="login(); cc()">LOGIN</button>
+            <p>Not a member? <a data-bs-target="#SignUpModalForm" data-bs-toggle="modal">Sign Up Now</a></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-register></app-register>
+
+
+
+
+
+
+
+

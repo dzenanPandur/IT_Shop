@@ -1,4 +1,5 @@
 ﻿using ITShop.API.Enums;
+using ITShop.API.ViewModels.Role;
 
 namespace ITShop.API.ViewModels.User
 {
@@ -11,5 +12,6 @@ namespace ITShop.API.ViewModels.User
         public string UserName { get; set; }
         public string Email { get; set; }
         public Gender Gender { get; set; }
+        public List<UserRoleGetVM> Role { get; set; }
     }
 }
