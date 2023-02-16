@@ -14,7 +14,7 @@ export class EmployeeGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    return this.globals.authData.roles.filter((x:string) => 'Employee' === x)[0] !== undefined;
+    return this.globals.authData.roles.filter((x:string) => 'Zaposlenik' === x)[0] !== undefined;
     //return this.globals.isAuthenticated;
   }
 }

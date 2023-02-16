@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MyConfig } from '../my-config';
 import { ProductCategorySnimiVM } from '../_models/ProductCategorySnimiVM';
+import {Globals} from "../globals";
 
 @Component({
   selector: 'app-category-snimi',
@@ -14,14 +15,14 @@ export class CategorySnimiComponent implements OnInit {
 
   @Output() closeModal = new EventEmitter<void>();
   @Output() reloadData = new EventEmitter<void>();
-  
-  constructor(private httpClient: HttpClient) { }
+
+  constructor(private httpClient: HttpClient, public globals: Globals) { }
 
   ngOnInit(): void {
   }
 
   snimi() {
-    this.httpClient.post(`${MyConfig.API_URL}/ProductCategory`, this.odabrani)
+    this.httpClient.post(this.globals.serverAddress +`/ProductCategory`, this.odabrani)
     .subscribe({
       next: (value: any) => {
         this.close();

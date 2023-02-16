@@ -22,10 +22,14 @@ import { AdminComponent } from './admin/admin.component';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import {EmployeeGuard} from "./Guards/EmployeeGuard";
+import { ProductComponent } from './product/product.component';
+import { ProductSnimiComponent } from './product-snimi/product-snimi.component';
 
 const routes: Routes = [
   {path: 'admin', component: AdminComponent, canActivate: [AdminGuard]},
-  {path: 'categories', component: CategoryComponent},
+  {path: 'categories', component: CategoryComponent, canActivate: [EmployeeGuard]},
+  {path: 'products', component: ProductComponent, canActivate: [EmployeeGuard]},
   {path: '', pathMatch: 'full', component: ShopComponent},
   {path: '**', component: NotFoundComponent},
 
@@ -41,7 +45,9 @@ const routes: Routes = [
     CategorySnimiComponent,
     LoginComponent,
     RegisterComponent,
-    AdminComponent
+    AdminComponent,
+    ProductComponent,
+    ProductSnimiComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +73,8 @@ const routes: Routes = [
       multi:true
     },
     AuthGuard,
-    AdminGuard],
+    AdminGuard,
+    EmployeeGuard],
   exports: [ RouterModule ],
   bootstrap: [AppComponent]
 })

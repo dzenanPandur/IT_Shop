@@ -20,9 +20,12 @@
     <button class="form-label btn btn-success" (click)="showModal=true; odabrani={}">Nova Kategorija</button>
 </div>
 
-<app-category-snimi 
+<app-category-snimi
 *ngIf="showModal"
 (closeModal)="showModal = false"
 (reloadData)="loadData()"
 [odabrani]="odabrani"
 ></app-category-snimi>
+<!--<app-product-snimi-->
+<!--  (loadCategories)="loadData()"-->
+<!--&gt;</app-product-snimi>-->

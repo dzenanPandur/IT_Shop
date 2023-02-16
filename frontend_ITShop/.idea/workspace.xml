@@ -2,8 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dd60d410-5c42-4df5-b646-757049ae3632" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../backend_ITShop/ITShop.API/ITShop.API/Controllers/ProductCategoryController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../backend_ITShop/ITShop.API/ITShop.API/Controllers/ProductCategoryController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ITShop/src/app/_models/ProductGetVM.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ITShop/src/app/_models/ProductSnimiVM.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ITShop/src/app/Guards/EmployeeGuard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ITShop/src/app/Guards/EmployeeGuard.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ITShop/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ITShop/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ITShop/src/app/category-snimi/category-snimi.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ITShop/src/app/category-snimi/category-snimi.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ITShop/src/app/category/category.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/ITShop/src/app/category/category.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ITShop/src/app/category/category.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ITShop/src/app/category/category.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ITShop/src/app/globals.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ITShop/src/app/globals.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ITShop/src/app/navbar/navbar.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/ITShop/src/app/navbar/navbar.component.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +40,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/WiMAX/Documents/GitHub/webapp/frontend_ITShop/ITShop",
+    "last_opened_file_path": "C:/Users/WiMAX/Documents/GitHub/webapp/frontend_ITShop",
     "nodejs_package_manager_path": "npm",
     "ts.external.directory.path": "C:\\Users\\WiMAX\\Documents\\GitHub\\webapp\\frontend_ITShop\\ITShop\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
@@ -48,6 +55,7 @@
       <option name="presentableId" value="Default" />
       <updated>1674313367171</updated>
       <workItem from="1674313368812" duration="1520000" />
+      <workItem from="1676579289160" duration="142000" />
     </task>
     <servers />
   </component>
