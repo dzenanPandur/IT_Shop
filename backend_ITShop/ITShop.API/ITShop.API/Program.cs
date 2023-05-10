@@ -98,10 +98,11 @@ builder.Services.AddTransient<IDiscountService, DiscountService>();
 builder.Services.AddTransient<ILocationService, LocationService>();
 builder.Services.AddTransient<IProductCategoryService, ProductCategoryService>();
 builder.Services.AddTransient<IProductInventoryService, ProductInventoryService>();
+builder.Services.AddTransient<IProductPictureService, ProductPictureService>();
 builder.Services.AddTransient<ICartItemsService, CartItemsService>();
 builder.Services.AddTransient<IOrderService, OrderService>();
 builder.Services.AddTransient<IOrderDetailsService, OrderDetailsService>();
-
+builder.Services.AddControllersWithViews();//ovo sam sada dodao
 
 builder.Services.AddControllers()
                 .AddNewtonsoftJson()
@@ -128,6 +129,7 @@ app.UseCors(x => x
             .AllowAnyHeader());
 
 app.UseCors("corsapp");
+app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

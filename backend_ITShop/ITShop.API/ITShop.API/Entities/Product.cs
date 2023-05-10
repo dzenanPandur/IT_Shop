@@ -22,5 +22,7 @@ namespace ITShop.API.Entities
         [ForeignKey(nameof(ProductInventory))]
         public int InventoryID { get; set; }
         public ProductInventory? ProductInventory { get; set; }
+
+        public ICollection<ProductPicture> ProductPictures { get; set; }
     }
 }

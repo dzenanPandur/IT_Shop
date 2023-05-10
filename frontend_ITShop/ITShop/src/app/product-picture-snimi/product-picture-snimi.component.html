@@ -1,0 +1,22 @@
+<div
+  class="modal fade show" id="exampleModalLive" tabindex="-1" aria-labelledby="exampleModalLiveLabel" aria-modal="true" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLiveLabel">Slika proizvoda</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label">Slika</label>
+          <input type="file" class="form-control" placeholder="Odaberite sliku" (change)="onFileSelected($event)"><br>
+          <img [src]="imageSrc || 'http://placehold.it/180'" style="max-width: 350px; max-height: 150px;"/>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="close()">Zatvori</button>
+        <button type="button" class="btn btn-primary" (click)="snimi()">Snimi</button>
+      </div>
+    </div>
+  </div>
+</div>

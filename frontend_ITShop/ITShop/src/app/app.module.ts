@@ -25,11 +25,18 @@ import { ToastrModule } from 'ngx-toastr';
 import {EmployeeGuard} from "./Guards/EmployeeGuard";
 import { ProductComponent } from './product/product.component';
 import { ProductSnimiComponent } from './product-snimi/product-snimi.component';
+import { ProductPictureComponent } from './product-picture/product-picture.component';
+import {ProductPictureSnimiComponent} from "./product-picture-snimi/product-picture-snimi.component";
+import {NgxPaginationModule} from "ngx-pagination";
+import { ProductPrikazComponent } from './product-prikaz/product-prikaz.component';
+
 
 const routes: Routes = [
   {path: 'admin', component: AdminComponent, canActivate: [AdminGuard]},
   {path: 'categories', component: CategoryComponent, canActivate: [EmployeeGuard]},
   {path: 'products', component: ProductComponent, canActivate: [EmployeeGuard]},
+  {path: 'product-pictures/:id', component: ProductPictureComponent, canActivate: [EmployeeGuard]},
+  {path: 'product-prikaz/:id', component: ProductPrikazComponent},
   {path: '', pathMatch: 'full', component: ShopComponent},
   {path: '**', component: NotFoundComponent},
 
@@ -47,7 +54,10 @@ const routes: Routes = [
     RegisterComponent,
     AdminComponent,
     ProductComponent,
-    ProductSnimiComponent
+    ProductSnimiComponent,
+    ProductPictureComponent,
+    ProductPictureSnimiComponent,
+    ProductPrikazComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,7 +69,8 @@ const routes: Routes = [
     CookieModule.forRoot(),
     CommonModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    NgxPaginationModule
   ],
   providers: [Globals,
     {

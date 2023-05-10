@@ -1,15 +1,24 @@
-﻿using ITShop.API.Database;
+﻿using Grpc.Core;
+using ITShop.API.Database;
 using ITShop.API.Entities;
 using ITShop.API.Enums;
 using ITShop.API.Helper;
 using ITShop.API.Interface;
+
 using ITShop.API.ViewModels.User;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Management.ContainerInstance.Fluent.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
+using System.Web.Mvc;
+
+
 
 namespace ITShop.API.Services
 {
@@ -33,11 +42,12 @@ namespace ITShop.API.Services
                 .Where(x => vm.PriceMin == null || x.Price >= vm.PriceMin)
                 .Where(x => vm.PriceMax == null || x.Price <= vm.PriceMax)
                 .Where(x => vm.CategoryID == null || x.CategoryID == vm.CategoryID)
+                .Include(x=>x.ProductPictures)
                 .OrderByDescending(s => s.Id)
                 .AsQueryable();
 
             var list = await PagedList<Product>.Create(data, page_number, items_per_page);
-
+            
             return new Message
             {
                 IsValid = true,
@@ -73,6 +83,33 @@ namespace ITShop.API.Services
             };
         }
 
+
+        
+
+
+        //[HttpPost]
+        //public ActionResult Create(EventModel eventmodel, HttpPostedFileBase file)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var originalFilename = Path.GetFileName(file.FileName);
+        //        string fileId = Guid.NewGuid().ToString().Replace("-", "");
+        //        string userId = GetUserId(); // Function to get user id based on your schema
+
+        //        string path = Path.Combine(Server.MapPath("~/Uploads/Photo/"), userId, fileId);
+        //        file.SaveAs(path);
+
+        //        eventmodel.ImageId = fileId;
+        //        eventmodel.OriginalFilename = originalFilename;
+
+        //        _dbContext.EventModels.AddObject(eventmodel);
+        //        _dbContext.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View(eventmodel);
+        //}
+
+
         public async Task<Message> Snimi(ProductSnimiVM x)
         {
             Product? entity;
@@ -98,6 +135,7 @@ namespace ITShop.API.Services
             entity.Description = x.Description;
             entity.InventoryID = x.InventoryID;
             entity.CategoryID = x.CategoryID;
+            
             entity.DiscountID = x.DiscountID;
 
             await _dbContext.SaveChangesAsync();

@@ -1,0 +1,22 @@
+
+
+.npx-pagination
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap:4px
+}
+.npx-pagination li
+{
+  width:35px;
+  height:35px;
+  border-radius: 50% !important;
+  background: #f8f8f8;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+
+
+

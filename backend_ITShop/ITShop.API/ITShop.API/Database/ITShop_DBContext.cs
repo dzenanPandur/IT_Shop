@@ -9,6 +9,7 @@ namespace ITShop.API.Database
     public class ITShop_DBContext : IdentityDbContext<User, Role, Guid>, IITShop_DBContext
     {
         public DbSet<Product> Products { get; set; }
+        public DbSet<ProductPicture> ProductPictures { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<ProductInventory> ProductInventories { get; set; }
         public DbSet<PaymentDetails> PaymentDetails { get; set; }

@@ -252,6 +252,31 @@ namespace ITShop.API.Migrations
                     b.ToTable("ProductInventories");
                 });
 
+            modelBuilder.Entity("ITShop.API.Entities.ProductPicture", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("FileSize")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductID");
+
+                    b.ToTable("ProductPictures");
+                });
+
             modelBuilder.Entity("ITShop.API.Entities.Role", b =>
                 {
                     b.Property<Guid>("Id")
@@ -571,6 +596,17 @@ namespace ITShop.API.Migrations
                     b.Navigation("Location");
                 });
 
+            modelBuilder.Entity("ITShop.API.Entities.ProductPicture", b =>
+                {
+                    b.HasOne("ITShop.API.Entities.Product", "Product")
+                        .WithMany("ProductPictures")
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("ITShop.API.Entities.Role", null)
@@ -620,6 +656,11 @@ namespace ITShop.API.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ITShop.API.Entities.Product", b =>
+                {
+                    b.Navigation("ProductPictures");
                 });
 #pragma warning restore 612, 618
         }
