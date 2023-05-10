@@ -1,0 +1,15 @@
+<div class="mb-3 row">
+  <label class="col-sm-2 col-form-label">Product ID</label>
+  <div class="col-sm-4">
+    <input [value]="product.id" disabled class="form-control">
+    <input [value]="product.name" disabled class="form-control" >
+  </div>
+</div>
+<div class="product-container">
+  <h2 class="product-name"> Naziv Proizvoda</h2>
+  <input [value]="product.name" disabled class="form-control">
+  <img class="slika" src="{{tableDataPictures.fileName}}" alt="Product Images">
+  <p class="product-price">$Cijena</p>
+  <p class="product-review">Ocjena</p>
+  <p class="product-details">Product details</p>
+</div>
