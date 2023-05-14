@@ -13,5 +13,6 @@ namespace ITShop.API.Entities
         [ForeignKey(nameof(Product))]
         public int ProductID { get; set; }
         public Product? Product { get; set; }
+        public Guid UserID { get; set; }
     }
 }

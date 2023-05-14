@@ -24,8 +24,10 @@ namespace ITShop.API.Services
         }
         public async Task<Message> GetAllPaged(int items_per_page = 10, int page_number = 1)
         {
-            var data = _dBContext.CartItems.Include(x=>x.Product)
+            var UserID = (await AuthContext.GetLoggedUser()).Id;
 
+            var data = _dBContext.CartItems.Include(x=>x.Product)
+                .Where(x=>x.UserID == UserID )
                 .OrderByDescending(s => s.Id).AsQueryable();
 
             //var list = await PagedList<Discount>.Create(data, items_per_page, page_number);
@@ -83,6 +85,7 @@ namespace ITShop.API.Services
             entity.Quantity = x.Quantity;
             entity.TotalPrice = x.TotalPrice;
             entity.ProductID = x.ProductID;
+            entity.UserID = (await AuthContext.GetLoggedUser()).Id;
 
 
             await _dBContext.SaveChangesAsync();
