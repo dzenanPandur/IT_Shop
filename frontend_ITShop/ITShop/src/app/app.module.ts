@@ -29,6 +29,7 @@ import { ProductPictureComponent } from './product-picture/product-picture.compo
 import {ProductPictureSnimiComponent} from "./product-picture-snimi/product-picture-snimi.component";
 import {NgxPaginationModule} from "ngx-pagination";
 import { ProductPrikazComponent } from './product-prikaz/product-prikaz.component';
+import { SearchComponent } from './search/search.component';
 
 
 const routes: Routes = [
@@ -37,6 +38,8 @@ const routes: Routes = [
   {path: 'products', component: ProductComponent, canActivate: [EmployeeGuard]},
   {path: 'product-pictures/:id', component: ProductPictureComponent, canActivate: [EmployeeGuard]},
   {path: 'product-prikaz/:id', component: ProductPrikazComponent},
+  {path: 'search', component: SearchComponent},
+  {path: 'shop/:category_id/:category', component: ShopComponent},
   {path: '', pathMatch: 'full', component: ShopComponent},
   {path: '**', component: NotFoundComponent},
 
@@ -58,6 +61,7 @@ const routes: Routes = [
     ProductPictureComponent,
     ProductPictureSnimiComponent,
     ProductPrikazComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,

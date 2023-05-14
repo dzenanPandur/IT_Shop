@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Globals} from "../globals";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ProductGetVM} from "../_models/ProductGetVM";
+import {ProductPictureGetVM} from "../_models/ProductPictureGetVM";
 
 @Component({
   selector: 'app-product-prikaz',
@@ -10,7 +11,7 @@ import {ProductGetVM} from "../_models/ProductGetVM";
   styleUrls: ['./product-prikaz.component.css']
 })
 export class ProductPrikazComponent implements OnInit {
-  tableDataPictures: any;
+  tableDataPictures:any;
 
   product:any;
   id:any;

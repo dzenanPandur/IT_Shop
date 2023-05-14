@@ -11289,3 +11289,6 @@ textarea.form-control-lg {
 .show {
   display: block;
 }
+.ngx-pagination{
+  text-align: center;
+}

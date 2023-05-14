@@ -16,8 +16,8 @@
                         <!-- Sale badge-->
                         <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
                         <!-- Product image-->
-                      <div *ngFor="let p of tableDataPictures">
-                        <img *ngIf="p.fileName.length>0" class="card-img-top" src="{{p.fileName}}" alt="..." />
+                      <div>
+                        <img *ngIf="x.productPictures.length" class="card-img-top" src="{{x.productPictures[0].fileName}}" alt="..." />
                       </div>
 
                         <!-- Product details-->
@@ -45,10 +45,10 @@
                         </div>
                     </div>
                 </div>
-              <div class="mt-8 py-5 flex justify-center align-items-center">
-              <pagination-controls (pageChange)="p =$event; cc()"></pagination-controls>
-            </div>
             </div>
 
         </div>
+      <div class="py-5">
+        <pagination-controls (pageChange)="p =$event; cc()"></pagination-controls>
+      </div>
     </section>
