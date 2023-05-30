@@ -1,3 +1,56 @@
 .mt-8 py-5 flex justify-center align-items-center{
   background-color:red;
 }
+/*.search-container{
+  margin-left: 20px;
+  margin-top:8px;
+  display:inline-flex;
+}
+.search-container input{
+  width:400px;
+  margin-left:10px;
+
+}*/
+
+* {
+  box-sizing: border-box;
+  margin-top:10px;
+}
+
+/* Style the search field */
+form.example input[type=text] {
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float:left;
+  width: 40%;
+  background: #f1f1f1;
+  margin-left:25%;
+
+}
+
+/* Style the submit button */
+form.example button {
+  float:left;
+  width: 8%;
+  padding: 8px;
+  background: #2196F3;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none; /* Prevent double borders */
+  cursor: pointer;
+}
+
+form.example button:hover {
+  background: #0b7dda;
+}
+
+/* Clear floats */
+form.example::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+

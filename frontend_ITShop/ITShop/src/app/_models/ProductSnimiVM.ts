@@ -6,4 +6,5 @@ export interface ProductSnimiVM{
   discountID?: number;
   categoryID?: number;
   inventoryID?:number;
+  producerID?:number;
 }

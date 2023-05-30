@@ -8,6 +8,7 @@ import {ProdutCategoryGetVM} from "../_models/ProdutCategoryGetVM";
 import {ProductDiscountGetVM} from "../_models/ProductDiscountGetVM";
 import {ProductDiscountSnimiVM} from "../_models/ProductDiscountSnimiVM";
 import {ProductInventoryGetVM} from "../_models/ProductInventoryGetVM";
+import {ProductProducerGetVM} from "../_models/ProductProducerGetVM";
 
 @Component({
   selector: 'app-product-snimi',
@@ -23,12 +24,14 @@ export class ProductSnimiComponent implements OnInit {
   cmbDataCategory?: ProdutCategoryGetVM[];
   cmbDataDiscount?: ProductDiscountGetVM[];
   cmbDataInventory?: ProductInventoryGetVM[];
+  cmbDataProducer?:ProductProducerGetVM[];
   constructor(private httpClient: HttpClient, public globals: Globals) { }
 
   ngOnInit(): void {
     this.loadCategories();
     this.loadDiscounts();
     this.loadInventories();
+    this.loadProducers();
   }
   snimi() {
     this.httpClient.post(this.globals.serverAddress +`/Product`, this.odabrani)
@@ -75,6 +78,19 @@ export class ProductSnimiComponent implements OnInit {
         next: (value: any) => {
           this.cmbDataInventory = value.data;
           console.log(this.cmbDataInventory);
+        },
+        error: (err: any) => {
+          alert("error");
+          console.log(err);
+        }});
+  }
+
+  loadProducers() {
+    this.httpClient.get(this.globals.serverAddress + "/ProductProducer")
+      .subscribe({
+        next: (value: any) => {
+          this.cmbDataProducer = value.data;
+          console.log(this.cmbDataProducer);
         },
         error: (err: any) => {
           alert("error");

@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Globals} from "../globals";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ProductGetVM} from "../_models/ProductGetVM";
-import {ProductPictureGetVM} from "../_models/ProductPictureGetVM";
+import {CookieService} from "ngx-cookie";
+import {ProductProducerSnimiVM} from "../_models/ProductProducerSnimiVM";
+import {CartItemsSnimiVM} from "../_models/CartItemsSnimiVM";
 
 @Component({
   selector: 'app-product-prikaz',
@@ -12,13 +13,22 @@ import {ProductPictureGetVM} from "../_models/ProductPictureGetVM";
 })
 export class ProductPrikazComponent implements OnInit {
   tableDataPictures:any;
-
+  quantity:number=1;
   product:any;
   id:any;
-  constructor(private httpClient: HttpClient, public globals: Globals,private router: Router, private route: ActivatedRoute) { }
+  public user:any;
+  totalPrice: number = 0;
+  public cartItem: any; //= { quantity:this.quantity,totalPrice:this.totalPrice,productID:this.product};
+
+
+
+  constructor(private httpClient: HttpClient, public globals: Globals,private router: Router, private route: ActivatedRoute,public _cookieService: CookieService ) {
+
+  }
 
   ngOnInit(): void {
-
+    this.user=this._cookieService.getObject('auth');
+    console.log(this.user);
     this.route.params.subscribe(x=> {
         this.id = +x["id"];
         this.loadData();
@@ -35,6 +45,7 @@ export class ProductPrikazComponent implements OnInit {
 
           //this.totalProduct=value.data.length();
           console.log(this.product);
+
         },
         error: (err: any) => {
           alert("error");
@@ -54,4 +65,48 @@ export class ProductPrikazComponent implements OnInit {
         }});
   }
 
+  AddToCart() {
+
+    this.cartItem = {
+      id: 0,
+      quantity: this.quantity,
+      totalPrice: this.product.price*this.quantity,
+      productID:this.id
+    }
+
+      this.httpClient.post(this.globals.serverAddress +`/CartItems`,this.cartItem)
+        .subscribe({
+          next: (value: any) => {
+            console.log("Proizvod je uspješno dodan u korpu");
+          },
+          error: (err: any) => {
+            alert("error");
+            console.log(err);
+          }});
+  }
+
+  brojacminus() {
+    if(this.quantity <= 1){
+      console.log("Brojac ne moze ispod 0");
+      return;
+    }
+
+    this.quantity--;
+    this.totalPrice=this.product.price*this.quantity;
+
+    console.log(this.totalPrice);
+  }
+
+  brojacplus() {
+    //u sure da mozes totalprice ovako , nije sad to vazno, mislim sad kad imas dva razlicita producta samo ce overwrite prethodni totalprice kad ubacis novi product, to
+    if(this.quantity>=3){
+      console.log("Brojac ne moze iznad 3");
+      return;
+    }
+
+    this.quantity++;
+    this.totalPrice=this.product.price*this.quantity;
+
+    console.log(this.totalPrice);
+  }
 }

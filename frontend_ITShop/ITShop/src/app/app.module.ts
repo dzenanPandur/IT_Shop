@@ -30,14 +30,22 @@ import {ProductPictureSnimiComponent} from "./product-picture-snimi/product-pict
 import {NgxPaginationModule} from "ngx-pagination";
 import { ProductPrikazComponent } from './product-prikaz/product-prikaz.component';
 import { SearchComponent } from './search/search.component';
+import { ProducersComponent } from './producers/producers.component';
+import { ProducersSnimiComponent } from './producers-snimi/producers-snimi.component';
+import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
+import { Ng5SliderModule } from 'ng5-slider';
+import { CartComponent } from './cart/cart.component';
 
 
 const routes: Routes = [
   {path: 'admin', component: AdminComponent, canActivate: [AdminGuard]},
   {path: 'categories', component: CategoryComponent, canActivate: [EmployeeGuard]},
+  {path: 'producers', component: ProducersComponent, canActivate: [EmployeeGuard]},
   {path: 'products', component: ProductComponent, canActivate: [EmployeeGuard]},
   {path: 'product-pictures/:id', component: ProductPictureComponent, canActivate: [EmployeeGuard]},
   {path: 'product-prikaz/:id', component: ProductPrikazComponent},
+  {path: 'cart', component: CartComponent},
   {path: 'search', component: SearchComponent},
   {path: 'shop/:category_id/:category', component: ShopComponent},
   {path: '', pathMatch: 'full', component: ShopComponent},
@@ -62,6 +70,9 @@ const routes: Routes = [
     ProductPictureSnimiComponent,
     ProductPrikazComponent,
     SearchComponent,
+    ProducersComponent,
+    ProducersSnimiComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule,
@@ -74,7 +85,10 @@ const routes: Routes = [
     CommonModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    NgxPaginationModule
+    NgxPaginationModule,
+    NgMultiSelectDropDownModule,
+    NgxSliderModule,
+    Ng5SliderModule
   ],
   providers: [Globals,
     {

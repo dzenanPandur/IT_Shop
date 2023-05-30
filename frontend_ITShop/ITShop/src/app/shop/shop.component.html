@@ -1,5 +1,5 @@
-       <!-- Header-->
-       <header class="bg-dark py-5">
+<!-- Header-->
+<header class="bg-dark py-5">
         <div class="container px-4 px-lg-5 my-5">
             <div class="text-center text-white">
                 <h1 class="display-4 fw-bolder">Shop in style</h1>
@@ -8,16 +8,52 @@
         </div>
     </header>
     <!-- Section-->
+       <!-- Load icon library -->
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+       <!-- The form -->
+       <form class="example" action="action_page.php" (ngSubmit)="cc()">
+         <input type="text" [(ngModel)]="filter_productName" placeholder="Search.." (keyup)="cc_delay()" name="search">
+         <button type="submit"><i class="fa fa-search"></i></button>
+       </form>
+
+       <!--<label class="form-label">Producers</label>
+       <div>
+         <div *ngFor="let x of tableDataProducers">
+           <input type="checkbox" id="{{x.id}}" name="{{x.name}}">
+           <label for="{{x.id}}">{{x.name}}</label>
+         </div>
+       </div>-->
+       <label class="form-label">Proizvođači</label>
+       <ng-multiselect-dropdown
+         [placeholder]="'Select producers'"
+         [data]="tableDataProducers"
+         [(ngModel)]="selectedItems"
+         [settings]="dropdownSettings"
+         (onSelect)="loadData()"
+         (onDeSelect)="loadData()"
+         (onSelectAll)="loadData()"
+         (onDeSelectAll)="loadData()"
+       >
+       </ng-multiselect-dropdown>
+
+<h2>Price Slider Demo by DevelopersDiscussion.com</h2>
+<br/>
+<ng5-slider [(value)]="minValue"  [(highValue)]="maxValue" [options]="options" (valueChange)="cc_delay(false)"></ng5-slider>
+
+
+
+
     <section class="py-5">
         <div class="container px-4 px-lg-5 mt-5">
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                <div *ngFor="let x of tableData | paginate: {itemsPerPage: itemsPerPage, currentPage:p, totalItems: totalItems} " class="col mb-5">
-                    <div (click)="ProductPrikaz(x)"class="card h-100">
+                <div *ngFor="let x of filterProizvode() | paginate: {itemsPerPage: itemsPerPage, currentPage:p, totalItems: totalItems} " class="col mb-5">
+                    <div class="card h-100">
                         <!-- Sale badge-->
-                        <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
+                        <div  class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
                         <!-- Product image-->
                       <div>
-                        <img *ngIf="x.productPictures.length" class="card-img-top" src="{{x.productPictures[0].fileName}}" alt="..." />
+                        <img (click)="ProductPrikaz(x)" *ngIf="x.productPictures.length" class="card-img-top" src="{{x.productPictures[0].fileName}}" alt="..." />
                       </div>
 
                         <!-- Product details-->
@@ -40,9 +76,7 @@
                             </div>
                         </div>
                         <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Dodaj u korpu</a></div>
-                        </div>
+
                     </div>
                 </div>
             </div>

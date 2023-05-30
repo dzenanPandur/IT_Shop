@@ -1,16 +1,4 @@
 
-<!--<div class="product-container">
-  <h2 class="product-name"> Naziv Proizvoda</h2>
-  <p class="product-name">{{product.name}}</p>
-  <div *ngFor="let p of tableDataPictures">
-    <img *ngIf="p.fileName.length>0" class="card-img-top" src="{{p.fileName}}" alt="..." />
-  </div>
-  <p class="product-price">{{product.price}}</p>
-  <p class="product-review">5</p>
-  <p class="product-details">{{product.description}}</p>
-</div>-->
-
-
 <div class="row product-details">
 <div class="col-sm-6" *ngFor="let p of tableDataPictures">
   <img class="product-img" *ngIf="p.fileName.length>0" class="card-img-top" src="{{p.fileName}}" alt="..." />
@@ -18,17 +6,21 @@
 
   <div class="col-sm-6">
   <div class="details">
+
     <h1>{{product.name}}</h1>
-    <h3>Cijena : {{product.name}}</h3>
+    <h3>Cijena : {{product.price}}</h3>
     <h6>Kategorija : {{product.productCategory.name}}</h6>
+
+
     <h6>Detaljan Opis : {{product.description}}</h6>
+    <h6>Proizvodjac : {{product.productProducer.name}}</h6>
     <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-      <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Dodaj u korpu</a></div>
+      <div class="text-center"><a class="btn btn-outline-dark mt-auto" (click)="AddToCart()" >Dodaj u korpu</a></div>
     </div>
     <div class="quantity-group">
-      <button>-</button>
-      <input type="text" value="1">
-      <button>+</button>
+      <button (click)="brojacminus()" >-</button>
+      <input type="text" value="{{quantity}}" >
+      <button (click)="brojacplus()">+</button>
     </div>
   </div>
   </div>

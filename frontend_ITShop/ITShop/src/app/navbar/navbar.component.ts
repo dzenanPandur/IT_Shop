@@ -56,4 +56,8 @@ export class NavbarComponent implements OnInit {
     return this.globals.authData.roles.filter(((x:string) => role === x))[0] !== undefined;
 
   }
+
+  CartItems() {
+    this.router.navigateByUrl("cart")
+  }
 }

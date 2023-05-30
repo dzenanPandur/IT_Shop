@@ -22,9 +22,13 @@
           <select class="form-control" [(ngModel)]="odabrani.discountID" >
             <option *ngFor="let x of cmbDataDiscount" value="{{x.id}}">{{x.name}}</option>
           </select>
-          <label class="form-label">Inventory</label>
+          <label class="form-label">Inventorij</label>
           <select class="form-control" [(ngModel)]="odabrani.inventoryID" >
             <option *ngFor="let x of cmbDataInventory" value="{{x.locationID}}">{{x.id}}</option>
+          </select>
+          <label class="form-label">Proizvođač</label>
+          <select class="form-control" [(ngModel)]="odabrani.producerID" >
+            <option *ngFor="let x of cmbDataProducer" value="{{x.id}}">{{x.name}}</option>
           </select>
         </div>
       </div>

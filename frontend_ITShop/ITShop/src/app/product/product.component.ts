@@ -6,6 +6,7 @@ import {Globals} from "../globals";
 import {Router} from "@angular/router";
 
 
+
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
@@ -64,7 +65,8 @@ export class ProductComponent implements OnInit {
       id:0,
       discountID:1,
       categoryID:1,
-      inventoryID:1
+      inventoryID:1,
+      producerID:1
     }
   }
 

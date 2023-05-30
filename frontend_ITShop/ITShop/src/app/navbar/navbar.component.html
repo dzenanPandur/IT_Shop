@@ -18,18 +18,8 @@
         <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
         <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>
 
-        <!--<div class="search-container">
-          <Span>Search: </Span>
-          <input type="text" >
-        </div>-->
-        <!-- Load icon library -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-        <!-- The form -->
-        <form class="example" action="action_page.php">
-          <input type="text" placeholder="Search.." name="search">
-          <button type="submit"><i class="fa fa-search"></i></button>
-        </form>
+
 <!--        <li class="nav-item" ><a class="nav-link" routerLink="/categories" style=" border-left: 1px solid #000000;">Categories</a>-->
 <!--        </li>-->
 <!--        <li class="nav-item"><a class="nav-link" href="#!">Products</a></li>-->
@@ -39,11 +29,11 @@
       </ul>
       <label *ngIf="_cookieService.get('auth')!==undefined"> Welcome, {{fullName.firstName}} {{fullName.lastName}}
         &nbsp;</label>
-      <form class="d-flex">
+      <form  (click)="CartItems()" class="d-flex">
         <button (click)="cc()" class="btn btn-outline-dark" type="submit">
           <i class="bi-cart-fill me-1"></i>
           Cart
-          <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+          <span  class="badge bg-dark text-white ms-1 rounded-pill">0</span>
         </button>
       </form>
       <app-login></app-login>
@@ -58,6 +48,7 @@
           <div *ngIf="roles('Zaposlenik')" class="dropdown-divider"></div>
           <a *ngIf="roles('Zaposlenik')" [routerLink]="'/categories'" class="dropdown-item" href="#">Categories</a>
           <a *ngIf="roles('Zaposlenik')" [routerLink]="'/products'" class="dropdown-item" href="#">Products</a>
+          <a *ngIf="roles('Zaposlenik')" [routerLink]="'/producers'" class="dropdown-item" href="#">Product Producers</a>
           <a *ngIf="roles('Zaposlenik')" [routerLink]="'/orders'" class="dropdown-item" href="#">Orders</a>
           <a *ngIf="roles('Zaposlenik')" [routerLink]="'/locations'" class="dropdown-item" href="#">Locations</a>
           <a *ngIf="roles('Zaposlenik')" [routerLink]="'/discounts'" class="dropdown-item" href="#">Discounts</a>
