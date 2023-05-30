@@ -1,0 +1,45 @@
+<body xmlns:paginate="http://www.w3.org/1999/xhtml">
+<div class="CartContainer">
+  <div class="Header">
+    <h3 class="Heading">Vaša korpa</h3>
+    <h5 class="Action" (click)="UkloniteSve()">Uklonite sve</h5>
+  </div>
+
+  <div *ngFor="let x of tableData | paginate: {itemsPerPage: itemsPerPage, currentPage:p, totalItems: totalItems}" class="Cart-Items">
+    <div class="image-box">
+      <img *ngIf="x.product.productPictures.length" class="card-img-top" src="{{x.product.productPictures[0].fileName}}" alt="..."  />
+    </div>
+    <div class="about">
+      <h1 class="title">{{x.product.name}}</h1>
+
+
+    </div>
+    <div class="counter">
+      <div class="btn">+</div>
+      <div class="count">{{x.quantity}}</div>
+      <div class="btn">-</div>
+    </div>
+    <div class="prices">
+      <div class="amount">{{x.totalPrice}}</div>
+
+      <div class="remove" (click)="UkloniIzkorpe(x.id)"><u>Ukloni iz korpe</u></div>
+    </div>
+  </div>
+
+
+  <hr>
+  <div class="checkout">
+    <div class="total">
+      <div>
+        <div class="Subtotal">Ukupna cijena</div>
+        <div class="items">Broj jedinica: {{totalItems}}</div>
+      </div>
+      <div class="total-amount">{{totalTotalPrice}}KM</div>
+    </div>
+    <button class="button">Izvrši Narudžbu</button></div>
+  <div class="py-5">
+    <pagination-controls (pageChange)="p =$event; cc()"></pagination-controls>
+  </div>
+</div>
+</body>
+
