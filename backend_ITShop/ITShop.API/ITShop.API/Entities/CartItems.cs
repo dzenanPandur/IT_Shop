@@ -14,5 +14,6 @@ namespace ITShop.API.Entities
         public int ProductID { get; set; }
         public Product? Product { get; set; }
         public Guid UserID { get; set; }
+
     }
 }

@@ -46,7 +46,7 @@ namespace ITShop.API.Migrations
 
                     b.HasIndex("ProductID");
 
-                    b.ToTable("CartItems");
+                    b.ToTable("CartItems", (string)null);
                 });
 
             modelBuilder.Entity("ITShop.API.Entities.Discount", b =>
@@ -70,7 +70,7 @@ namespace ITShop.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Discounts");
+                    b.ToTable("Discounts", (string)null);
                 });
 
             modelBuilder.Entity("ITShop.API.Entities.Location", b =>
@@ -93,7 +93,7 @@ namespace ITShop.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Locations");
+                    b.ToTable("Locations", (string)null);
                 });
 
             modelBuilder.Entity("ITShop.API.Entities.Order", b =>
@@ -119,7 +119,7 @@ namespace ITShop.API.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("ITShop.API.Entities.OrderDetails", b =>
@@ -153,7 +153,7 @@ namespace ITShop.API.Migrations
 
                     b.HasIndex("ProductID");
 
-                    b.ToTable("OrderDetails");
+                    b.ToTable("OrderDetails", (string)null);
                 });
 
             modelBuilder.Entity("ITShop.API.Entities.PaymentDetails", b =>
@@ -175,7 +175,7 @@ namespace ITShop.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PaymentDetails");
+                    b.ToTable("PaymentDetails", (string)null);
                 });
 
             modelBuilder.Entity("ITShop.API.Entities.Product", b =>
@@ -206,6 +206,9 @@ namespace ITShop.API.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
+                    b.Property<int>("ProducerID")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryID");
@@ -214,7 +217,9 @@ namespace ITShop.API.Migrations
 
                     b.HasIndex("InventoryID");
 
-                    b.ToTable("Products");
+                    b.HasIndex("ProducerID");
+
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("ITShop.API.Entities.ProductCategory", b =>
@@ -231,7 +236,7 @@ namespace ITShop.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductCategories");
+                    b.ToTable("ProductCategories", (string)null);
                 });
 
             modelBuilder.Entity("ITShop.API.Entities.ProductInventory", b =>
@@ -252,7 +257,7 @@ namespace ITShop.API.Migrations
 
                     b.HasIndex("LocationID");
 
-                    b.ToTable("ProductInventories");
+                    b.ToTable("ProductInventories", (string)null);
                 });
 
             modelBuilder.Entity("ITShop.API.Entities.ProductPicture", b =>
@@ -277,7 +282,24 @@ namespace ITShop.API.Migrations
 
                     b.HasIndex("ProductID");
 
-                    b.ToTable("ProductPictures");
+                    b.ToTable("ProductPictures", (string)null);
+                });
+
+            modelBuilder.Entity("ITShop.API.Entities.ProductProducer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProductProducers", (string)null);
                 });
 
             modelBuilder.Entity("ITShop.API.Entities.Role", b =>
@@ -581,11 +603,19 @@ namespace ITShop.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ITShop.API.Entities.ProductProducer", "ProductProducer")
+                        .WithMany()
+                        .HasForeignKey("ProducerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Discount");
 
                     b.Navigation("ProductCategory");
 
                     b.Navigation("ProductInventory");
+
+                    b.Navigation("ProductProducer");
                 });
 
             modelBuilder.Entity("ITShop.API.Entities.ProductInventory", b =>

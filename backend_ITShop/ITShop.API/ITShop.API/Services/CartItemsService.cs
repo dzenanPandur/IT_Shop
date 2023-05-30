@@ -26,11 +26,11 @@ namespace ITShop.API.Services
         {
             var UserID = (await AuthContext.GetLoggedUser()).Id;
 
-            var data = _dBContext.CartItems.Include(x=>x.Product)
+            var data = _dBContext.CartItems.Include(x=>x.Product).Include(x=>x.Product.ProductPictures)
                 .Where(x=>x.UserID == UserID )
                 .OrderByDescending(s => s.Id).AsQueryable();
 
-            //var list = await PagedList<Discount>.Create(data, items_per_page, page_number);
+            
             return new Message
             {
                 IsValid = true,
@@ -66,33 +66,30 @@ namespace ITShop.API.Services
         public async Task<Message> Snimi(CartItemsSnimiVM x)
         {
             CartItems? entity;
-            if (x.Id == 0)
+            var LoggedUserId = (await AuthContext.GetLoggedUser()).Id;
+
+            entity = await _dBContext.CartItems.FirstOrDefaultAsync(s => s.UserID == LoggedUserId &&
+                                                                         s.ProductID == x.ProductID);
+            if(entity == null)
             {
                 entity = new CartItems();
                 _dBContext.Add(entity);
+                entity.Quantity = x.Quantity;
+                entity.TotalPrice = x.TotalPrice;
+                entity.ProductID = x.ProductID;
+                entity.UserID = LoggedUserId;
             }
             else
             {
-                entity = await _dBContext.CartItems.FirstOrDefaultAsync(s => s.Id == x.Id);
-                if (entity == null)
-                    return new Message
-                    {
-                        IsValid = false,
-                        Info = "Entitet nije pronađen.",
-                        Status = ExceptionCode.NotFound
-                    };
+                entity.Quantity += x.Quantity;
+                entity.TotalPrice += x.TotalPrice;
             }
-            entity.Quantity = x.Quantity;
-            entity.TotalPrice = x.TotalPrice;
-            entity.ProductID = x.ProductID;
-            entity.UserID = (await AuthContext.GetLoggedUser()).Id;
-
 
             await _dBContext.SaveChangesAsync();
             return new Message
             {
                 IsValid = true,
-                Info = $"Entitet {(x.Id == 0 ? "kreiran" : "ažuriran")}",
+                Info = $"Entitet ažuriran",
                 Status = ExceptionCode.Success,
                 Data = entity
             };

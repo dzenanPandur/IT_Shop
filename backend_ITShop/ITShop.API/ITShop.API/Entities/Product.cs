@@ -19,6 +19,11 @@ namespace ITShop.API.Entities
         public int CategoryID { get; set; }
         public ProductCategory? ProductCategory { get; set; }
 
+        [ForeignKey(nameof(ProductProducer))]
+        public int? ProducerID { get; set; }
+        public ProductProducer? ProductProducer { get; set; }
+
+
         [ForeignKey(nameof(ProductInventory))]
         public int InventoryID { get; set; }
         public ProductInventory? ProductInventory { get; set; }

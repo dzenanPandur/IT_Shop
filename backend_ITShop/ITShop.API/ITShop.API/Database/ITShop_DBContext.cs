@@ -10,6 +10,8 @@ namespace ITShop.API.Database
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductPicture> ProductPictures { get; set; }
+        public DbSet<ProductProducer> ProductProducers { get; set; }
+       
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<ProductInventory> ProductInventories { get; set; }
         public DbSet<PaymentDetails> PaymentDetails { get; set; }
@@ -18,6 +20,7 @@ namespace ITShop.API.Database
         public DbSet<OrderDetails> OrderDetails { get; set; }
         public DbSet<Discount> Discounts { get; set; }
         public DbSet<CartItems> CartItems { get; set; }
+      
 
         public ITShop_DBContext(DbContextOptions<ITShop_DBContext> options) : base(options)
         {

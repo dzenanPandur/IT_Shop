@@ -44,6 +44,17 @@ namespace ITShop.API.Controllers
 
             return Ok(message);
         }
+        
+        [HttpGet("GetMinMaxPrices")]
+        public async Task<ActionResult> GetMinMaxPrices([FromQuery] ProductGetVM x)
+        {
+            var message = await _productService.GetMinMaxPrices(x);
+            if (!message.IsValid)
+                return BadRequest(message);
+
+            return Ok(message);
+        }
+
 
         [HttpGet("{id}")]
         public async Task<ActionResult> Get(int id)

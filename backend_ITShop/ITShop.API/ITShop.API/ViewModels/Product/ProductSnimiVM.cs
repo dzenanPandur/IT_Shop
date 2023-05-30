@@ -14,5 +14,8 @@ namespace ITShop.API.ViewModels.User
         public int DiscountID { get; set; }
         public int CategoryID { get; set; }
         public int InventoryID { get; set; }
+        public int ProducerID { get; set; }
+
+
     }
 }

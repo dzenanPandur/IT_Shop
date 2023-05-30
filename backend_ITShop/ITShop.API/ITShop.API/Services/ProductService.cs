@@ -39,19 +39,50 @@ namespace ITShop.API.Services
         {
             var data = _dbContext.Products
                 .Where(x => vm.Name == null || x.Name.StartsWith(vm.Name))
+                .Where(x => vm.Search == null || x.Name.ToLower().Contains(vm.Search.ToLower()))
                 .Where(x => vm.PriceMin == null || x.Price >= vm.PriceMin)
                 .Where(x => vm.PriceMax == null || x.Price <= vm.PriceMax)
                 .Where(x => vm.CategoryID == null || x.CategoryID == vm.CategoryID)
-                .Include(x=>x.ProductPictures)
+                .Where(x => vm.ProducerIDs == null || (x.ProducerID != null && vm.ProducerIDs.Contains((int)x.ProducerID)))
+                .Include(x => x.ProductPictures)
+
                 .OrderByDescending(s => s.Id)
                 .AsQueryable();
 
             var list = await PagedList<Product>.Create(data, page_number, items_per_page);
-            
+
             return new Message
             {
                 IsValid = true,
                 Info = "Successfully got entities",
+                Status = ExceptionCode.Success,
+                Data = list
+            };
+        }
+        public async Task<Message> GetMinMaxPrices(ProductGetVM vm)
+        {
+            var data = await _dbContext.Products
+                .Where(x => vm.Name == null || x.Name.StartsWith(vm.Name))
+                .Where(x => vm.Search == null || x.Name.ToLower().Contains(vm.Search.ToLower()))
+                .Where(x => vm.CategoryID == null || x.CategoryID == vm.CategoryID)
+                .Where(x => vm.ProducerIDs == null || (x.ProducerID != null && vm.ProducerIDs.Contains((int)x.ProducerID)))
+                .Include(x => x.ProductPictures)
+
+                .OrderBy(s => s.Price)
+                .Select(x=>x.Price)
+                .ToListAsync();
+
+            var list = new List<double>();
+            if(data.Count > 0)
+            {
+                list.Add(data.First());
+                list.Add(data.Last());
+            }
+
+            return new Message
+            {
+                IsValid = true,
+                Info = "Successfully got prices",
                 Status = ExceptionCode.Success,
                 Data = list
             };
@@ -63,6 +94,7 @@ namespace ITShop.API.Services
                 .Include(x => x.Discount)
                 .Include(x => x.ProductCategory)
                 .Include(x => x.ProductInventory.Location)
+                .Include(x => x.ProductProducer)
                 .FirstOrDefaultAsync(s => s.Id == id);
             if (entity is null)
             {
@@ -87,27 +119,6 @@ namespace ITShop.API.Services
         
 
 
-        //[HttpPost]
-        //public ActionResult Create(EventModel eventmodel, HttpPostedFileBase file)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var originalFilename = Path.GetFileName(file.FileName);
-        //        string fileId = Guid.NewGuid().ToString().Replace("-", "");
-        //        string userId = GetUserId(); // Function to get user id based on your schema
-
-        //        string path = Path.Combine(Server.MapPath("~/Uploads/Photo/"), userId, fileId);
-        //        file.SaveAs(path);
-
-        //        eventmodel.ImageId = fileId;
-        //        eventmodel.OriginalFilename = originalFilename;
-
-        //        _dbContext.EventModels.AddObject(eventmodel);
-        //        _dbContext.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(eventmodel);
-        //}
 
 
         public async Task<Message> Snimi(ProductSnimiVM x)
@@ -135,7 +146,7 @@ namespace ITShop.API.Services
             entity.Description = x.Description;
             entity.InventoryID = x.InventoryID;
             entity.CategoryID = x.CategoryID;
-            
+            entity.ProducerID = x.ProducerID;
             entity.DiscountID = x.DiscountID;
 
             await _dbContext.SaveChangesAsync();

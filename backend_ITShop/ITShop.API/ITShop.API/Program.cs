@@ -102,6 +102,8 @@ builder.Services.AddTransient<IProductPictureService, ProductPictureService>();
 builder.Services.AddTransient<ICartItemsService, CartItemsService>();
 builder.Services.AddTransient<IOrderService, OrderService>();
 builder.Services.AddTransient<IOrderDetailsService, OrderDetailsService>();
+builder.Services.AddTransient<IProductProducerService, ProductProducerService>();
+
 builder.Services.AddControllersWithViews();//ovo sam sada dodao
 
 builder.Services.AddControllers()

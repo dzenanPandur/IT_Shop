@@ -12,6 +12,7 @@ namespace ITShop.API.Interface
     public interface IProductService
     {
         Task<Message> GetAllPaged(ProductGetVM vm, int items_per_page = 10, int page_number = 1);
+        Task<Message> GetMinMaxPrices(ProductGetVM vm);
 
         Task<Message> Get(int id);
 
