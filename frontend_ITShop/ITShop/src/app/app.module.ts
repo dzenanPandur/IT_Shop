@@ -37,6 +37,7 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { Ng5SliderModule } from 'ng5-slider';
 import { CartComponent } from './cart/cart.component';
 import { ContactComponent } from './contact/contact.component';
+import { ProblemReportComponent } from './problem-report/problem-report.component';
 
 
 const routes: Routes = [
@@ -49,6 +50,7 @@ const routes: Routes = [
   {path: 'product-prikaz/:id', component: ProductPrikazComponent},
   {path: 'cart', component: CartComponent},
   {path: 'search', component: SearchComponent},
+  {path: 'problem', component: ProblemReportComponent},
   {path: 'shop/:category_id/:category', component: ShopComponent},
   {path: '', pathMatch: 'full', component: ShopComponent},
   {path: '**', component: NotFoundComponent},
@@ -75,7 +77,8 @@ const routes: Routes = [
     ProducersComponent,
     ProducersSnimiComponent,
     CartComponent,
-    ContactComponent
+    ContactComponent,
+    ProblemReportComponent
   ],
   imports: [
     BrowserModule,

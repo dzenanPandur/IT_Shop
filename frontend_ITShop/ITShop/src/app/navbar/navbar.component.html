@@ -44,6 +44,7 @@
         <div class="dropdown-menu">
           <a class="dropdown-item" href="#">Settings</a>
           <a class="dropdown-item" href="#">Profile</a>
+          <a *ngIf="roles('Kupac')" [routerLink]="'/problem'" class="dropdown-item" href="#">Prijavi grešku</a>
           <a *ngIf="roles('Admin')" [routerLink]="'/admin'" class="dropdown-item" href="#">Admin</a>
           <div *ngIf="roles('Zaposlenik')" class="dropdown-divider"></div>
           <a *ngIf="roles('Zaposlenik')" [routerLink]="'/categories'" class="dropdown-item" href="#">Categories</a>
