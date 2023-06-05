@@ -36,12 +36,14 @@ import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { Ng5SliderModule } from 'ng5-slider';
 import { CartComponent } from './cart/cart.component';
+import { ContactComponent } from './contact/contact.component';
 
 
 const routes: Routes = [
   {path: 'admin', component: AdminComponent, canActivate: [AdminGuard]},
   {path: 'categories', component: CategoryComponent, canActivate: [EmployeeGuard]},
   {path: 'producers', component: ProducersComponent, canActivate: [EmployeeGuard]},
+  {path: 'contact',component: ContactComponent},
   {path: 'products', component: ProductComponent, canActivate: [EmployeeGuard]},
   {path: 'product-pictures/:id', component: ProductPictureComponent, canActivate: [EmployeeGuard]},
   {path: 'product-prikaz/:id', component: ProductPrikazComponent},
@@ -72,7 +74,8 @@ const routes: Routes = [
     SearchComponent,
     ProducersComponent,
     ProducersSnimiComponent,
-    CartComponent
+    CartComponent,
+    ContactComponent
   ],
   imports: [
     BrowserModule,
