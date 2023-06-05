@@ -26,5 +26,14 @@ namespace ITShop.API.Controllers
                 ? Ok()
                 : new StatusCodeResult(500);
         }
+
+        [HttpPost("send-email-troubleshoot"), Authorize(Roles ="Kupac")]
+        public async Task<IActionResult> SendEmailTroubleshoot(string title, string message, string description)
+        {
+            var _message = await _sendgridService.SendEmailTroubleshoot(title, message, description);
+            return _message
+                ? Ok()
+                : new StatusCodeResult(500);
+        }
     }
 }
