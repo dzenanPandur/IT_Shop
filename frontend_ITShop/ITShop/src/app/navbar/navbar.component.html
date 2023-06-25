@@ -44,6 +44,11 @@
         <div class="dropdown-menu">
           <a class="dropdown-item" href="#">Settings</a>
           <a class="dropdown-item" href="#">Profile</a>
+
+          <a *ngIf="roles('Kupac') && (this.subscribedUser_data==null || this.subscribedUser_data.data[0].isSubscribed==false)"  class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Premium Membership</a>
+          <a *ngIf="roles('Kupac') && (this.subscribedUser_data!=null && this.subscribedUser_data.data[0].isSubscribed==true)"  class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal2">Cancel Membership</a>
+
+
           <a *ngIf="roles('Kupac')" [routerLink]="'/problem'" class="dropdown-item" href="#">Prijavi grešku</a>
           <a *ngIf="roles('Admin')" [routerLink]="'/admin'" class="dropdown-item" href="#">Admin</a>
           <div *ngIf="roles('Zaposlenik')" class="dropdown-divider"></div>
@@ -63,4 +68,66 @@
     </div>
   </div>
 </nav>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Premium Membership</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row row-cols-1 row-cols-md-1 mb-3 text-center">
+          <div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm">
+              <div class="card-header py-3">
+                <h4 class="my-0 fw-normal">Monthly subscription</h4>
+              </div>
+              <div class="card-body">
+                <h1 class="card-title pricing-card-title">5KM<small class="text-body-secondary fw-light">/mo</small></h1>
+                <ul class="list-unstyled mt-3 mb-4">
+                  <li>Exclusive discounts</li>
+                  <li>Priority email support</li>
+                  <li>...and more</li>
+                </ul>
+                <form style="margin-top: 35px" (ngSubmit)="onSubmit()">
+
+
+                  <div #cardElement></div>
+                  <br>
+                  <!-- ...other form fields... -->
+                  <button type="submit" class="w-100 btn btn-lg btn-outline-primary">Get the membership now</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel2">Cancel membership</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row row-cols-1 row-cols-md-1 mb-3 text-center">
+          <div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm">
+              <div class="card-header py-3">
+                <h4 class="my-0 fw-normal">Are you sure you want to cancel your membership?</h4>
+                <br>
+                <button type="button" class="w-100 btn btn-lg btn-outline-primary" (click)="cancelSubscription()">Yes, cancel my membership</button>
+                <button type="button" class="w-100 btn btn-lg btn-outline-primary" data-bs-dismiss="modal" aria-label="Close">No, I want to keep it</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 

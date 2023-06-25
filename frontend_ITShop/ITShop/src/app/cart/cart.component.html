@@ -36,7 +36,25 @@
       </div>
       <div class="total-amount">{{totalTotalPrice}}KM</div>
     </div>
-    <button class="button">Izvrši Narudžbu</button></div>
+    <button type="button" class="btn btn-dark; button" data-bs-toggle="modal" data-bs-target="#CardData" [disabled]="totalItems==0">Izvrši Narudžbu</button></div>
+  <div class="modal fade"  id="CardData" tabindex="-1" aria-labelledby="ModalFormLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body">
+          <h4 class="display-6 d-inline">Payment information</h4>
+          <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"
+                  style="position: absolute; right: 10px; font-size: 24px; padding: 10px;"></button>
+
+          <form style="margin-top: 35px" (ngSubmit)="onSubmit()">
+            <div #cardElement></div>
+            <br>
+            <!-- ...other form fields... -->
+            <button type="submit" >Submit Payment</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="py-5">
     <pagination-controls (pageChange)="p =$event; cc()"></pagination-controls>
   </div>

@@ -29,6 +29,7 @@
     <PackageReference Include="Microsoft.Identity.Web" Version="1.25.8" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.25.0" />
     <PackageReference Include="SendGrid" Version="9.28.1" />
+    <PackageReference Include="Stripe.net" Version="41.21.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
   </ItemGroup>
