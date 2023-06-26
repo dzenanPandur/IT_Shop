@@ -38,6 +38,8 @@ import { Ng5SliderModule } from 'ng5-slider';
 import { CartComponent } from './cart/cart.component';
 import { ContactComponent } from './contact/contact.component';
 import { ProblemReportComponent } from './problem-report/problem-report.component';
+import { OwlModule} from "ngx-owl-carousel";
+import { CarouselModule } from 'ngx-bootstrap/carousel';
 
 
 const routes: Routes = [
@@ -80,22 +82,25 @@ const routes: Routes = [
     ContactComponent,
     ProblemReportComponent
   ],
-  imports: [
-    BrowserModule,
-    RouterModule.forRoot(routes),
-    FormsModule,
-    RouterOutlet,
-    ReactiveFormsModule,
-    HttpClientModule,
-    CookieModule.forRoot(),
-    CommonModule,
-    BrowserAnimationsModule,
-    ToastrModule.forRoot(),
-    NgxPaginationModule,
-    NgMultiSelectDropDownModule,
-    NgxSliderModule,
-    Ng5SliderModule
-  ],
+    imports: [
+        BrowserModule,
+        RouterModule.forRoot(routes),
+        FormsModule,
+        RouterOutlet,
+        ReactiveFormsModule,
+        HttpClientModule,
+        CookieModule.forRoot(),
+        CommonModule,
+        BrowserAnimationsModule,
+        ToastrModule.forRoot(),
+        NgxPaginationModule,
+        NgMultiSelectDropDownModule,
+        NgxSliderModule,
+        Ng5SliderModule,
+        OwlModule,
+        CarouselModule.forRoot()
+
+    ],
   providers: [Globals,
     {
       provide:HTTP_INTERCEPTORS,

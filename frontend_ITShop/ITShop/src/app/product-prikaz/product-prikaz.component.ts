@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Globals} from "../globals";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CookieService} from "ngx-cookie";
+
+
+
+
 import {ProductProducerSnimiVM} from "../_models/ProductProducerSnimiVM";
 import {CartItemsSnimiVM} from "../_models/CartItemsSnimiVM";
 
@@ -11,7 +15,8 @@ import {CartItemsSnimiVM} from "../_models/CartItemsSnimiVM";
   templateUrl: './product-prikaz.component.html',
   styleUrls: ['./product-prikaz.component.css']
 })
-export class ProductPrikazComponent implements OnInit {
+export class ProductPrikazComponent implements OnInit{
+
   tableDataPictures:any;
   quantity:number=1;
   product:any;
@@ -20,11 +25,31 @@ export class ProductPrikazComponent implements OnInit {
   totalPrice: number = 0;
   public cartItem: any; //= { quantity:this.quantity,totalPrice:this.totalPrice,productID:this.product};
 
+  currentSlideIndex: number = 0;
 
+  // ...
+
+  prevSlide() {
+    if (this.currentSlideIndex > 0) {
+      this.currentSlideIndex--;
+    } else {
+      this.currentSlideIndex = this.tableDataPictures.length - 1;
+    }
+  }
+
+  nextSlide() {
+    if (this.currentSlideIndex < this.tableDataPictures.length - 1) {
+      this.currentSlideIndex++;
+    } else {
+      this.currentSlideIndex = 0;
+    }
+  }
 
   constructor(private httpClient: HttpClient, public globals: Globals,private router: Router, private route: ActivatedRoute,public _cookieService: CookieService ) {
 
   }
+
+
 
   ngOnInit(): void {
     this.user=this._cookieService.getObject('auth');

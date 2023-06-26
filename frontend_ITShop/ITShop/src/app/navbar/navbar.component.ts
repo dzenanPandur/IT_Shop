@@ -1,4 +1,4 @@
-import {Component, OnInit, ElementRef, ViewChild, Input} from '@angular/core';
+import {Component, OnInit, ElementRef, ViewChild, Input,Output} from '@angular/core';
 import {Globals} from "../globals";
 import { CookieService } from 'ngx-cookie';
 import {Router} from "@angular/router";
@@ -19,6 +19,7 @@ import {delay} from "rxjs";
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+
   stripe: any;
   elements!: StripeElements;
   cardElement!: StripeCardElement;
@@ -27,7 +28,7 @@ export class NavbarComponent implements OnInit {
   customerId: string | undefined=undefined;
   public fullName: any;
   tableData:any;
-  totalItems: any;
+
   subscribedUser_data: any;
 
   is_subscribed: boolean = false;

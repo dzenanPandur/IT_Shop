@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {CookieService} from "ngx-cookie";
 import {Router} from "@angular/router";
 import {Globals} from "./globals";

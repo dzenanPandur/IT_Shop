@@ -10,7 +10,8 @@
 }
 .quantity-group{
   margin-top:20px;
-
+  display:flex;
+  height:45px;
 }
 .quantity-group button{
   padding:10px;
@@ -19,3 +20,72 @@
   padding:10px;
   width:35px;
 }
+.carousel-container {
+  width: 100%;
+  height: auto;
+
+}
+
+.carousel-slide {
+  display: none;
+
+}
+
+.carousel-slide.active {
+  display: block;
+}
+.carousel-control-next-icon {
+
+  background-color:red;
+}
+.slider-controls {
+  margin-top: 10px;
+  text-align: center;
+
+}
+
+.slider-control {
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  color: #333333;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.slider-control:hover {
+  background-color: #f5f5f5;
+  border-color: #999999;
+  color: #222222;
+}
+
+.slider-control:first-child {
+  margin-right: 8px;
+}
+.carousel-control-prev,
+.carousel-control-next {
+  width: auto;
+  color: #fff;
+  font-size: 3rem;
+  background: transparent;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+
+.carousel-control-prev {
+  left: 10px;
+}
+
+.carousel-control-next {
+  right: 10px;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+  opacity: 2;
+}
+
+

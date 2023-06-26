@@ -1,4 +1,4 @@
-import {Component, OnInit, ElementRef, ViewChild, Input} from '@angular/core';
+import {Component, OnInit, ElementRef, ViewChild, Input,Output} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Globals} from "../globals";
 import {ActivatedRoute, Router} from "@angular/router";
