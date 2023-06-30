@@ -4,6 +4,10 @@ import {ProductGetVM} from "../_models/ProductGetVM";
 import { HttpClient } from '@angular/common/http';
 import {Globals} from "../globals";
 import {Router} from "@angular/router";
+import {ProductProducerGetVM} from "../_models/ProductProducerGetVM";
+import {ProdutCategoryGetVM} from "../_models/ProdutCategoryGetVM";
+import {ProductDiscountGetVM} from "../_models/ProductDiscountGetVM";
+import {ProductInventoryGetVM} from "../_models/ProductInventoryGetVM";
 
 
 
@@ -19,6 +23,18 @@ export class ProductComponent implements OnInit {
   showModal: boolean = false;
   itemsPerPage: number=6;
   totalItems: any;
+  cmbDataCategory?: ProdutCategoryGetVM[];
+  cmbDataProducer?:ProductProducerGetVM[];
+  minPrice: number = 0;
+  maxPrice: number = 10000;
+  category: string ="All";
+  producer: string ="All";
+  isDownloadChecked: boolean = false;
+  isInvalidPriceRange: boolean = false;
+  currentDate = new Date();
+  report_name: string="";
+
+
   //totalProduct:any;
   //@Output() loadCategories = new EventEmitter<void>();
 
@@ -26,7 +42,10 @@ export class ProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadData();
+    this.loadProducers();
+    this.loadCategories();
   }//
+
 
 
 
@@ -78,5 +97,83 @@ export class ProductComponent implements OnInit {
   cc() {
     this.loadData();
     //console.log(this.p);
+  }
+
+  generateReport() {
+    // Define the report parameters
+    const parameters = {
+      category: this.category,
+      producer: this.producer,
+      minPrice: this.minPrice,
+      maxPrice: this.maxPrice
+    };
+    if(this.isInvalidPriceRange)
+      return;
+    else {
+      // Make an HTTP POST request to the server to generate the report
+      this.httpClient.post(this.globals.serverAddress + '/Report/product-report', parameters, {responseType: 'blob'})
+        .subscribe(response => {
+          // Create a Blob URL from the response
+          const blob = new Blob([response], {type: 'application/pdf'});
+          const url = window.URL.createObjectURL(blob);
+
+          // Create a download link for the report
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = this.report_name + "_" + this.currentDate.getDate() + '.' + (this.currentDate.getMonth()+1) + '.' + this.currentDate.getFullYear() + '_report.pdf';
+          if(this.isDownloadChecked)
+            link.click();
+          else
+            window.open(url, '_blank');
+
+          // Clean up the Blob URL after the download
+          window.URL.revokeObjectURL(url);
+        }, error => {
+          console.log('An error occurred while generating the report:', error);
+          // Handle the error as needed
+        });
+    }
+  }
+  loadCategories() {
+    this.httpClient.get(this.globals.serverAddress + "/ProductCategory")
+      .subscribe({
+        next: (value: any) => {
+          this.cmbDataCategory = value.data;
+          console.log(this.cmbDataCategory);
+        },
+        error: (err: any) => {
+          alert("error");
+          console.log(err);
+        }});
+  }
+
+  loadProducers() {
+    this.httpClient.get(this.globals.serverAddress + "/ProductProducer")
+      .subscribe({
+        next: (value: any) => {
+          this.cmbDataProducer = value.data;
+          console.log(this.cmbDataProducer);
+        },
+        error: (err: any) => {
+          alert("error");
+          console.log(err);
+        }});
+  }
+  validatePriceRange() {
+    if (this.minPrice !== null && this.maxPrice !== null && this.minPrice > this.maxPrice) {
+      this.isInvalidPriceRange = true;
+    } else {
+      this.isInvalidPriceRange = false;
+      // Proceed with further actions
+    }
+  }
+
+  setValue() {
+    this.minPrice=0;
+    this.maxPrice=10000;
+    this.category="All";
+    this.producer="All";
+    this.report_name="";
+
   }
 }
