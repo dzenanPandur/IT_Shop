@@ -19,6 +19,8 @@
     "@angular/platform-browser": "^14.0.0",
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
+    "@ngx-translate/core": "^14.0.0",
+    "@ngx-translate/http-loader": "^7.0.0",
     "@stripe/stripe-js": "^1.54.1",
     "bootstrap": "^5.2.3",
     "ng-multiselect-dropdown": "^0.3.9",

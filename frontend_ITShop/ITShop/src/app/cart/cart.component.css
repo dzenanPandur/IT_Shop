@@ -56,12 +56,12 @@ body{
 }
 .about{
   font-size:10px;
-  height: 140px;
+
   width: 40%;
 }
 .title{
   padding-top: 10px;
-  line-height: 10px;
+  line-height: 30px;
   font-size: 32px;
   font-family: 'Open Sans';
   font-weight: 800;
@@ -105,6 +105,7 @@ body{
 .prices{
   height: 100%;
   text-align: right;
+  padding-top: 7%;
 }
 .amount{
   padding-top: 20px;

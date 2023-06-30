@@ -64,6 +64,7 @@ export class CartComponent implements OnInit {
   tableData: any;
   p: number = 1;
   totalTotalPrice: any;
+  odabraniCartItem:any;
 
   loadData() {
     this.httpClient.get(this.globals.serverAddress + "/CartItems?items_per_page=" + this.itemsPerPage + "&page_number=" + this.p)
@@ -191,6 +192,59 @@ export class CartComponent implements OnInit {
           console.error(error);
         }
       );
+  }
+  brojacminus(x: any) {
+    if (x.quantity <= 1) {
+      console.log("Brojac ne može biti manji od 1");
+      return;
+    }
+
+    x.quantity--;
+    x.totalPrice = x.product.price * x.quantity;
+    this.totalTotalPrice = this.tableData.reduce((total: number, product: any) => total + product.totalPrice, 0);
+
+    this.updateCartItem(x); // Call the function to update the cart item
+
+    console.log(x.totalPrice);
+
+    console.log(this.tableData);
+  }
+  brojacplus(x: any) {
+    if (x.quantity >= 10) {
+      console.log("Brojac ne može biti veći od 10");
+      return;
+    }
+
+    x.quantity++;
+    x.totalPrice = x.product.price * x.quantity;
+    this.totalTotalPrice = this.tableData.reduce((total: number, product: any) => total + product.totalPrice, 0);
+
+    this.updateCartItem(x); // Call the function to update the cart item
+
+
+    console.log(this.tableData);
+  }
+  updateCartItem(cartItem: any) {
+    const updatedCartItem = {
+      id: cartItem.id,
+      quantity: cartItem.quantity,
+      totalPrice: cartItem.totalPrice,
+      productID: cartItem.productID
+    };
+
+    this.httpClient.put(this.globals.serverAddress + '/CartItems/' + cartItem.id, updatedCartItem)
+      .subscribe({
+        next: (value: any) => {
+          this.loadData();
+          console.log("Korpa je uspješno ažurirana");
+        },
+        error: (err: any) => {
+          alert("error");
+          console.log(err);
+        }
+
+      });
+
   }
 
 }

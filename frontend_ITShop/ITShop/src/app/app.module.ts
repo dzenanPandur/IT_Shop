@@ -40,6 +40,9 @@ import { ContactComponent } from './contact/contact.component';
 import { ProblemReportComponent } from './problem-report/problem-report.component';
 import { OwlModule} from "ngx-owl-carousel";
 import { CarouselModule } from 'ngx-bootstrap/carousel';
+import {HttpClient} from "@angular/common/http";
+import {TranslateLoader,TranslateModule} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
 
 const routes: Routes = [
@@ -98,7 +101,14 @@ const routes: Routes = [
         NgxSliderModule,
         Ng5SliderModule,
         OwlModule,
-        CarouselModule.forRoot()
+        CarouselModule.forRoot(),
+        TranslateModule.forRoot({
+          loader:{
+            provide:TranslateLoader,
+            useFactory:httpTranslateLoader,
+            deps:[HttpClient]
+          }
+        }),
 
     ],
   providers: [Globals,
@@ -119,3 +129,7 @@ const routes: Routes = [
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+export function httpTranslateLoader(http:HttpClient){
+  return new TranslateHttpLoader(http);
+}

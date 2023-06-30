@@ -10,17 +10,17 @@
       <img *ngIf="x.product.productPictures.length" class="card-img-top" src="{{x.product.productPictures[0].fileName}}" alt="..."  />
     </div>
     <div class="about">
-      <h1 class="title">{{x.product.name}}</h1>
+      <div class="title">{{x.product.name}}</div>
 
 
     </div>
     <div class="counter">
-      <div class="btn">+</div>
+      <div class="btn" (click)="brojacminus(x)">-</div>
       <div class="count">{{x.quantity}}</div>
-      <div class="btn">-</div>
+      <div class="btn" (click)="brojacplus(x)">+</div>
     </div>
     <div class="prices">
-      <div class="amount">{{x.totalPrice}}</div>
+      <div class="amount">{{x.totalPrice}}KM</div>
 
       <div class="remove" (click)="UkloniIzkorpe(x.id)"><u>Ukloni iz korpe</u></div>
     </div>

@@ -12,6 +12,7 @@ import {
 } from '@stripe/stripe-js';
 import {LoggedUserInfo} from "../View models/LoggedUserInfo";
 import {delay} from "rxjs";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-navbar',
@@ -37,9 +38,15 @@ export class NavbarComponent implements OnInit {
     public globals: Globals,
     public _cookieService: CookieService,
     public router: Router,
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    public translate: TranslateService
   ) {
     this.loggedUser= new LoggedUserInfo();
+    translate.addLangs(['en','de','bs','hr'])
+    translate.setDefaultLang('en')
+  }
+  switchLang(lang:string){
+    this.translate.use(lang)
   }
 
   ngOnInit(): void {

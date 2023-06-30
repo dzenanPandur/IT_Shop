@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {CookieService} from "ngx-cookie";
 import {Router} from "@angular/router";
 import {Globals} from "./globals";
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,13 @@ export class AppComponent {
     private route: Router,
     private cookieService: CookieService,
     private globals: Globals,
+    public translate: TranslateService
   ) {
+    translate.addLangs(['en','de','bs','hr'])
+    translate.setDefaultLang('en')
+  }
+  switchLang(lang:string){
+    this.translate.use(lang)
   }
   ngOnInit(): void {
     if(!this.globals.isAuthenticated && this.cookieService.get('auth')!==undefined)
