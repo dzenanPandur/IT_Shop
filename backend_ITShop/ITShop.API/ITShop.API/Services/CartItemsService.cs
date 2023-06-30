@@ -94,6 +94,32 @@ namespace ITShop.API.Services
                 Data = entity
             };
         }
+        public async Task<Message> Update(int id,CartItemsSnimiVM updatedCartItem)
+        {
+            CartItems? entity;
+            var LoggedUserId = (await AuthContext.GetLoggedUser()).Id;
+
+            entity = await _dBContext.CartItems.FirstOrDefaultAsync(s => s.UserID == LoggedUserId &&
+                                                                         s.ProductID == updatedCartItem.ProductID);
+            if (entity != null)
+            {
+                id = entity.Id;
+                entity.Quantity = updatedCartItem.Quantity;
+                entity.TotalPrice = updatedCartItem.TotalPrice;
+                entity.ProductID = updatedCartItem.ProductID;
+                entity.UserID = LoggedUserId;
+            }
+            
+
+            await _dBContext.SaveChangesAsync();
+            return new Message
+            {
+                IsValid = true,
+                Info = $"Entitet ažuriran",
+                Status = ExceptionCode.Success,
+                Data = entity
+            };
+        }
         public async Task<Message> Delete(int id)
         {
             CartItems? entity = await _dBContext.CartItems.FindAsync(id);

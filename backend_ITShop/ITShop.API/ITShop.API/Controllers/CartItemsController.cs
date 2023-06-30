@@ -44,6 +44,16 @@ namespace ITShop.API.Controllers
 
             return Ok(message);
         }
+        [HttpPut("{id}")]
+        public async Task<ActionResult> Update(int id,[FromBody] CartItemsSnimiVM updatedCartItem)
+        {
+            var message = await _cartItemsService.Update(id,updatedCartItem);
+            if (!message.IsValid)
+                return BadRequest(message);
+
+            return Ok(message);
+        }
+
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {

@@ -10,6 +10,7 @@ namespace ITShop.API.Interface
         Task<Message> Get(int id);
 
         Task<Message> Snimi(CartItemsSnimiVM x);
+        Task<Message> Update(int id, CartItemsSnimiVM updatedCartItem);
 
         Task<Message> Delete(int id);
     }
