@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ITShop.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Orders")]
     [ApiController]
-    [Authorize(Roles = "Zaposlenik")]
+    
     public class OrderController: ControllerBase
     {
         private IOrderService _orderService;
@@ -17,10 +17,20 @@ namespace ITShop.API.Controllers
         {
             _orderService = orderService; 
         }
+
         [HttpGet]
         public async Task<ActionResult> GetAll(int items_per_page = 10, int page_number = 1)
         {
             var message = await _orderService.GetAllPaged(items_per_page, page_number);
+            if (!message.IsValid)
+                return BadRequest(message);
+
+            return Ok(message);
+        }
+        [HttpGet][Route("api/Orders/GetAllForUser")]
+        public async Task<ActionResult> GetAllForUser(int items_per_page = 10, int page_number = 1)
+        {
+            var message = await _orderService.GetAllForUser(items_per_page, page_number);
             if (!message.IsValid)
                 return BadRequest(message);
 
@@ -36,9 +46,9 @@ namespace ITShop.API.Controllers
             return Ok(message);
         }
         [HttpPost]
-        public async Task<ActionResult> Snimi([FromBody] OrderSnimiVM x)
+        public async Task<ActionResult> Create([FromBody] OrderSnimiVM x)
         {
-            var message = await _orderService.Snimi(x);
+            var message = await _orderService.Create(x);
             if (!message.IsValid)
                 return BadRequest(message);
 

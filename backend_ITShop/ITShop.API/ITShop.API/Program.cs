@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
 using Microsoft.AspNetCore.Builder;
@@ -101,7 +101,7 @@ builder.Services.AddTransient<IProductInventoryService, ProductInventoryService>
 builder.Services.AddTransient<IProductPictureService, ProductPictureService>();
 builder.Services.AddTransient<ICartItemsService, CartItemsService>();
 builder.Services.AddTransient<IOrderService, OrderService>();
-builder.Services.AddTransient<IOrderDetailsService, OrderDetailsService>();
+
 builder.Services.AddTransient<IProductProducerService, ProductProducerService>();
 builder.Services.AddTransient<ISendGridService, SendGridService>();
 builder.Services.AddTransient<ISubscriptionService, SubscriptionService>();

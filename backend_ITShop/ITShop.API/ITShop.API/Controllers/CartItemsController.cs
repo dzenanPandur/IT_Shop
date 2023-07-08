@@ -9,7 +9,7 @@ namespace ITShop.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(Roles = "Zaposlenik")]
+    
     public class CartItemsController: ControllerBase
     {
         private ICartItemsService _cartItemsService;

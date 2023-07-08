@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ITShop.API.Migrations
 {
     [DbContext(typeof(ITShop_DBContext))]
-    [Migration("20230625173202_add-subscription")]
-    partial class addsubscription
+    [Migration("20230704183213_3")]
+    partial class _3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -109,22 +109,35 @@ namespace ITShop.API.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PaymentID")
+                    b.Property<string>("Payment_intent_id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
+
+                    b.Property<string>("Receipt_url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ShippingAdress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("TotalTotalPrice")
+                        .HasColumnType("float");
 
                     b.Property<Guid>("UserID")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PaymentID");
-
                     b.HasIndex("UserID");
 
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("ITShop.API.Entities.OrderDetails", b =>
+            modelBuilder.Entity("ITShop.API.Entities.OrderItems", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -132,10 +145,7 @@ namespace ITShop.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("DiscountID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrderID")
+                    b.Property<int>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<int>("ProductID")
@@ -144,40 +154,16 @@ namespace ITShop.API.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<double>("UnitPrice")
+                    b.Property<double>("TotalPrice")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DiscountID");
-
-                    b.HasIndex("OrderID");
+                    b.HasIndex("OrderId");
 
                     b.HasIndex("ProductID");
 
-                    b.ToTable("OrderDetails");
-                });
-
-            modelBuilder.Entity("ITShop.API.Entities.PaymentDetails", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Provider")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PaymentDetails");
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("ITShop.API.Entities.Product", b =>
@@ -562,34 +548,20 @@ namespace ITShop.API.Migrations
 
             modelBuilder.Entity("ITShop.API.Entities.Order", b =>
                 {
-                    b.HasOne("ITShop.API.Entities.PaymentDetails", "PaymentDetails")
-                        .WithMany()
-                        .HasForeignKey("PaymentID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("ITShop.API.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("PaymentDetails");
-
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ITShop.API.Entities.OrderDetails", b =>
+            modelBuilder.Entity("ITShop.API.Entities.OrderItems", b =>
                 {
-                    b.HasOne("ITShop.API.Entities.Discount", "Discount")
-                        .WithMany()
-                        .HasForeignKey("DiscountID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("ITShop.API.Entities.Order", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderID")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -598,8 +570,6 @@ namespace ITShop.API.Migrations
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Discount");
 
                     b.Navigation("Order");
 
@@ -721,6 +691,11 @@ namespace ITShop.API.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ITShop.API.Entities.Order", b =>
+                {
+                    b.Navigation("OrderItems");
                 });
 
             modelBuilder.Entity("ITShop.API.Entities.Product", b =>

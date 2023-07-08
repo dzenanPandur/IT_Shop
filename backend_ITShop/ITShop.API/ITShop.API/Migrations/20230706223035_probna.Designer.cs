@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ITShop.API.Migrations
 {
     [DbContext(typeof(ITShop_DBContext))]
-    [Migration("20230308111702_pomozi")]
-    partial class pomozi
+    [Migration("20230706223035_probna")]
+    partial class probna
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -40,6 +40,9 @@ namespace ITShop.API.Migrations
 
                     b.Property<double>("TotalPrice")
                         .HasColumnType("float");
+
+                    b.Property<Guid>("UserID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -106,22 +109,35 @@ namespace ITShop.API.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PaymentID")
+                    b.Property<string>("Payment_intent_id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
+
+                    b.Property<string>("Receipt_url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ShippingAdress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("TotalTotalPrice")
+                        .HasColumnType("float");
 
                     b.Property<Guid>("UserID")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PaymentID");
-
                     b.HasIndex("UserID");
 
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("ITShop.API.Entities.OrderDetails", b =>
+            modelBuilder.Entity("ITShop.API.Entities.OrderItems", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -129,10 +145,7 @@ namespace ITShop.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("DiscountID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrderID")
+                    b.Property<int?>("OrderID")
                         .HasColumnType("int");
 
                     b.Property<int>("ProductID")
@@ -141,40 +154,16 @@ namespace ITShop.API.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<double>("UnitPrice")
+                    b.Property<double>("TotalPrice")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DiscountID");
 
                     b.HasIndex("OrderID");
 
                     b.HasIndex("ProductID");
 
-                    b.ToTable("OrderDetails");
-                });
-
-            modelBuilder.Entity("ITShop.API.Entities.PaymentDetails", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Provider")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PaymentDetails");
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("ITShop.API.Entities.Product", b =>
@@ -205,9 +194,8 @@ namespace ITShop.API.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<string>("product_picture")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("ProducerID")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -216,6 +204,8 @@ namespace ITShop.API.Migrations
                     b.HasIndex("DiscountID");
 
                     b.HasIndex("InventoryID");
+
+                    b.HasIndex("ProducerID");
 
                     b.ToTable("Products");
                 });
@@ -258,6 +248,48 @@ namespace ITShop.API.Migrations
                     b.ToTable("ProductInventories");
                 });
 
+            modelBuilder.Entity("ITShop.API.Entities.ProductPicture", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("FileSize")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductID");
+
+                    b.ToTable("ProductPictures");
+                });
+
+            modelBuilder.Entity("ITShop.API.Entities.ProductProducer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProductProducers");
+                });
+
             modelBuilder.Entity("ITShop.API.Entities.Role", b =>
                 {
                     b.Property<Guid>("Id")
@@ -290,6 +322,27 @@ namespace ITShop.API.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("asp_net_roles", "identity");
+                });
+
+            modelBuilder.Entity("ITShop.API.Entities.Subscription", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<Guid>("UserID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("isSubscribed")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("Subscriptions");
                 });
 
             modelBuilder.Entity("ITShop.API.Entities.User", b =>
@@ -495,46 +548,26 @@ namespace ITShop.API.Migrations
 
             modelBuilder.Entity("ITShop.API.Entities.Order", b =>
                 {
-                    b.HasOne("ITShop.API.Entities.PaymentDetails", "PaymentDetails")
-                        .WithMany()
-                        .HasForeignKey("PaymentID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("ITShop.API.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("PaymentDetails");
-
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ITShop.API.Entities.OrderDetails", b =>
+            modelBuilder.Entity("ITShop.API.Entities.OrderItems", b =>
                 {
-                    b.HasOne("ITShop.API.Entities.Discount", "Discount")
-                        .WithMany()
-                        .HasForeignKey("DiscountID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ITShop.API.Entities.Order", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("ITShop.API.Entities.Order", null)
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderID");
 
                     b.HasOne("ITShop.API.Entities.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Discount");
-
-                    b.Navigation("Order");
 
                     b.Navigation("Product");
                 });
@@ -559,11 +592,17 @@ namespace ITShop.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ITShop.API.Entities.ProductProducer", "ProductProducer")
+                        .WithMany()
+                        .HasForeignKey("ProducerID");
+
                     b.Navigation("Discount");
 
                     b.Navigation("ProductCategory");
 
                     b.Navigation("ProductInventory");
+
+                    b.Navigation("ProductProducer");
                 });
 
             modelBuilder.Entity("ITShop.API.Entities.ProductInventory", b =>
@@ -575,6 +614,28 @@ namespace ITShop.API.Migrations
                         .IsRequired();
 
                     b.Navigation("Location");
+                });
+
+            modelBuilder.Entity("ITShop.API.Entities.ProductPicture", b =>
+                {
+                    b.HasOne("ITShop.API.Entities.Product", "Product")
+                        .WithMany("ProductPictures")
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("ITShop.API.Entities.Subscription", b =>
+                {
+                    b.HasOne("ITShop.API.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -626,6 +687,16 @@ namespace ITShop.API.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ITShop.API.Entities.Order", b =>
+                {
+                    b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("ITShop.API.Entities.Product", b =>
+                {
+                    b.Navigation("ProductPictures");
                 });
 #pragma warning restore 612, 618
         }
