@@ -42,7 +42,7 @@ export class NavbarComponent implements OnInit {
     public translate: TranslateService
   ) {
     this.loggedUser= new LoggedUserInfo();
-    translate.addLangs(['en','de','bs','hr'])
+    translate.addLangs(['en','bs'])
     translate.setDefaultLang('en')
   }
   switchLang(lang:string){

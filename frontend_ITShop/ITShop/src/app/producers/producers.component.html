@@ -2,22 +2,22 @@
   <table class="table table-hover">
     <thead>
     <tr>
-      <th>Naziv</th>
-      <th>Akcija</th>
+      <th>{{'Name'|translate}}</th>
+      <th>{{'Action'|translate}}</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let x of tableData">
       <td>{{x.name}}</td>
       <td>
-        <button class="btn btn-danger" (click)="izbrisi(x.id)">Izbriši</button>&nbsp;
-        <button class="btn btn-primary" (click)="showModal=true; odabrani=x">Uredi</button>
+        <button class="btn btn-danger" (click)="izbrisi(x.id)">{{'Delete'|translate}}</button>&nbsp;
+        <button class="btn btn-primary" (click)="showModal=true; odabrani=x">{{'Edit'|translate}}</button>
       </td>
     </tr>
     </tbody>
   </table>
 
-  <button class="form-label btn btn-success" (click)="showModal=true; odabrani={}">Novi Proizvođač</button>
+  <button class="form-label btn btn-success" (click)="showModal=true; odabrani={}">{{'New producer'|translate}}</button>
 </div>
 
 <app-producers-snimi

@@ -62,20 +62,20 @@
       <div class="modal-body">
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         <div class="myform bg-dark">
-          <h1 class="text-center">Login</h1>
+          <h1 class="text-center">{{'Login'|translate}}</h1>
           <form >
             <div class="mb-3 mt-4">
-              <label for="txtUsername" class="form-label">Username</label>
+              <label for="txtUsername" class="form-label">{{'Username'|translate}}</label>
               <input id="txtUsername" name="username" type="text" class="form-control"
                      [(ngModel)]="authRequest.username" required>
             </div>
             <div class="mb-3">
-              <label for="txtPassword" class="form-label">Password</label>
+              <label for="txtPassword" class="form-label">{{'Password'|translate}}</label>
               <input id="txtPassword" type="password" name="password" class="form-control"
                      [(ngModel)]="authRequest.password" required>
             </div>
-            <button type="submit" class="btn btn-light mt-3" (click)="login(); cc()">LOGIN</button>
-            <p>Not a member? <a data-bs-target="#SignUpModalForm" data-bs-toggle="modal">Sign Up Now</a></p>
+            <button type="submit" class="btn btn-light mt-3" (click)="login(); cc()">{{'LOGIN'|translate}}</button>
+            <p>{{'Not a member?'|translate}} <a data-bs-target="#SignUpModalForm" data-bs-toggle="modal">{{'Sign up now'|translate}}</a></p>
           </form>
         </div>
       </div>

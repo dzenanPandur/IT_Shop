@@ -3,18 +3,18 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLiveLabel">Proizvođač</h5>
+        <h5 class="modal-title" id="exampleModalLiveLabel">{{'Producer'|translate}}</h5>
         <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
       </div>
       <div class="modal-body">
         <div class="mb-3">
-          <label class="form-label">Naziv</label>
+          <label class="form-label">{{'Name'|translate}}</label>
           <input class="form-control" placeholder="Naziv proizvođača" [(ngModel)]="odabrani.name">
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="close()">Zatvori</button>
-        <button type="button" class="btn btn-primary" (click)="snimi()">Snimi</button>
+        <button type="button" class="btn btn-secondary" (click)="close()">{{'Close'|translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="snimi()">{{'Save'|translate}}</button>
       </div>
     </div>
   </div>

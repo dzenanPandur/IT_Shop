@@ -43,16 +43,22 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
 import {HttpClient} from "@angular/common/http";
 import {TranslateLoader,TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { MyOrderComponent } from './my-order/my-order.component';
+import { MyOrderDetailsComponent } from './my-order-details/my-order-details.component';
+import { AllOrdersComponent } from './all-orders/all-orders.component';
 
 
 const routes: Routes = [
   {path: 'admin', component: AdminComponent, canActivate: [AdminGuard]},
   {path: 'categories', component: CategoryComponent, canActivate: [EmployeeGuard]},
   {path: 'producers', component: ProducersComponent, canActivate: [EmployeeGuard]},
+  {path: 'all-orders', component: AllOrdersComponent, canActivate: [EmployeeGuard]},
   {path: 'contact',component: ContactComponent},
+  {path: 'my-order',component: MyOrderComponent},
   {path: 'products', component: ProductComponent, canActivate: [EmployeeGuard]},
   {path: 'product-pictures/:id', component: ProductPictureComponent, canActivate: [EmployeeGuard]},
   {path: 'product-prikaz/:id', component: ProductPrikazComponent},
+  {path: 'my-order-details/:id', component: MyOrderDetailsComponent},
   {path: 'cart', component: CartComponent},
   {path: 'search', component: SearchComponent},
   {path: 'problem', component: ProblemReportComponent},
@@ -83,7 +89,10 @@ const routes: Routes = [
     ProducersSnimiComponent,
     CartComponent,
     ContactComponent,
-    ProblemReportComponent
+    ProblemReportComponent,
+    MyOrderComponent,
+    MyOrderDetailsComponent,
+    AllOrdersComponent
   ],
     imports: [
         BrowserModule,

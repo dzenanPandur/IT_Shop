@@ -3,7 +3,7 @@
         <div class="container px-4 px-lg-5 my-5">
             <div class="text-center text-white">
                 <h1 class="display-4 fw-bolder">{{'Shop in style'|translate}}</h1>
-                <p class="lead fw-normal text-white-50 mb-0">With our IT Shop</p>
+                <p class="lead fw-normal text-white-50 mb-0">{{'With our IT Shop'|translate}}</p>
             </div>
         </div>
     </header>
@@ -24,7 +24,7 @@
            <label for="{{x.id}}">{{x.name}}</label>
          </div>
        </div>-->
-       <label class="form-label">Proizvođači</label>
+       <label class="form-label">{{'Producers'|translate}}</label>
        <ng-multiselect-dropdown
          [placeholder]="'Select producers'"
          [data]="tableDataProducers"
@@ -50,7 +50,7 @@
                 <div *ngFor="let x of filterProizvode() | paginate: {itemsPerPage: itemsPerPage, currentPage:p, totalItems: totalItems} " class="col mb-5">
                     <div class="card h-100">
                         <!-- Sale badge-->
-                        <div  class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
+                        <div  class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">{{'Sale'|translate}}</div>
                         <!-- Product image-->
                       <div>
                         <img (click)="ProductPrikaz(x)" *ngIf="x.productPictures.length" class="card-img-top" src="{{x.productPictures[0].fileName}}" alt="..." />

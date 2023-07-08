@@ -2,8 +2,8 @@
   <table class="table table-hover">
     <thead>
     <tr>
-      <th>Slika</th>
-      <th>Akcija</th>
+      <th>{{'Picture'|translate}}</th>
+      <th>{{'Action'|translate}}</th>
     </tr>
     </thead>
     <tbody>
@@ -12,13 +12,13 @@
         <img [src]="x.fileName" alt="" style="max-width: 100%; max-height: 150px">
       </td>
       <td>
-        <button class="btn btn-danger" (click)="izbrisi(x.id)">Izbriši</button>&nbsp;
+        <button class="btn btn-danger" (click)="izbrisi(x.id)">{{'Delete'|translate}}</button>&nbsp;
       </td>
     </tr>
     </tbody>
   </table>
 
-  <button class="form-label btn btn-success" (click)="novaSlikaDugme()">Nova Slika</button>
+  <button class="form-label btn btn-success" (click)="novaSlikaDugme()">{{'New picture'|translate}}</button>
 </div>
 
 <app-product-picture-snimi

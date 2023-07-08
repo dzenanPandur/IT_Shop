@@ -23,7 +23,7 @@ export class ProductPrikazComponent implements OnInit{
   id:any;
   public user:any;
   totalPrice: number = 0;
-  public cartItem: any; //= { quantity:this.quantity,totalPrice:this.totalPrice,productID:this.product};
+  public cartItem: any;
 
   currentSlideIndex: number = 0;
 
@@ -77,6 +77,10 @@ export class ProductPrikazComponent implements OnInit{
           console.log(err);
         }});
   }
+  roles(role: string): boolean{
+    return this.globals.authData.roles.filter(((x:string) => role === x))[0] !== undefined;
+
+  }
   loadData2() {
     this.httpClient.get(`${this.globals.serverAddress}/ProductPicture/${this.id}`)
       .subscribe({
@@ -103,13 +107,22 @@ export class ProductPrikazComponent implements OnInit{
         .subscribe({
           next: (value: any) => {
             console.log("Proizvod je uspješno dodan u korpu");
+            this.showSuccessToast();
           },
           error: (err: any) => {
             alert("error");
             console.log(err);
           }});
   }
-
+  showSuccessToast(): void {
+    const toast = document.getElementById('successToast');
+    if (toast) {
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000); // Hide the toast after 3 seconds (adjust the delay as needed)
+    }
+  }
   brojacminus() {
     if(this.quantity <= 1){
       console.log("Brojac ne moze ispod 0");

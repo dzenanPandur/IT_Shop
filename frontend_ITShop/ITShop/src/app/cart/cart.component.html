@@ -1,8 +1,8 @@
 <body xmlns:paginate="http://www.w3.org/1999/xhtml">
 <div class="CartContainer">
   <div class="Header">
-    <h3 class="Heading">Vaša korpa</h3>
-    <h5 class="Action" (click)="UkloniteSve()">Uklonite sve</h5>
+    <h3 class="Heading">{{'Your cart'|translate}}</h3>
+    <h5 class="Action" (click)="UkloniteSve()">{{'Delete All'|translate}}</h5>
   </div>
 
   <div *ngFor="let x of tableData | paginate: {itemsPerPage: itemsPerPage, currentPage:p, totalItems: totalItems}" class="Cart-Items">
@@ -22,7 +22,7 @@
     <div class="prices">
       <div class="amount">{{x.totalPrice}}KM</div>
 
-      <div class="remove" (click)="UkloniIzkorpe(x.id)"><u>Ukloni iz korpe</u></div>
+      <div class="remove" (click)="UkloniIzkorpe(x.id)"><u>{{'Remove from cart'|translate}}</u></div>
     </div>
   </div>
 
@@ -31,34 +31,75 @@
   <div class="checkout">
     <div class="total">
       <div>
-        <div class="Subtotal">Ukupna cijena</div>
-        <div class="items">Broj jedinica: {{totalItems}}</div>
+        <div class="Subtotal">{{'Total cost'|translate}}</div>
+        <div class="items">{{'Number of units:'|translate}} {{totalItems}}</div>
       </div>
       <div class="total-amount">{{totalTotalPrice}}KM</div>
     </div>
-    <button type="button" class="btn btn-dark; button" data-bs-toggle="modal" data-bs-target="#CardData" [disabled]="totalItems==0">Izvrši Narudžbu</button></div>
-  <div class="modal fade"  id="CardData" tabindex="-1" aria-labelledby="ModalFormLabel" aria-hidden="true">
+
+
+    <button (click)="openModal()"  type="button" class="btn btn-dark; button" data-bs-toggle="modal" data-bs-target="#ShippingAddress" [disabled]="totalItems==0">
+      {{'Complete Order'|translate}}</button></div>
+
+
+  <div  class="modal fade"  id="CardData" tabindex="-1" aria-labelledby="ModalFormLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-body">
-          <h4 class="display-6 d-inline">Payment information</h4>
-          <button type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"
-                  style="position: absolute; right: 10px; font-size: 24px; padding: 10px;"></button>
+          <h4 class="display-6 d-inline">{{'Payment information'|translate}}</h4>
+          <button  type="button" class="btn-close btn-close-black" data-bs-dismiss="modal" aria-label="Close"
+                   style="position: absolute; right: 10px; font-size: 24px; padding: 10px;"></button>
 
           <form style="margin-top: 35px" (ngSubmit)="onSubmit()">
             <div #cardElement></div>
             <br>
             <!-- ...other form fields... -->
-            <button type="submit" >Submit Payment</button>
+            <button  type="submit" >{{'Submit Payment '|translate}}</button>
           </form>
         </div>
       </div>
     </div>
   </div>
+
+<!--  <button type="button" (click)="openModal()">{{'Submit Payment '|translate}}</button>-->
+
+  <!-- Modal -->
+  <div class="modal fade" id="ShippingAddress" tabindex="-1" aria-hidden="true" aria-labelledby="ShippingAddressLabel" [class.show]="showModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="ShippingAddressLabel" >{{'Shipping Address'|translate}}</h5>
+         <!-- <button type="button" class="close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>-->
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <input type="text" [(ngModel)]="shippingAdress" placeholder="Enter your shipping address" class="form-control">
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" data-bs-target="#CardData" data-bs-toggle="modal">{{'Save'|translate}}</button>
+<!--          <button type="button" class="btn btn-secondary" (click)="closeModal()">{{'Close'|translate}}</button>-->
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="py-5">
     <pagination-controls (pageChange)="p =$event; cc()"></pagination-controls>
   </div>
 </div>
 </body>
 
-
+<div class="toast" id="successToast" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="true">
+  <div class="toast-header">
+    <strong class="mr-auto">Success</strong>
+    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="toast-body">
+    Order has been successfully created.
+  </div>
+</div>

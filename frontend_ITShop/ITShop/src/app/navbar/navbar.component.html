@@ -20,24 +20,19 @@
         <li class="nav-item"><a class="nav-link active" aria-current="page" routerLink="/">{{'Home'|translate}}</a></li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
-             aria-expanded="false">Shop</a>
+             aria-expanded="false">{{'Shop'|translate}}</a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li *ngFor="let i of tableData"><a class="dropdown-item" href="/shop/{{i.id}}/{{i.name}}">{{i.name}}</a></li>
           </ul>
         </li>
-        <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-        <li class="nav-item"><a class="nav-link" [routerLink]="'/contact'">Contact</a></li>
+        <li class="nav-item"><a class="nav-link" href="#!">{{'About'|translate}}</a></li>
+        <li class="nav-item"><a class="nav-link" [routerLink]="'/contact'">{{'Contact'|translate}}</a></li>
 
 
 
-<!--        <li class="nav-item" ><a class="nav-link" routerLink="/categories" style=" border-left: 1px solid #000000;">Categories</a>-->
-<!--        </li>-->
-<!--        <li class="nav-item"><a class="nav-link" href="#!">Products</a></li>-->
-<!--        <li class="nav-item"><a class="nav-link" href="#!">Orders</a></li>-->
-<!--        <li class="nav-item"><a class="nav-link" href="#!">Locations</a></li>-->
-<!--        <li class="nav-item"><a class="nav-link" href="#!">Discounts</a></li>-->
+
       </ul>
-      <label *ngIf="_cookieService.get('auth')!==undefined"> Welcome, {{fullName.firstName}} {{fullName.lastName}}
+      <label *ngIf="_cookieService.get('auth')!==undefined"> {{'Welcome'|translate}}, {{fullName.firstName}} {{fullName.lastName}}
         &nbsp;</label>
       <form  (click)="CartItems()" class="d-flex">
         <button (click)="cc()" class="btn btn-outline-dark" type="submit">
@@ -52,22 +47,22 @@
           <i class="far fa-user pr-2" aria-hidden="true"></i>
         </button>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="#">Settings</a>
-          <a class="dropdown-item" href="#">Profile</a>
+          <a class="dropdown-item" href="#">{{'Settings'|translate}}</a>
+          <a class="dropdown-item" href="#">{{'Profile'|translate}}</a>
 
-          <a *ngIf="roles('Kupac') && (this.subscribedUser_data==null || this.subscribedUser_data.data[0].isSubscribed==false)"  class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Premium Membership</a>
-          <a *ngIf="roles('Kupac') && (this.subscribedUser_data!=null && this.subscribedUser_data.data[0].isSubscribed==true)"  class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal2">Cancel Membership</a>
+          <a *ngIf="roles('Kupac') && (this.subscribedUser_data==null || this.subscribedUser_data.data[0].isSubscribed==false)"  class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">{{'Premium Membership'|translate}}</a>
+          <a *ngIf="roles('Kupac') && (this.subscribedUser_data!=null && this.subscribedUser_data.data[0].isSubscribed==true)"  class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal2">{{'Cancel Membership'|translate}}</a>
+          <a *ngIf="roles('Kupac')" [routerLink]="'/my-order'" class="dropdown-item" href="#">{{'My orders'|translate}}</a>
 
-
-          <a *ngIf="roles('Kupac')" [routerLink]="'/problem'" class="dropdown-item" href="#">Prijavi grešku</a>
+          <a *ngIf="roles('Kupac')" [routerLink]="'/problem'" class="dropdown-item" href="#">{{'Report a problem'|translate}}</a>
           <a *ngIf="roles('Admin')" [routerLink]="'/admin'" class="dropdown-item" href="#">Admin</a>
           <div *ngIf="roles('Zaposlenik')" class="dropdown-divider"></div>
-          <a *ngIf="roles('Zaposlenik')" [routerLink]="'/categories'" class="dropdown-item" href="#">Categories</a>
-          <a *ngIf="roles('Zaposlenik')" [routerLink]="'/products'" class="dropdown-item" href="#">Products</a>
-          <a *ngIf="roles('Zaposlenik')" [routerLink]="'/producers'" class="dropdown-item" href="#">Product Producers</a>
-          <a *ngIf="roles('Zaposlenik')" [routerLink]="'/orders'" class="dropdown-item" href="#">Orders</a>
-          <a *ngIf="roles('Zaposlenik')" [routerLink]="'/locations'" class="dropdown-item" href="#">Locations</a>
-          <a *ngIf="roles('Zaposlenik')" [routerLink]="'/discounts'" class="dropdown-item" href="#">Discounts</a>
+          <a *ngIf="roles('Zaposlenik')" [routerLink]="'/categories'" class="dropdown-item" href="#">{{'Categories'|translate}}</a>
+          <a *ngIf="roles('Zaposlenik')" [routerLink]="'/products'" class="dropdown-item" href="#">{{'Products'|translate}}</a>
+          <a *ngIf="roles('Zaposlenik')" [routerLink]="'/producers'" class="dropdown-item" href="#">{{'Product Producers'|translate}}</a>
+          <a *ngIf="roles('Zaposlenik')" [routerLink]="'/all-orders'" class="dropdown-item" href="#">{{'Orders'|translate}}</a>
+          <a *ngIf="roles('Zaposlenik')" [routerLink]="'/locations'" class="dropdown-item" href="#">{{'Locations'|translate}}</a>
+          <a *ngIf="roles('Zaposlenik')" [routerLink]="'/discounts'" class="dropdown-item" href="#">{{'Discounts'|translate}}</a>
           <div  class="dropdown-divider"></div>
           <a *ngIf="_cookieService.get('auth')!==undefined" (click)="logout(); cc()"  type="button" class="dropdown-item" >
             Log out
@@ -83,7 +78,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Premium Membership</h5>
+        <h5 class="modal-title" id="exampleModalLabel">{{'Pm'|translate}}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -91,14 +86,14 @@
           <div class="col">
             <div class="card mb-4 rounded-3 shadow-sm">
               <div class="card-header py-3">
-                <h4 class="my-0 fw-normal">Monthly subscription</h4>
+                <h4 class="my-0 fw-normal">{{'Monthly Subscription'|translate}}</h4>
               </div>
               <div class="card-body">
-                <h1 class="card-title pricing-card-title">5KM<small class="text-body-secondary fw-light">/mo</small></h1>
+                <h1 class="card-title pricing-card-title">5KM<small class="text-body-secondary fw-light">/{{'Mo'|translate}}</small></h1>
                 <ul class="list-unstyled mt-3 mb-4">
-                  <li>Exclusive discounts</li>
-                  <li>Priority email support</li>
-                  <li>...and more</li>
+                  <li>{{'Exclusive Discounts'|translate}}</li>
+                  <li>{{'Priority email support'|translate}}</li>
+                  <li>{{'...and more'|translate}}</li>
                 </ul>
                 <form style="margin-top: 35px" (ngSubmit)="onSubmit()">
 
@@ -106,7 +101,7 @@
                   <div #cardElement></div>
                   <br>
                   <!-- ...other form fields... -->
-                  <button type="submit" class="w-100 btn btn-lg btn-outline-primary">Get the membership now</button>
+                  <button type="submit" class="w-100 btn btn-lg btn-outline-primary">{{'Get the membership now'|translate}}</button>
                 </form>
               </div>
             </div>
@@ -120,7 +115,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel2">Cancel membership</h5>
+        <h5 class="modal-title" id="exampleModalLabel2">{{'Cancel membership'|translate}}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -128,10 +123,10 @@
           <div class="col">
             <div class="card mb-4 rounded-3 shadow-sm">
               <div class="card-header py-3">
-                <h4 class="my-0 fw-normal">Are you sure you want to cancel your membership?</h4>
+                <h4 class="my-0 fw-normal">{{'Are you sure?'|translate}}</h4>
                 <br>
-                <button type="button" class="w-100 btn btn-lg btn-outline-primary" (click)="cancelSubscription()">Yes, cancel my membership</button>
-                <button type="button" class="w-100 btn btn-lg btn-outline-primary" data-bs-dismiss="modal" aria-label="Close">No, I want to keep it</button>
+                <button type="button" class="w-100 btn btn-lg btn-outline-primary" (click)="cancelSubscription()">{{'Yes, cancel my membership'|translate}}</button>
+                <button type="button" class="w-100 btn btn-lg btn-outline-primary" data-bs-dismiss="modal" aria-label="Close">{{'No, I want to keep it'|translate}}</button>
               </div>
             </div>
           </div>

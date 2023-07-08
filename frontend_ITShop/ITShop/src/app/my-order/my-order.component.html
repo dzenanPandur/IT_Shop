@@ -1,0 +1,44 @@
+<div class="container">
+  {{'Items per page'|translate}} <select [(ngModel)]="itemsPerPage" (click)="cc()">
+  <option value="6">6</option>
+  <option value="12">12</option>
+  <option value="18">18</option>
+  <option value="24">24</option>
+</select>
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th>{{'Order No'|translate}}</th>
+      <th>{{'Total Price'|translate}}</th>
+      <th>{{'Shipping Address'|translate}}</th>
+      <th>{{'Order Details'|translate}}</th>
+      <th>{{'Remove Order'|translate}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let x of tableData | paginate: {itemsPerPage: itemsPerPage, currentPage:p, totalItems: totalItems} ">
+      <td>{{x.id}}</td>
+      <td> {{x.totalTotalPrice}} </td>
+      <td>{{x.shippingAdress}}</td>
+      <td><button class="btn btn-info" (click)="productDetails(x)">{{'Order Details'|translate}}</button></td>
+      <td><button class="btn btn-danger" (click)="izbrisi(x.id)">{{'Remove Order'|translate}}</button></td>
+    </tr>
+    </tbody>
+  </table>
+
+
+
+  <div class="mt-8 py-5 flex justify-center align-items-center">
+    <pagination-controls (pageChange)="p =$event; cc()"></pagination-controls>
+  </div>
+
+</div>
+
+
+
+<app-product-snimi
+  *ngIf="showModal"
+  (closeModal)="showModal = false"
+  (reloadData)="loadData()"
+  [odabrani]="odabrani"
+></app-product-snimi>

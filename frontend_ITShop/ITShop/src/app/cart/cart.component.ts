@@ -64,7 +64,20 @@ export class CartComponent implements OnInit {
   tableData: any;
   p: number = 1;
   totalTotalPrice: any;
-  odabraniCartItem:any;
+  order:any;
+  shippingAdress:string="";
+  showModal: boolean = false;
+
+  openModal() {
+    this.showModal = true;
+  }
+
+  closeModal() {
+    this.showModal = false;
+  }
+
+
+
 
   loadData() {
     this.httpClient.get(this.globals.serverAddress + "/CartItems?items_per_page=" + this.itemsPerPage + "&page_number=" + this.p)
@@ -169,22 +182,9 @@ export class CartComponent implements OnInit {
     this.httpClient.post(this.globals.serverAddress + '/payment', paymentData)
       .subscribe(
         response => {
-          // Payment successful, handle the response
-          // Remove items from cart
-          this.tableData.forEach((item: { id: number; }) => {
-            // Perform operations on each item
-            this.httpClient.delete(this.globals.serverAddress + '/CartItems/' + item.id)
-              .subscribe({
-                next: (value: any) => {
-                  this.loadData();
-                },
-                error: (err: any) => {
-                  alert("error");
-                  console.log(err);
-                }
-              });
-          });
-          window.location.reload();
+           this.CreateOrder();
+
+
           console.log(response);
         },
         error => {
@@ -244,7 +244,47 @@ export class CartComponent implements OnInit {
         }
 
       });
-
   }
 
+  CreateOrder() {
+    if(!this.tableData)
+      return;
+
+    this.order = {
+      quantity: this.totalItems,
+      totalTotalPrice:this.totalTotalPrice,
+      payment_intent_id:"bleh",
+      shippingAdress:this.shippingAdress,
+      receipt_url:"meh",
+      orderItems: this.tableData.map((item: any) =>  {
+        return {
+          quantity: item.quantity,
+          productID: item.productID,
+          totalPrice: item.totalPrice,
+          orderID:item.orderID
+
+        };
+      })
+    }
+
+    this.httpClient.post(this.globals.serverAddress +`/Orders`,this.order)
+      .subscribe({
+        next: (value: any) => {
+          console.log("Narudžba je uspješno izvršena");
+          this.showSuccessToast();
+        },
+        error: (err: any) => {
+          alert("error");
+          console.log(err);
+        }});
+  }
+  showSuccessToast(): void {
+    const toast = document.getElementById('successToast');
+    if (toast) {
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000); // Hide the toast after 3 seconds (adjust the delay as needed)
+    }
+  }
 }

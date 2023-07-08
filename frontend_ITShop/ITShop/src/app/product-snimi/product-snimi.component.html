@@ -3,38 +3,38 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLiveLabel">Proizvod</h5>
+        <h5 class="modal-title" id="exampleModalLiveLabel">{{'Product'|translate}}</h5>
         <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
       </div>
       <div class="modal-body">
         <div class="mb-3">
-          <label class="form-label">Naziv</label>
+          <label class="form-label">{{'Name'|translate}}</label>
           <input class="form-control" placeholder="Naziv proizvoda" [(ngModel)]="odabrani.name"><br>
-          <label class="form-label">Cijena</label>
+          <label class="form-label">{{'Price'|translate}}</label>
           <input class="form-control" placeholder="Cijena proizvoda" [(ngModel)]="odabrani.price"><br>
-          <label class="form-label">Opis</label>
+          <label class="form-label">{{'Detailed description'|translate}}</label>
           <input class="form-control" placeholder="Opis proizvoda" [(ngModel)]="odabrani.description"><br>
-          <label class="form-label">Kategorija</label>
+          <label class="form-label">{{'Category'|translate}}</label>
           <select class="form-control" [(ngModel)]="odabrani.categoryID" >
             <option *ngFor="let x of cmbDataCategory" value="{{x.id}}">{{x.name}}</option>
           </select>
-          <label class="form-label">Popust</label>
+          <label class="form-label">{{'Discount'|translate}}</label>
           <select class="form-control" [(ngModel)]="odabrani.discountID" >
             <option *ngFor="let x of cmbDataDiscount" value="{{x.id}}">{{x.name}}</option>
           </select>
-          <label class="form-label">Inventorij</label>
+          <label class="form-label">{{'Inventory'|translate}}</label>
           <select class="form-control" [(ngModel)]="odabrani.inventoryID" >
             <option *ngFor="let x of cmbDataInventory" value="{{x.locationID}}">{{x.id}}</option>
           </select>
-          <label class="form-label">Proizvođač</label>
+          <label class="form-label">{{'Producer'|translate}}</label>
           <select class="form-control" [(ngModel)]="odabrani.producerID" >
             <option *ngFor="let x of cmbDataProducer" value="{{x.id}}">{{x.name}}</option>
           </select>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="close()">Zatvori</button>
-        <button type="button" class="btn btn-primary" (click)="snimi()">Snimi</button>
+        <button type="button" class="btn btn-secondary" (click)="close()">{{'Close'|translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="snimi()">{{'Save'|translate}}</button>
       </div>
     </div>
   </div>

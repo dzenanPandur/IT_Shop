@@ -17,7 +17,7 @@ export class AppComponent {
     private globals: Globals,
     public translate: TranslateService
   ) {
-    translate.addLangs(['en','de','bs','hr'])
+    translate.addLangs(['en','bs'])
     translate.setDefaultLang('en')
   }
   switchLang(lang:string){

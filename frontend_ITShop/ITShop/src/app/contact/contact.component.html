@@ -1,29 +1,29 @@
 <div class="container">
   <form action="action_page.php">
 
-    <label for="fname">First Name</label>
+    <label for="fname">{{'First name'|translate}}</label>
     <input type="text" id="fname" name="firstname" placeholder="Your first name.." class="form-control" [(ngModel)]="fname" required>
 
-    <label for="lname">Last Name</label>
+    <label for="lname">{{'Last name'|translate}}</label>
     <input type="text" id="lname" name="lastname" placeholder="Your last name.."  class="form-control" [(ngModel)]="lname" required>
 
-    <label for="email">Email</label>
+    <label for="email">{{'Email'|translate}}</label>
     <input type="text" id="email" name="email" placeholder="Your email..." class="form-control" [(ngModel)]="_email" required>
 
-    <label for="subject">Subject</label>
+    <label for="subject">{{'Subject'|translate}}</label>
     <input type="text" id="subject" name="subject" placeholder="Subject..." class="form-control" [(ngModel)]="subject" required>
 
-    <label for="message">Message</label>
+    <label for="message">{{'Message'|translate}}</label>
     <textarea id="message" name="message" placeholder="Write something.." style="height:200px" class="form-control" [(ngModel)]="message" required></textarea>
 
     <input *ngIf="fname && lname && _email && message && subject != null" type="submit" value="Submit" (click)="submit()">
 
   </form>
 </div>
-<h2 style="text-align: center">Find us here</h2>
+<h2 style="text-align: center">{{'Find us here'|translate}}</h2>
 <div style="width: 50%; margin-left: 25%">
   <iframe width="100%" height="600" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
           src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=FIT%20Mostar+(IT%20Shop)&amp;t=&amp;z=16&amp;ie=UTF8&amp;iwloc=B&amp;output=embed">
-    <a href="https://www.maps.ie/distance-area-calculator.html">measure area map</a>
+    <a href="https://www.maps.ie/distance-area-calculator.html">{{'Measure area map'|translate}}</a>
   </iframe>
 </div>
