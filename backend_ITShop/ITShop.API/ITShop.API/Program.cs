@@ -105,6 +105,8 @@ builder.Services.AddTransient<IOrderService, OrderService>();
 builder.Services.AddTransient<IProductProducerService, ProductProducerService>();
 builder.Services.AddTransient<ISendGridService, SendGridService>();
 builder.Services.AddTransient<ISubscriptionService, SubscriptionService>();
+builder.Services.AddTransient<IReportService, ReportService>();
+
 
 builder.Services.AddControllersWithViews();//ovo sam sada dodao
 

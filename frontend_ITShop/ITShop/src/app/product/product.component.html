@@ -1,10 +1,7 @@
 <div class="container">
   {{'Items per page'|translate}} <select [(ngModel)]="itemsPerPage" (click)="cc()">
-    <option value="6">6</option>
-    <option value="12">12</option>
-    <option value="18">18</option>
-    <option value="24">24</option>
   </select>
+
   <table class="table table-hover">
     <thead>
     <tr>
@@ -16,6 +13,7 @@
     <tr *ngFor="let x of tableData | paginate: {itemsPerPage: itemsPerPage, currentPage:p, totalItems: totalItems} ">
       <td>{{x.name}}</td>
       <td>
+
         <button class="btn btn-danger" (click)="izbrisi(x.id)">{{'Delete'|translate}}</button>&nbsp;
         <button class="btn btn-primary" (click)="showModal=true; odabrani=x;">{{'Edit'|translate}}</button>&nbsp;
         <button class="btn btn-primary" (click)="otvoriSlike(x.id)">{{'Pictures'|translate}}</button>
@@ -24,14 +22,63 @@
     </tbody>
   </table>
 
+  
   <button class="form-label btn btn-success" (click)="noviProizvodDugme()">{{'New product'|translate}}</button>
-
+  <button class="form-label btn btn-success" href="#" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal3" style="margin-left: 10px" (click)="setValue()">Create Report</button>
   <div class="mt-8 py-5 flex justify-center align-items-center">
     <pagination-controls (pageChange)="p =$event; cc()"></pagination-controls>
   </div>
 
-</div>
 
+
+</div>
+<div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel3">Generate report</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row row-cols-1 row-cols-md-1 mb-3 text-center">
+          <div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm">
+              <div class="card-header py-3">
+                <label class="form-label">Category</label>
+                <select class="form-control" [(ngModel)]="category">
+                  <option value="All">All</option>
+                  <option *ngFor="let x of cmbDataCategory" value="{{x.name}}">{{x.name}}</option>
+                </select>
+                <label class="form-label">Producer</label>
+                <select class="form-control" [(ngModel)]="producer">
+                  <option value="All">All</option>
+                  <option *ngFor="let x of cmbDataProducer" value="{{x.name}}">{{x.name}}</option>
+                </select>
+                <label for="min-price-input">Minimum Price</label>
+                <input type="number" id="min-price-input" [(ngModel)]="minPrice" class="form-control">
+                <label for="max-price-input">Maximum Price</label>
+                <input type="number" id="max-price-input" [(ngModel)]="maxPrice" class="form-control">
+                <p *ngIf="isInvalidPriceRange" style="color: red;">Invalid price range. Please check your inputs.</p>
+                <label class="form-label mt-3" for="myCheckbox">Download report?</label>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="myCheckbox" [(ngModel)]="isDownloadChecked">
+                  <label class="form-check-label" for="myCheckbox">Yes, download report</label>
+                </div>
+                <div class="mt-3">
+                  <input *ngIf="isDownloadChecked" type="text" id="report-name" placeholder="Name your report.." [(ngModel)]="report_name" class="form-control">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close" >Close</button>
+            <button type="button" class="btn btn-primary" (click)="validatePriceRange(); generateReport()">Generate report</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <app-product-snimi
