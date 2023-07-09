@@ -18,7 +18,12 @@
   <div class="col-sm-6">
     <div class="details">
       <h1>{{ product.name }}</h1>
-      <h3>{{'Price'|translate}}: {{ product.price }}KM</h3>
+
+      <h3><div *ngIf="product.discountPercent" class="discounted-price">{{'Price'|translate}}: <s>{{ product.price }} KM</s>
+        {{ calculateDiscountedPrice(product.price, product.discountPercent) }} KM
+      </div>
+        <div *ngIf="!product.discountPercent" class="regular-price">{{ product.price }} KM</div>
+      </h3>
       <h6>{{'Category'|translate}}: {{ product.productCategory.name }}</h6>
       <h6>{{'Detailed description'|translate}}: {{ product.description }}</h6>
       <h6>{{'Producer'|translate}}: {{ product.productProducer.name }}</h6>

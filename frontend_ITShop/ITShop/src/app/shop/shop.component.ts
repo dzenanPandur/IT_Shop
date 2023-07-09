@@ -46,6 +46,7 @@ export class ShopComponent implements OnInit {
     translate: this.optionsTranslate
   };
 
+
   optionsTranslate(value: number, label: LabelType): string {
     switch (label) {
     case LabelType.Low:
@@ -111,8 +112,8 @@ export class ShopComponent implements OnInit {
   itemsPerPage: number = 8;
   totalItems: any;
   categoryId?: number;
-
-
+  discounts: any[] = [];
+  discountAmount: any;
   ngOnInit(): void {
     this.loadData();
     this.loadDataProducers();
@@ -176,6 +177,7 @@ export class ShopComponent implements OnInit {
           this.tableData = value.data.dataItems;
 
           this.totalItems = value.data.totalCount;
+          this.getDiscounts();
           console.log(this.tableData);
           console.log(this.totalItems);
 
@@ -202,5 +204,27 @@ export class ShopComponent implements OnInit {
     clearTimeout(this.timer);
     this.timer = setTimeout(() => { this.cc(update_price_slider) }, 250);
   }
+  getDiscounts() {
+    for (let product of this.tableData) { // Replace `productsArray` with your actual array of products
+      const discountID = product.discountID;
+      if (discountID) {
+        this.httpClient.get(this.globals.serverAddress + '/Discount/' + discountID).subscribe(data => {
+          this.discountAmount = data;
+          //console.log("Ovo je discount" + this.discountAmount);
+          //console.log("Ovo je discount: " + this.discountAmount.data.discountPercent);
 
+          // Store the discount in the discounts array
+          this.discounts[discountID] = this.discountAmount.data.discountPercent;
+        });
+      }
+    }
+  }
+  calculateDiscountedPrice(price: number, discountID: number): number {
+    const discountPercent = this.discounts[discountID];
+    if (discountPercent) {
+      const discountAmount = price * (discountPercent / 100);
+      return Math.round(price - discountAmount);
+    }
+    return price;
+  }
 }

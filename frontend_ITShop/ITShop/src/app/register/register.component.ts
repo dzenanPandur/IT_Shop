@@ -19,15 +19,15 @@ export class RegisterComponent implements OnInit {
     this.http.post<any>(this.globals.serverAddress + '/User', this.registerRequest).subscribe(data=>{
       console.log(data);
 
-      this.login(this.registerRequest.userName, this.registerRequest.password)
+      this.login(this.registerRequest.userName, this.registerRequest.password, "")
       console.log(this.registerRequest.userName, this.registerRequest.password)
 
 
     })
   }
-  login(username: string, password: string){
+  login(username: string, password: string, verificationCode: string){
 
-    this.http.post<AuthData>(this.globals.serverAddress + '/Auth', {username: username, password: password}).subscribe(data=>{
+    this.http.post<AuthData>(this.globals.serverAddress + '/Auth', {username: username, password: password, verificationCode: verificationCode}).subscribe(data=>{
       this.globals.authData=data;
       this.globals.isAuthenticated=true;
       const expireDate = new Date(new Date().getTime()+(1000*(data.tokenExpireDate-60)));

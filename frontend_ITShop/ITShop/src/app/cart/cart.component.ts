@@ -9,7 +9,15 @@ import {
   StripeCardElementOptions,
   loadStripe
 } from '@stripe/stripe-js';
+import {CookieService} from "ngx-cookie";
+interface PaymentResponse {
+  paymentIntentId: string;
+  charge_id: string;
+}
 
+interface Receipt{
+  receiptUrl: string;
+}
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -20,13 +28,21 @@ export class CartComponent implements OnInit {
   stripe: any;
   elements!: StripeElements;
   cardElement!: StripeCardElement;
-
+  paymentIntentId: string="";
+  charge_id: string="";
+  public fullName: any;
+  subscribedUser_data: any;
+  stripeAmount: number = 0;
   @ViewChild('cardElement') cardElementRef!: ElementRef;
-  constructor(private httpClient: HttpClient, public globals: Globals, private router: Router, private route: ActivatedRoute) {
+  constructor(private httpClient: HttpClient, public globals: Globals, private router: Router, private route: ActivatedRoute, public _cookieService: CookieService) {
 
   }
 
   ngOnInit(): void {
+
+    this.fullName =this._cookieService.getObject('auth');
+    this.getSubscriptionById();
+
     const stripePromise = loadStripe(this.globals.stripeApiPublishableKey);
     stripePromise.then(stripe => {
       this.stripe = stripe;
@@ -67,7 +83,10 @@ export class CartComponent implements OnInit {
   order:any;
   shippingAdress:string="";
   showModal: boolean = false;
-
+  discount: any;
+  discountAmount: any;
+  discountMemberAmount: any;
+  totalDiscountedPrice: any;
   openModal() {
     this.showModal = true;
   }
@@ -91,10 +110,28 @@ export class CartComponent implements OnInit {
           this.tableData = value.data;
 
           this.totalItems = this.tableData.length;
-          this.totalTotalPrice = this.tableData.reduce((total: number, product: any) => total + product.totalPrice, 0);
-          console.log(this.tableData);
-          console.log(this.totalItems);
-          console.log(this.totalTotalPrice);
+          this.totalTotalPrice = this.calculateTotalPriceWithDiscounts();
+
+          this.tableData.forEach((item: any) => {
+            const discountID = item.product.discountID;
+            if (discountID) {
+              this.httpClient.get(this.globals.serverAddress + '/Discount/' + discountID).subscribe(data => {
+                this.discount = data;
+                this.discountAmount=this.discount.data.discountPercent;
+                if (this.discountAmount) {
+                  item.product.discountPercent = this.discountAmount; // Add the discountPercent property to the product
+                  item.totalPrice = this.calculateDiscountedPrice(item.product.price, this.discountAmount); // Calculate discounted total price
+                  this.totalTotalPrice = this.calculateTotalPriceWithDiscounts();
+                  this.discountAmount = this.totalTotalPrice/10;
+                  this.discountMemberAmount = this.totalTotalPrice/10;
+                  this.totalDiscountedPrice = this.totalTotalPrice - this.discountAmount;
+                }
+              });
+            }
+          });
+          this.discountAmount = this.totalTotalPrice/10;
+          this.discountMemberAmount = this.totalTotalPrice/10;
+          this.totalDiscountedPrice = this.totalTotalPrice - this.discountAmount;
         },
         error: (err: any) => {
           alert("error");
@@ -112,7 +149,13 @@ export class CartComponent implements OnInit {
     }*/
     this.loadData();
   }
-
+  getSubscriptionById(){
+    this.httpClient.get(this.globals.serverAddress + "/Subscription/get-subscriptions-by-id?id=" + this.fullName.userId)
+      .subscribe(data=>{
+        this.subscribedUser_data=data;
+        console.log(this.subscribedUser_data);
+      })
+  }
 
   UkloniIzkorpe(id: number) {
     if (!confirm("Da li ste sigurni da zelite ukloniti proizvod iz korpe?"))
@@ -174,17 +217,46 @@ export class CartComponent implements OnInit {
   }
   processPaymentOnServer(paymentMethodId: string)
   {
+    if(this.subscribedUser_data.data[0].isSubscribed)
+      this.stripeAmount = Math.round(this.totalDiscountedPrice*100);
+    else
+      this.stripeAmount=this.totalTotalPrice*100;
+
     const paymentData = {
       paymentMethodId: paymentMethodId,
-      amount: this.totalTotalPrice * 100
+      amount: this.stripeAmount
     };
 
     this.httpClient.post(this.globals.serverAddress + '/payment', paymentData)
       .subscribe(
-        response => {
-           this.CreateOrder();
+        (response: PaymentResponse | Object) => {
+          this.paymentIntentId = (response as PaymentResponse).paymentIntentId;
+          this.charge_id = (response as PaymentResponse).charge_id;
+          this.httpClient.get(this.globals.serverAddress + "/payment/receipt/"+this.charge_id).subscribe(
+            (response: Receipt |Object)=>{
+              const receipt_url = (response as Receipt).receiptUrl;
+              this.CreateOrder(receipt_url, this.paymentIntentId);
+              console.log(receipt_url);
+            }
+          )
+          console.log('Payment Intent ID:', this.paymentIntentId);
+          console.log('Charge ID:', this.charge_id);
 
-
+          // Remove items from cart
+          this.tableData.forEach((item: { id: number; }) => {
+            // Perform operations on each item
+            this.httpClient.delete(this.globals.serverAddress + '/CartItems/' + item.id)
+              .subscribe({
+                next: (value: any) => {
+                  this.loadData();
+                  window.location.reload();
+                },
+                error: (err: any) => {
+                  alert("error");
+                  console.log(err);
+                }
+              });
+          });
           console.log(response);
         },
         error => {
@@ -246,27 +318,32 @@ export class CartComponent implements OnInit {
       });
   }
 
-  CreateOrder() {
+  CreateOrder(receipt_url: any, payment_intend_id: any) {
     if(!this.tableData)
       return;
 
+    const isSubscribed = this.subscribedUser_data && this.subscribedUser_data.data[0].isSubscribed;
+    const membershipDiscount = isSubscribed ? 0.1 : 0; // 10% discount if subscribed, otherwise 0% discount
+
     this.order = {
+
       quantity: this.totalItems,
-      totalTotalPrice:this.totalTotalPrice,
-      payment_intent_id:"bleh",
-      shippingAdress:this.shippingAdress,
-      receipt_url:"meh",
-      orderItems: this.tableData.map((item: any) =>  {
+      totalTotalPrice: Math.round(this.totalTotalPrice-(this.totalTotalPrice*membershipDiscount)),
+      payment_intent_id: payment_intend_id,
+      shippingAdress: this.shippingAdress,
+      receipt_url: receipt_url,
+      orderItems: this.tableData.map((item: any) => {
+        const productPrice = item.product.price;
+        const discountedPrice = this.calculateDiscountedPrice(productPrice, item.product.discountPercent);
+        const totalPrice = discountedPrice * item.quantity;
         return {
           quantity: item.quantity,
           productID: item.productID,
-          totalPrice: item.totalPrice,
-          orderID:item.orderID
-
+          totalPrice: totalPrice,
+          orderID: item.orderID
         };
       })
     }
-
     this.httpClient.post(this.globals.serverAddress +`/Orders`,this.order)
       .subscribe({
         next: (value: any) => {
@@ -287,4 +364,24 @@ export class CartComponent implements OnInit {
       }, 3000); // Hide the toast after 3 seconds (adjust the delay as needed)
     }
   }
+  calculateDiscountedPrice(price: number, discountPercent: number): number {
+    if (discountPercent) {
+      const discountAmount = price * (discountPercent / 100);
+      return Math.round(price - discountAmount);
+    }
+    return price;
+  }
+  calculateTotalPriceWithDiscounts(): number {
+    let totalPrice = 0;
+
+    if (this.tableData && this.tableData.length > 0) {
+      for (const item of this.tableData) {
+        const productPrice = item.product.price;
+        const discountedPrice = this.calculateDiscountedPrice(productPrice, item.product.discountPercent);
+        totalPrice += discountedPrice * item.quantity;
+      }
+    }
+    return totalPrice;
+  }
+
 }

@@ -7,5 +7,6 @@ namespace ITShop.API.Interface
     {
         public Task<byte[]> GenerateProductReportData(ProductReportParameters parameters);
         public Task<byte[]> GenerateUserReportData(UserReportParameters parameters);
+        public Task<byte[]> GenerateOrderReportData(OrderReportParameters parameters);
     }
 }

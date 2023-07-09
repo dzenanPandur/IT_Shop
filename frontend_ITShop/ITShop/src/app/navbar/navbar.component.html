@@ -48,7 +48,7 @@
         </button>
         <div class="dropdown-menu">
           <a class="dropdown-item" href="#">{{'Settings'|translate}}</a>
-          <a class="dropdown-item" href="#">{{'Profile'|translate}}</a>
+          <a class="dropdown-item" [routerLink]="'/profile'">{{'Profile'|translate}}</a>
 
           <a *ngIf="roles('Kupac') && (this.subscribedUser_data==null || this.subscribedUser_data.data[0].isSubscribed==false)"  class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">{{'Premium Membership'|translate}}</a>
           <a *ngIf="roles('Kupac') && (this.subscribedUser_data!=null && this.subscribedUser_data.data[0].isSubscribed==true)"  class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal2">{{'Cancel Membership'|translate}}</a>

@@ -9,5 +9,6 @@ namespace ITShop.API.Interface
         Task<Message> SubscriptionsGetAsMessageAsync(CancellationToken cancellationToken);
         Task<Message> SubscriptionsGetByIdAsMessageAsync(Guid id, CancellationToken cancellationToken);
         Task<Message> SubscriptionUpdateAsMessageAsync(SubscriptionUpdateVM subscriptionUpdateVM, CancellationToken cancellationToken);
+        Task<Message> SubscriptionsGetByIdEmpAsMessageAsync(Guid id, CancellationToken cancellationToken);
     }
 }

@@ -8,5 +8,7 @@ namespace ITShop.API.Interface
         Task<Message> Login(LoginVM loginDto, CancellationToken cancellationToken);
         Task<Message> RefreshToken(string refreshToken, CancellationToken cancellationToken);
         Task<Message> LogoutAsync(User user);
+        Task<string> GenerateVerificationCodeAsync(User user);
+        Task<bool> VerifyCodeAsync(User user, string code);
     }
 }

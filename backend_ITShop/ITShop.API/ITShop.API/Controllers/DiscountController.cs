@@ -26,7 +26,7 @@ namespace ITShop.API.Controllers
 
             return Ok(message);
         }
-        [HttpGet("{id}")]
+        [HttpGet("{id}"), AllowAnonymous]
         public async Task<ActionResult> Get(int id)
         {
             var message = await _discountService.Get(id);

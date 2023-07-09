@@ -61,7 +61,30 @@ export class MyOrderComponent implements OnInit {
         }
       });
   }
-
+  refundPayment(id: number, paymentIntentId: string){
+    console.log(paymentIntentId);
+    if (!confirm("Da li ste sigurni da zelite pobrisati ovaj zapis?"))
+      return;
+    this.httpClient.post<any>(this.globals.serverAddress + '/payment/refund', {paymentIntentId} ).subscribe(
+      (response) => {
+        console.log('Refund successful:', response);
+        this.httpClient.delete(this.globals.serverAddress + '/Orders/'+id)
+          .subscribe({
+            next: (value: any) => {
+              this.loadData();
+            },
+            error: (err: any) => {
+              alert("error");
+              console.log(err);
+            }
+          });
+      },
+      (error) => {
+        console.error('Refund error:', error);
+        // Handle error response here
+      }
+    );
+  }
   cc() {
     this.loadData();
     //console.log(this.p);

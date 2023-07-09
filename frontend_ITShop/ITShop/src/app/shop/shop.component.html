@@ -24,6 +24,14 @@
            <label for="{{x.id}}">{{x.name}}</label>
          </div>
        </div>-->
+<section class="py-5">
+  <div class="container-fluid px-0">
+    <div class="row gx-0">
+      <!-- Left column -->
+      <div class="col-lg-2" style="margin: 30px;">
+        <div class="row">
+          <!-- Multiselect dropdown -->
+          <div class="col-12">
        <label class="form-label">{{'Producers'|translate}}</label>
        <ng-multiselect-dropdown
          [placeholder]="'Select producers'"
@@ -36,53 +44,54 @@
          (onDeSelectAll)="loadData()"
        >
        </ng-multiselect-dropdown>
-
-
-<br/>
-<ng5-slider [(value)]="minValue"  [(highValue)]="maxValue" [options]="options" (valueChange)="cc_delay(false)"></ng5-slider>
-
-
-
-
-    <section class="py-5">
-        <div class="container px-4 px-lg-5 mt-5">
-            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                <div *ngFor="let x of filterProizvode() | paginate: {itemsPerPage: itemsPerPage, currentPage:p, totalItems: totalItems} " class="col mb-5">
-                    <div class="card h-100">
-                        <!-- Sale badge-->
-                        <div  class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">{{'Sale'|translate}}</div>
-                        <!-- Product image-->
-                      <div>
-                        <img (click)="ProductPrikaz(x)" *ngIf="x.productPictures.length" class="card-img-top" src="{{x.productPictures[0].fileName}}" alt="..." />
-                      </div>
-
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name-->
-                                <h5 class="fw-bolder">{{x.name}}</h5>
-                                <!-- Product reviews-->
-                                <div class="d-flex justify-content-center small text-warning mb-2">
-                                    <div class="bi-star-fill"></div>
-                                    <div class="bi-star-fill"></div>
-                                    <div class="bi-star-fill"></div>
-                                    <div class="bi-star-fill"></div>
-                                    <div class="bi-star-fill"></div>
-                                </div>
-                                <!-- Product price-->
-<!--                                <span class="text-muted text-decoration-line-through">$20.00</span>-->
-<!--                                $18.00-->
-                              <div class="" >{{x.price}} KM</div>
-                            </div>
-                        </div>
-                        <!-- Product actions-->
-
-                    </div>
-                </div>
-            </div>
-
+          </div>
+          <!-- Price slider -->
+          <div class="col-12">
+            <br/>
+            <ng5-slider [(value)]="minValue"  [(highValue)]="maxValue" [options]="options" (valueChange)="cc_delay(false)"></ng5-slider>
+          </div>
         </div>
-      <div class="py-5">
-        <pagination-controls (pageChange)="p =$event; cc()"></pagination-controls>
       </div>
-    </section>
+      <div class="col-lg-7" style="margin-left: 15px;">
+        <div class="row row-cols-2 row-cols-md-3 row-cols-xl-4">
+          <!-- Product cards -->
+          <div *ngFor="let x of filterProizvode() | paginate: {itemsPerPage: itemsPerPage, currentPage:p, totalItems: totalItems} " class="col mb-5">
+            <div class="card h-100">
+              <!-- Sale badge -->
+              <div *ngIf="x.discountID && discounts[x.discountID]" class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">{{'Sale'|translate}}<br>{{ discounts[x.discountID] }}% off</div>
+              <!-- Product image -->
+              <div>
+                <img (click)="ProductPrikaz(x)" *ngIf="x.productPictures.length" class="card-img-top" src="{{x.productPictures[0].fileName}}" alt="..." />
+              </div>
+              <!-- Product details -->
+              <div class="card-body p-4">
+                <div class="text-center">
+                  <!-- Product name -->
+                  <h5 class="fw-bolder">{{ x.name }}</h5>
+                  <!-- Product reviews -->
+                  <div class="d-flex justify-content-center small text-warning mb-2">
+                    <div class="bi-star-fill"></div>
+                    <div class="bi-star-fill"></div>
+                    <div class="bi-star-fill"></div>
+                    <div class="bi-star-fill"></div>
+                    <div class="bi-star-fill"></div>
+                  </div>
+                  <!-- Product prices -->
+                  <div class="price-container">
+                    <div class="old-price" *ngIf="x.discountID && discounts[x.discountID]">
+                      <s>{{ x.price }} KM</s>
+                    </div>
+                    <div class="new-price">{{ calculateDiscountedPrice(x.price, x.discountID) }} KM</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="py-5">
+    <pagination-controls (pageChange)="p = $event; cc()"></pagination-controls>
+  </div>
+</section>

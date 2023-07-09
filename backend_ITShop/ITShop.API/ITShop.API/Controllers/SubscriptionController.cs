@@ -62,6 +62,14 @@ namespace ITShop.API.Controllers
                 return BadRequest(message);
             return Ok(message);
         }
-
+        [HttpGet("get-subscriptions-by-id-emp")]
+        [Authorize(Roles = "Zaposlenik")]
+        public async Task<IActionResult> SubscriptionsGetByIdEmpAsMessageAsync(Guid id, CancellationToken cancellationToken)
+        {
+            var message = await _subscriptionService.SubscriptionsGetByIdEmpAsMessageAsync(id, cancellationToken);
+            if (message.IsValid == false)
+                return BadRequest(message);
+            return Ok(message);
+        }
     }
 }

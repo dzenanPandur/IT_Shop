@@ -35,9 +35,9 @@ namespace ITShop.API.Controllers
                 };
                 var paymentIntent = service.Create(createOptions);
 
-                // Here, you can perform any additional business logic or store the payment details in your database
+                var charge_id = paymentIntent.LatestChargeId;
 
-                return Ok(new { paymentIntentId = paymentIntent.Id });
+                return Ok(new { paymentIntentId = paymentIntent.Id, charge_id });
             }
             catch (Exception ex)
             {
@@ -111,6 +111,50 @@ namespace ITShop.API.Controllers
             }
         }
 
+        [HttpPost("refund")]
+        public IActionResult RefundPayment([FromBody] RefundRequestVM refundRequest)
+        {
+            StripeConfiguration.ApiKey = stripeSecretKey;
+
+            try
+            {
+                var service = new RefundService();
+                var refundOptions = new RefundCreateOptions
+                {
+                    PaymentIntent = refundRequest.paymentIntentId
+                };
+                var refund = service.Create(refundOptions);
+
+                // Here, you can perform any additional business logic or update your database with refund details
+
+                return Ok(new { refundId = refund.Id });
+            }
+            catch (Exception ex)
+            {
+                // Handle any errors that occur during refund processing
+                return BadRequest(new { error = ex.Message });
+            }
+        }
+        [HttpGet("receipt/{chargeId}")]
+        public IActionResult GetReceiptUrl(string chargeId)
+        {
+            StripeConfiguration.ApiKey = stripeSecretKey;
+
+            try
+            {
+                var service = new ChargeService();
+                var charge = service.Get(chargeId);
+
+                var receiptUrl = charge.ReceiptUrl;
+
+                return Ok(new { receiptUrl });
+            }
+            catch (Exception ex)
+            {
+                // Handle any errors that occur during retrieval
+                return BadRequest(new { error = ex.Message });
+            }
+        }
 
     }
 

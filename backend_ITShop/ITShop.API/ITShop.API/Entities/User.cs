@@ -16,7 +16,7 @@ namespace ITShop.API.Entities
         public DateTime CreatedDate { get; set; }
         public string? RefreshToken { get; set; }
         public DateTime RefreshTokenExpireDate { get; set; }
-
+        public string? VerificationCode { get; set; }
 
     }
 }

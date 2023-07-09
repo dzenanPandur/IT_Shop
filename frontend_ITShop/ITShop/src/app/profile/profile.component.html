@@ -1,0 +1,11 @@
+<br>
+<h1>Profile settings</h1>
+<div *ngIf="!TFAStatus" style="text-align: center">
+  <h2>Enable 2FA</h2>
+  <button (click)="update2FA(true); ">Enable Two Factor Authentication</button>
+</div>
+<div *ngIf="TFAStatus" style="text-align: center">
+  <h2>Disable 2FA</h2>
+  <button (click)="update2FA(false);">Disable Two Factor Authentication</button>
+</div>
+<br>

@@ -9,7 +9,7 @@
           <div class="card-body p-4">
             <div class="d-flex justify-content-between align-items-center mb-4">
               <p class="lead fw-normal mb-0" style="color: #a8729a;">{{'Receipt'|translate}}</p>
-              <p class="small text-muted mb-0">{{'Receipt voucher'|translate}} : {{order.receipt_url}}</p>
+              <p class="small text-muted mb-0">{{'Receipt voucher'|translate}} : <a href="{{order.receipt_url}}" target="_blank" rel="noopener noreferrer"> Stripe Receipt </a></p>
             </div>
             <div *ngFor="let o of orderItems" class="card shadow-0 border mb-4">
               <div   class="card-body">
@@ -31,7 +31,7 @@
                     <p class="text-muted mb-0 small">Qty: {{o.quantity}}</p>
                   </div>
                   <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                    <p class="text-muted mb-0 small">{{o.totalPrice}} KM</p>
+                    <p  class="text-muted mb-0 small">{{o.totalPrice}} KM</p>
                   </div>
                 </div>
                 <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
@@ -62,10 +62,10 @@
 
             <div class="d-flex justify-content-between pt-2">
               <p class="text-muted mb-0">{{'Order No'|translate}} : {{order.id}}</p>
-              <p class="text-muted mb-0"><span class="fw-bold me-4">{{'Discount'|translate}}</span>0</p>
+              <p class="text-muted mb-0" *ngIf="(this.subscribedUser_data!=null && this.subscribedUser_data.data[0].isSubscribed==true)"><span class="fw-bold me-4" >{{'Membership Discount Included'|translate}}</span> 10%</p>
             </div>
             <div class="d-flex justify-content-between">
-              <p class="text-muted mb-0">{{'Order Date'|translate}} {{order.orderDate}}</p>
+              <p class="text-muted mb-0">{{'Order Date'|translate}} : {{order.orderDate}}</p>
 
             </div>
 

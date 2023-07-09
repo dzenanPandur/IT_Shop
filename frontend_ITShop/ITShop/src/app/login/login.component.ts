@@ -13,6 +13,7 @@ import {AuthData} from "../View models/AuthData";
 })
 export class LoginComponent implements OnInit {
   public authRequest: Auth;
+  public TFAStatus: any;
 
   login(){
 
@@ -35,7 +36,7 @@ export class LoginComponent implements OnInit {
       else if(data.roles.filter(((x:string) => 'Kupac' === x))[0]!==undefined){
         this.router.navigate(['/']).then(()=>window.location.reload());
       }
-     //window.location.reload();
+      //window.location.reload();
     })
   }
   logout() {
@@ -44,6 +45,7 @@ export class LoginComponent implements OnInit {
     //window.location.reload();
     this.router.navigate(['']).then(()=>window.location.reload());
   }
+
 
 
   constructor(
@@ -57,9 +59,21 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
 
-    }
+  }
   cc(){
     console.log(this._cookieService.get('auth'));
     console.log(this.globals.isAuthenticated);
+  }
+
+  check2FA(){
+    this.http.get<AuthData>(this.globals.serverAddress + '/Auth/check2FA?username=' + this.authRequest.username).subscribe(data=> {
+      this.TFAStatus=data;
+      console.log(this.TFAStatus);
+    })
+  }
+
+  generateNewCode(username: string) {
+    this.http.post(this.globals.serverAddress + '/Auth/generate-new-code?username=' + username, null).subscribe(data=> {
+    })
   }
 }

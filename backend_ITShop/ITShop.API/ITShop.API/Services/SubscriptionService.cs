@@ -6,6 +6,7 @@ using ITShop.API.ViewModels.Role;
 using ITShop.API.ViewModels.Subscription;
 using ITShop.API.ViewModels.User;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Azure.Management.ResourceManager.Fluent;
 using Microsoft.EntityFrameworkCore;
 
 namespace ITShop.API.Services
@@ -215,6 +216,53 @@ namespace ITShop.API.Services
                 IsValid = false,
                 Status = ExceptionCode.BadRequest
             };
+        }
+        public async Task<Message> SubscriptionsGetByIdEmpAsMessageAsync(Guid id, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var entity = await _dbContext.Subscriptions.FirstOrDefaultAsync(s => s.UserID == id);
+
+                if (entity == null)
+                {
+                    return new Message
+                    {
+                        IsValid = false,
+                        Info = "Subscription not found",
+                        Status = ExceptionCode.NotFound
+                    };
+                }
+
+                var subscriptions = await _dbContext.Subscriptions.Where(x => x.UserID == id).ToListAsync();
+                var list = new List<SubscriptionGetVM>();
+                foreach (var subscription in subscriptions)
+                {
+                    SubscriptionGetVM newSubscription = new SubscriptionGetVM
+                    {
+                        Id = subscription.Id,
+                        UserId = subscription.UserID,
+                        isSubscribed = subscription.isSubscribed
+
+                    };
+                    list.Add(newSubscription);
+                }
+                return new Message
+                {
+                    IsValid = true,
+                    Info = "Successfully got subscriptions",
+                    Status = ExceptionCode.Success,
+                    Data = list
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Message
+                {
+                    IsValid = false,
+                    Info = ex.Message,
+                    Status = ExceptionCode.BadRequest
+                };
+            }
         }
     }
 }

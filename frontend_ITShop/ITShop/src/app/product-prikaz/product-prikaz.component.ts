@@ -26,7 +26,8 @@ export class ProductPrikazComponent implements OnInit{
   public cartItem: any;
 
   currentSlideIndex: number = 0;
-
+  discount: any;
+  discountAmount: any;
   // ...
 
   prevSlide() {
@@ -67,10 +68,20 @@ export class ProductPrikazComponent implements OnInit{
       .subscribe({
         next: (value: any) => {
           this.product = value.data;
-
+          this.product.discountID = value.data.discountID;
           //this.totalProduct=value.data.length();
           console.log(this.product);
 
+          const discountID = this.product.discountID;
+          if (discountID) {
+            this.httpClient.get(this.globals.serverAddress + '/Discount/' + discountID).subscribe(data => {
+              this.discount = data;
+              this.discountAmount=this.discount.data.discountPercent;
+              if (this.discountAmount) {
+                this.product.discountPercent = this.discountAmount; // Add the discountPercent property to the product
+              }
+            });
+          }
         },
         error: (err: any) => {
           alert("error");
@@ -146,5 +157,12 @@ export class ProductPrikazComponent implements OnInit{
     this.totalPrice=this.product.price*this.quantity;
 
     console.log(this.totalPrice);
+  }
+  calculateDiscountedPrice(price: number, discountPercent: number): number {
+    if (discountPercent) {
+      const discountAmount = price * (discountPercent / 100);
+      return Math.round(price - discountAmount);
+    }
+    return price;
   }
 }

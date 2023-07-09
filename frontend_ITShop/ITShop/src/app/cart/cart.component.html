@@ -20,7 +20,12 @@
       <div class="btn" (click)="brojacplus(x)">+</div>
     </div>
     <div class="prices">
-      <div class="amount">{{x.totalPrice}}KM</div>
+      <div class="price" *ngIf="x.product.discountPercent">
+        <span class="amount">{{ calculateDiscountedPrice(x.product.price, x.product.discountPercent) }} KM</span>
+      </div>
+      <div class="price" *ngIf="!x.product.discountPercent">
+        <span class="amount">{{x.product.price}} KM</span>
+      </div>
 
       <div class="remove" (click)="UkloniIzkorpe(x.id)"><u>{{'Remove from cart'|translate}}</u></div>
     </div>
@@ -29,12 +34,22 @@
 
   <hr>
   <div class="checkout">
+    <div class="Subtotal" *ngIf="(this.subscribedUser_data!=null && this.subscribedUser_data.data[0].isSubscribed==true)  && this.totalItems>0">Total price:
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      {{totalTotalPrice}} KM
+    </div>
+    <div *ngIf="(this.subscribedUser_data!=null && this.subscribedUser_data.data[0].isSubscribed==true)  && this.totalItems>0" class="Subtotal">Membership discount:
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      - {{discountMemberAmount}} KM
+    </div>
     <div class="total">
       <div>
         <div class="Subtotal">{{'Total cost'|translate}}</div>
         <div class="items">{{'Number of units:'|translate}} {{totalItems}}</div>
       </div>
-      <div class="total-amount">{{totalTotalPrice}}KM</div>
+      <div class="total-amount" *ngIf="(this.subscribedUser_data!=null && this.subscribedUser_data.data[0].isSubscribed==true)">{{totalDiscountedPrice}}KM</div>
+      <div class="total-amount" *ngIf="(this.subscribedUser_data==null || this.subscribedUser_data.data[0].isSubscribed==false)">{{totalTotalPrice}}KM</div>
     </div>
 
 

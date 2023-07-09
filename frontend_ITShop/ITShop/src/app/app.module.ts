@@ -46,6 +46,7 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { MyOrderComponent } from './my-order/my-order.component';
 import { MyOrderDetailsComponent } from './my-order-details/my-order-details.component';
 import { AllOrdersComponent } from './all-orders/all-orders.component';
+import { ProfileComponent } from './profile/profile.component';
 
 
 const routes: Routes = [
@@ -62,6 +63,7 @@ const routes: Routes = [
   {path: 'cart', component: CartComponent},
   {path: 'search', component: SearchComponent},
   {path: 'problem', component: ProblemReportComponent},
+  {path: 'profile', component: ProfileComponent},
   {path: 'shop/:category_id/:category', component: ShopComponent},
   {path: '', pathMatch: 'full', component: ShopComponent},
   {path: '**', component: NotFoundComponent},
@@ -92,7 +94,8 @@ const routes: Routes = [
     ProblemReportComponent,
     MyOrderComponent,
     MyOrderDetailsComponent,
-    AllOrdersComponent
+    AllOrdersComponent,
+    ProfileComponent
   ],
     imports: [
         BrowserModule,
