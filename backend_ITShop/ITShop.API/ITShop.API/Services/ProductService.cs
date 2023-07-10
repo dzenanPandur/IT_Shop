@@ -94,7 +94,7 @@ namespace ITShop.API.Services
                 .Include(x => x.Discount)
                 .Include(x => x.ProductCategory)
                 .Include(x => x.ProductInventory.Location)
-                .Include(x => x.ProductProducer).Include(x => x.ProductPictures)
+                .Include(x => x.ProductProducer).Include(x => x.ProductPictures).Include(x=>x.Reviews).ThenInclude(x=>x.User)
 
                 .FirstOrDefaultAsync(s => s.Id == id);
             if (entity is null)

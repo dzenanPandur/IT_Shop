@@ -288,6 +288,39 @@ namespace ITShop.API.Migrations
                     b.ToTable("ProductProducers");
                 });
 
+            modelBuilder.Entity("ITShop.API.Entities.Review", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("ProductID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ReviewDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ReviewText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ReviewValue")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("Reviews");
+                });
+
             modelBuilder.Entity("ITShop.API.Entities.Role", b =>
                 {
                     b.Property<Guid>("Id")
@@ -625,6 +658,21 @@ namespace ITShop.API.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("ITShop.API.Entities.Review", b =>
+                {
+                    b.HasOne("ITShop.API.Entities.Product", null)
+                        .WithMany("Reviews")
+                        .HasForeignKey("ProductID");
+
+                    b.HasOne("ITShop.API.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("ITShop.API.Entities.Subscription", b =>
                 {
                     b.HasOne("ITShop.API.Entities.User", "User")
@@ -695,6 +743,8 @@ namespace ITShop.API.Migrations
             modelBuilder.Entity("ITShop.API.Entities.Product", b =>
                 {
                     b.Navigation("ProductPictures");
+
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

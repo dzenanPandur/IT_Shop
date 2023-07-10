@@ -29,5 +29,6 @@ namespace ITShop.API.Entities
         public ProductInventory? ProductInventory { get; set; }
 
         public ICollection<ProductPicture> ProductPictures { get; set; }
+        public ICollection<Review>?Reviews { get; set; }
     }
 }
