@@ -65,7 +65,7 @@
               <p class="text-muted mb-0" *ngIf="(this.subscribedUser_data!=null && this.subscribedUser_data.data[0].isSubscribed==true)"><span class="fw-bold me-4" >{{'Membership Discount Included'|translate}}</span> 10%</p>
             </div>
             <div class="d-flex justify-content-between">
-              <p class="text-muted mb-0">{{'Order Date'|translate}} : {{order.orderDate}}</p>
+              <p class="text-muted mb-0">{{'Order Date'|translate}} : {{order.orderDate| date:'yyyy-MM-dd'}}</p>
 
             </div>
 

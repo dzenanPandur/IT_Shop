@@ -27,19 +27,51 @@
       <h6>{{'Category'|translate}}: {{ product.productCategory.name }}</h6>
       <h6>{{'Detailed description'|translate}}: {{ product.description }}</h6>
       <h6>{{'Producer'|translate}}: {{ product.productProducer.name }}</h6>
+      <div class="review-rating">
+        <h6>Rating: {{ totalRating }}<ngx-stars [readonly]="true"
+                                                [size]="2" [maxStars]="5" [color]="'#ffd700'" [wholeStars]="false" [initialStars]="totalRating" ></ngx-stars></h6>
+
+      </div>
+
 
       <div class="quantity-group">
         <button (click)="brojacminus()">-</button>
         <input type="text" value="{{ quantity }}">
         <button (click)="brojacplus()">+</button>
-        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+        <div *ngIf="_cookieService.get('auth')!==undefined && roles('Kupac')" class="card-footer p-4 pt-0 border-top-0 bg-transparent">
 
             <a  class="w-100 btn btn-lg btn-outline-primary" (click)="AddToCart()">{{'Add to cart'|translate}}</a>
 
         </div>
+
+      </div>
+      <div >
+        <button   class="write-review-btn" *ngIf="_cookieService.get('auth')!==undefined && roles('Kupac')" (click)="openModal()">Write a review</button>
+      </div>
+
+
+    </div>
+
+  </div>
+  <div class="reviews-container">
+    <button class="toggle-reviews-btn" (click)="toggleReviews()">{{ showReviews ? 'Hide Reviews' : 'Show Reviews' }}</button>
+    <div class="reviews" *ngIf="showReviews">
+      <div class="review" *ngFor="let review of product.reviews">
+        <div class="review-header">
+          <span class="review-user">{{ review.user.userName }}</span>
+          <span class="review-date">{{ review.reviewDate| date:'yyyy-MM-dd' }}</span>
+        </div>
+        <div class="review-body">
+          <p class="review-text">{{ review.reviewText }}</p>
+          <div class="review-rating">
+            <ngx-stars [readonly]="true"
+                       [size]="2" [maxStars]="5" [color]="'#ffd700'" [wholeStars]="true" [initialStars]="review.reviewValue" ></ngx-stars>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+
 </div>
 <div class="toast" id="successToast" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="true">
   <div class="toast-header">
@@ -51,4 +83,50 @@
   <div class="toast-body">
     Product successfully added to cart!
   </div>
+</div>
+
+<div class="toast" id="succesToast" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="true">
+  <div class="toast-header">
+    <strong class="mr-auto">Success</strong>
+    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="toast-body">
+    Review successfully added!
+  </div>
+</div>
+
+<div class="modal fade" id="review" tabindex="-1" aria-hidden="true" aria-labelledby="reviewLabel" [class.show]="showModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reviewLabel" >Review</h5>
+
+        <button (click)="closeModal()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <label for="review">{{'Message'|translate}}</label>
+        <textarea  name="review" placeholder="Write something.." style="height:200px" class="form-control" [(ngModel)]="reviewText" required></textarea>
+        <div class="modal-body">
+        <ngx-stars
+          [readonly]="false"
+          [animation]="true"
+          [animationSpeed]="200"
+          [size]="4"
+          [maxStars]="5"
+          [color]="'#ffd700'"
+          [wholeStars]="true"
+
+          (ratingOutput)="onRatingSet($event)"
+        ></ngx-stars>
+      </div>
+    </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" (click)="createReview();closeModal()" >Submit Review</button>
+
+      </div>
+  </div>
+</div>
 </div>

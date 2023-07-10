@@ -47,6 +47,8 @@ import { MyOrderComponent } from './my-order/my-order.component';
 import { MyOrderDetailsComponent } from './my-order-details/my-order-details.component';
 import { AllOrdersComponent } from './all-orders/all-orders.component';
 import { ProfileComponent } from './profile/profile.component';
+import { NgxStarsModule } from 'ngx-stars';
+import { ReviewModalComponent } from './review-modal/review-modal.component';
 
 
 const routes: Routes = [
@@ -95,7 +97,8 @@ const routes: Routes = [
     MyOrderComponent,
     MyOrderDetailsComponent,
     AllOrdersComponent,
-    ProfileComponent
+    ProfileComponent,
+    ReviewModalComponent
   ],
     imports: [
         BrowserModule,
@@ -113,6 +116,7 @@ const routes: Routes = [
         NgxSliderModule,
         Ng5SliderModule,
         OwlModule,
+        NgxStarsModule,
         CarouselModule.forRoot(),
         TranslateModule.forRoot({
           loader:{

@@ -29,6 +29,7 @@
     "ngx-cookie": "^6.0.1",
     "ngx-owl-carousel": "^2.0.7",
     "ngx-pagination": "^6.0.3",
+    "ngx-stars": "^1.6.5",
     "ngx-toastr": "^14.3.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
