@@ -49,23 +49,25 @@ import { AllOrdersComponent } from './all-orders/all-orders.component';
 import { ProfileComponent } from './profile/profile.component';
 import { NgxStarsModule } from 'ngx-stars';
 import { ReviewModalComponent } from './review-modal/review-modal.component';
+import { EmployeeComponent } from './employee/employee.component';
 
 
 const routes: Routes = [
   {path: 'admin', component: AdminComponent, canActivate: [AdminGuard]},
+  {path: 'employee', component: EmployeeComponent, canActivate: [EmployeeGuard]},
   {path: 'categories', component: CategoryComponent, canActivate: [EmployeeGuard]},
   {path: 'producers', component: ProducersComponent, canActivate: [EmployeeGuard]},
   {path: 'all-orders', component: AllOrdersComponent, canActivate: [EmployeeGuard]},
   {path: 'contact',component: ContactComponent},
-  {path: 'my-order',component: MyOrderComponent},
+  {path: 'my-order',component: MyOrderComponent, canActivate: [AuthGuard]},
   {path: 'products', component: ProductComponent, canActivate: [EmployeeGuard]},
   {path: 'product-pictures/:id', component: ProductPictureComponent, canActivate: [EmployeeGuard]},
   {path: 'product-prikaz/:id', component: ProductPrikazComponent},
-  {path: 'my-order-details/:id', component: MyOrderDetailsComponent},
-  {path: 'cart', component: CartComponent},
+  {path: 'my-order-details/:id', component: MyOrderDetailsComponent, canActivate: [AuthGuard]},
+  {path: 'cart', component: CartComponent, canActivate: [AuthGuard]},
   {path: 'search', component: SearchComponent},
-  {path: 'problem', component: ProblemReportComponent},
-  {path: 'profile', component: ProfileComponent},
+  {path: 'problem', component: ProblemReportComponent, canActivate: [AuthGuard]},
+  {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   {path: 'shop/:category_id/:category', component: ShopComponent},
   {path: '', pathMatch: 'full', component: ShopComponent},
   {path: '**', component: NotFoundComponent},
@@ -98,7 +100,8 @@ const routes: Routes = [
     MyOrderDetailsComponent,
     AllOrdersComponent,
     ProfileComponent,
-    ReviewModalComponent
+    ReviewModalComponent,
+    EmployeeComponent
   ],
     imports: [
         BrowserModule,

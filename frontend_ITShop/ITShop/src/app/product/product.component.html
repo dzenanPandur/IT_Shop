@@ -1,6 +1,20 @@
+<header style="margin-bottom:50px"  class="bg-dark py-5">
+  <div class="container px-4 px-lg-5 my-5">
+    <div  class="text-center text-white">
+      <h1 class="display-4 fw-bolder">{{'Products'|translate}}</h1>
+    </div>
+  </div>
+</header>
 <div class="container">
+  <button style="font-size: 24px" class="btn btn-transparent" [routerLink]="'/employee'">
+    <i class="bi bi-arrow-left "></i><b> Return to Employee page </b>
+  </button><br><br>
   {{'Items per page'|translate}} <select [(ngModel)]="itemsPerPage" (click)="cc()">
-  </select>
+  <option value="6">6</option>
+  <option value="12">12</option>
+  <option value="18">18</option>
+  <option value="24">24</option>
+</select>
 
   <table class="table table-hover">
     <thead>
@@ -22,7 +36,7 @@
     </tbody>
   </table>
 
-  
+
   <button class="form-label btn btn-success" (click)="noviProizvodDugme()">{{'New product'|translate}}</button>
   <button class="form-label btn btn-success" href="#" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal3" style="margin-left: 10px" (click)="setValue()">Create Report</button>
   <div class="mt-8 py-5 flex justify-center align-items-center">

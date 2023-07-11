@@ -57,16 +57,16 @@
     <button class="toggle-reviews-btn" (click)="toggleReviews()">{{ showReviews ? 'Hide Reviews' : 'Show Reviews' }}</button>
     <div class="reviews" *ngIf="showReviews">
       <div class="review" *ngFor="let review of product.reviews">
+        <div class="review-rating">
+          <ngx-stars [readonly]="true"
+                     [size]="1" [maxStars]="5" [color]="'#ffd700'" [wholeStars]="true" [initialStars]="review.reviewValue" ></ngx-stars>
+        </div>
         <div class="review-header">
           <span class="review-user">{{ review.user.userName }}</span>
           <span class="review-date">{{ review.reviewDate| date:'yyyy-MM-dd' }}</span>
         </div>
         <div class="review-body">
           <p class="review-text">{{ review.reviewText }}</p>
-          <div class="review-rating">
-            <ngx-stars [readonly]="true"
-                       [size]="2" [maxStars]="5" [color]="'#ffd700'" [wholeStars]="true" [initialStars]="review.reviewValue" ></ngx-stars>
-          </div>
         </div>
       </div>
     </div>

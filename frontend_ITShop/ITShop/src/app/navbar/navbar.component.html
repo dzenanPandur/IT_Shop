@@ -34,11 +34,11 @@
       </ul>
       <label *ngIf="_cookieService.get('auth')!==undefined"> {{'Welcome'|translate}}, {{fullName.firstName}} {{fullName.lastName}}
         &nbsp;</label>
-      <form  (click)="CartItems()" class="d-flex">
-        <button (click)="cc()" class="btn btn-outline-dark" type="submit">
+      <form *ngIf="_cookieService.get('auth')!==undefined" (click)="CartItems()" class="d-flex">
+        <button *ngIf="roles('Kupac')" (click)="cc()" class="btn btn-outline-dark" type="submit">
           <i class="bi-cart-fill me-1"></i>
           Cart
-          <span  class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+          <span  class="badge bg-dark text-white ms-1 rounded-pill"></span>
         </button>
       </form>
       <app-login></app-login>
@@ -47,22 +47,10 @@
           <i class="far fa-user pr-2" aria-hidden="true"></i>
         </button>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="#">{{'Settings'|translate}}</a>
           <a class="dropdown-item" [routerLink]="'/profile'">{{'Profile'|translate}}</a>
-
-          <a *ngIf="roles('Kupac') && (this.subscribedUser_data==null || this.subscribedUser_data.data[0].isSubscribed==false)"  class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">{{'Premium Membership'|translate}}</a>
-          <a *ngIf="roles('Kupac') && (this.subscribedUser_data!=null && this.subscribedUser_data.data[0].isSubscribed==true)"  class="dropdown-item" href="#" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal2">{{'Cancel Membership'|translate}}</a>
-          <a *ngIf="roles('Kupac')" [routerLink]="'/my-order'" class="dropdown-item" href="#">{{'My orders'|translate}}</a>
-
           <a *ngIf="roles('Kupac')" [routerLink]="'/problem'" class="dropdown-item" href="#">{{'Report a problem'|translate}}</a>
           <a *ngIf="roles('Admin')" [routerLink]="'/admin'" class="dropdown-item" href="#">Admin</a>
-          <div *ngIf="roles('Zaposlenik')" class="dropdown-divider"></div>
-          <a *ngIf="roles('Zaposlenik')" [routerLink]="'/categories'" class="dropdown-item" href="#">{{'Categories'|translate}}</a>
-          <a *ngIf="roles('Zaposlenik')" [routerLink]="'/products'" class="dropdown-item" href="#">{{'Products'|translate}}</a>
-          <a *ngIf="roles('Zaposlenik')" [routerLink]="'/producers'" class="dropdown-item" href="#">{{'Product Producers'|translate}}</a>
-          <a *ngIf="roles('Zaposlenik')" [routerLink]="'/all-orders'" class="dropdown-item" href="#">{{'Orders'|translate}}</a>
-          <a *ngIf="roles('Zaposlenik')" [routerLink]="'/locations'" class="dropdown-item" href="#">{{'Locations'|translate}}</a>
-          <a *ngIf="roles('Zaposlenik')" [routerLink]="'/discounts'" class="dropdown-item" href="#">{{'Discounts'|translate}}</a>
+          <a *ngIf="roles('Zaposlenik')" [routerLink]="'/employee'" class="dropdown-item" href="#">{{'Employee'|translate}}</a>
           <div  class="dropdown-divider"></div>
           <a *ngIf="_cookieService.get('auth')!==undefined" (click)="logout(); cc()"  type="button" class="dropdown-item" >
             Log out
@@ -74,66 +62,6 @@
   </div>
 </nav>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">{{'Pm'|translate}}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="row row-cols-1 row-cols-md-1 mb-3 text-center">
-          <div class="col">
-            <div class="card mb-4 rounded-3 shadow-sm">
-              <div class="card-header py-3">
-                <h4 class="my-0 fw-normal">{{'Monthly Subscription'|translate}}</h4>
-              </div>
-              <div class="card-body">
-                <h1 class="card-title pricing-card-title">5KM<small class="text-body-secondary fw-light">/{{'Mo'|translate}}</small></h1>
-                <ul class="list-unstyled mt-3 mb-4">
-                  <li>{{'Exclusive Discounts'|translate}}</li>
-                  <li>{{'Priority email support'|translate}}</li>
-                  <li>{{'...and more'|translate}}</li>
-                </ul>
-                <form style="margin-top: 35px" (ngSubmit)="onSubmit()">
 
-
-                  <div #cardElement></div>
-                  <br>
-                  <!-- ...other form fields... -->
-                  <button type="submit" class="w-100 btn btn-lg btn-outline-primary">{{'Get the membership now'|translate}}</button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel2">{{'Cancel membership'|translate}}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="row row-cols-1 row-cols-md-1 mb-3 text-center">
-          <div class="col">
-            <div class="card mb-4 rounded-3 shadow-sm">
-              <div class="card-header py-3">
-                <h4 class="my-0 fw-normal">{{'Are you sure?'|translate}}</h4>
-                <br>
-                <button type="button" class="w-100 btn btn-lg btn-outline-primary" (click)="cancelSubscription()">{{'Yes, cancel my membership'|translate}}</button>
-                <button type="button" class="w-100 btn btn-lg btn-outline-primary" data-bs-dismiss="modal" aria-label="Close">{{'No, I want to keep it'|translate}}</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 

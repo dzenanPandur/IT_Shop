@@ -1,0 +1,48 @@
+<header class="bg-dark py-5">
+  <div class="container px-4 px-lg-5 my-5">
+    <div class="text-center text-white">
+      <h1 class="display-4 fw-bolder">{{'Employee page'|translate}}</h1>
+    </div>
+  </div>
+</header>
+<section id="hero" class="hero">
+
+  <div class="icon-boxes position-relative">
+    <div class="container position-relative">
+      <div class="row gy-4 mt-5">
+
+        <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+          <div class="icon-box">
+            <div class="icon"><i class="bi bi-laptop"></i></div>
+            <h4 class="title"><a [routerLink]="'/products'" class="stretched-link">Products</a></h4>
+          </div>
+        </div><!--End Icon Box -->
+
+        <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+          <div class="icon-box">
+            <div class="icon"><i class="bi bi-layout-text-sidebar-reverse"></i></div>
+            <h4 class="title"><a [routerLink]="'/categories'" class="stretched-link">Categories</a></h4>
+          </div>
+        </div><!--End Icon Box -->
+
+        <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+          <div class="icon-box">
+            <div class="icon"><i class="bi bi-apple"></i></div>
+            <h4 class="title"><a [routerLink]="'/producers'" class="stretched-link">Producers</a></h4>
+          </div>
+        </div><!--End Icon Box -->
+
+        <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="500">
+          <div class="icon-box">
+            <div class="icon"><i class="bi bi-bag-check"></i></div>
+            <h4 class="title"><a [routerLink]="'/all-orders'" class="stretched-link">Orders</a></h4>
+          </div>
+        </div><!--End Icon Box -->
+
+      </div>
+    </div>
+  </div>
+  <div style="margin-bottom:200px">
+  </div>
+</section>
+<!-- End Hero Section -->

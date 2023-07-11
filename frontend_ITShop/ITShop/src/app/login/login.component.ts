@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
       }
       else if(data.roles.filter(((x:string) => 'Zaposlenik' === x))[0]!==undefined)
       {
-        this.router.navigate(['/categories']).then(()=>window.location.reload());
+        this.router.navigate(['/employee']).then(()=>window.location.reload());
       }
       else if(data.roles.filter(((x:string) => 'Kupac' === x))[0]!==undefined){
         this.router.navigate(['/']).then(()=>window.location.reload());

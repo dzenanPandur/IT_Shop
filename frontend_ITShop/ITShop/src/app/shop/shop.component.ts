@@ -14,7 +14,6 @@ import { Options, LabelType } from 'ng5-slider';
   styleUrls: ['./shop.component.css']
 })
 export class ShopComponent implements OnInit {
-
   timer: any;
 
   constructor(private httpClient: HttpClient, public globals: Globals, private router: Router, private route: ActivatedRoute) {
@@ -114,11 +113,24 @@ export class ShopComponent implements OnInit {
   categoryId?: number;
   discounts: any[] = [];
   discountAmount: any;
+  averageRatings: any = {};
+
   ngOnInit(): void {
     this.loadData();
     this.loadDataProducers();
   }
 
+  calculateAverageRating(): void {
+    for (let product of this.tableData) {
+      if (product.reviews && product.reviews.length > 0) {
+        const totalValue = product.reviews.reduce((sum: any, review: any) => sum + review.reviewValue, 0);
+        const averageRating = totalValue / product.reviews.length;
+        this.averageRatings[product.id] = averageRating;
+      } else {
+        this.averageRatings[product.id] = "No reviews";
+      }
+    }
+  }
 
 
   filterProizvode(){
@@ -174,10 +186,12 @@ export class ShopComponent implements OnInit {
             this.itemsPerPage=this.totalItems;
             this.loadData();
           }*/
+
           this.tableData = value.data.dataItems;
 
           this.totalItems = value.data.totalCount;
           this.getDiscounts();
+          this.calculateAverageRating();
           console.log(this.tableData);
           console.log(this.totalItems);
 

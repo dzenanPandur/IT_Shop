@@ -44,7 +44,7 @@ namespace ITShop.API.Services
                 .Where(x => vm.PriceMax == null || x.Price <= vm.PriceMax)
                 .Where(x => vm.CategoryID == null || x.CategoryID == vm.CategoryID)
                 .Where(x => vm.ProducerIDs == null || (x.ProducerID != null && vm.ProducerIDs.Contains((int)x.ProducerID)))
-                .Include(x => x.ProductPictures)
+                .Include(x => x.ProductPictures).Include(x => x.Reviews)
 
                 .OrderByDescending(s => s.Id)
                 .AsQueryable();

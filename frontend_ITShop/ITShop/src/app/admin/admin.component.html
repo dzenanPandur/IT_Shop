@@ -1,5 +1,11 @@
+<header style="margin-bottom:50px"  class="bg-dark py-5">
+  <div class="container px-4 px-lg-5 my-5">
+    <div  class="text-center text-white">
+      <h1 class="display-4 fw-bolder">{{'Users'|translate}}</h1>
+    </div>
+  </div>
+</header>
 <div class="container">
-  <h2>Users</h2>
   <table class="table table-hover">
     <thead>
     <tr>
@@ -17,11 +23,21 @@
         </select>
       </td>
       <td>
-        <button class="btn btn-primary" (click)="changeRole(x.role[0].roleId, x.id)">{{'Change role'|translate}}</button>
+        <button class="btn btn-primary" (click)="changeRole(x.role[0].roleId, x.id)">Change role</button>
       </td>
     </tr>
     </tbody>
   </table>
+
+  <button class="form-label btn btn-success" href="#" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal4" (click)="setValue()">Create Report</button>
+
+  <div class="pagination-container d-flex justify-content-center" style="margin-bottom: 20px;">
+    <button style="margin-right: 10px" class="btn btn-primary" (click)="goToPreviousPage()" [disabled]="currentPage === 1">Previous</button>
+    <ng-container *ngFor="let page of allPages">
+      <button style="margin: 2px" class="btn btn-primary" [class.btn-selected]="currentPage === page" (click)="goToPage(page)">{{ page }}</button>
+    </ng-container>
+    <button style="margin-left: 10px" class="btn btn-primary" (click)="goToNextPage()" [disabled]="currentPage === totalPages">Next</button>
+  </div>
 
 </div>
 <div class="modal fade" id="exampleModal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -76,7 +92,3 @@
     </div>
   </div>
 </div>
-
-
-
-

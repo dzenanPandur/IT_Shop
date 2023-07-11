@@ -1,30 +1,40 @@
+<header style="margin-bottom:50px"  class="bg-dark py-5">
+  <div class="container px-4 px-lg-5 my-5">
+    <div  class="text-center text-white">
+      <h1 class="display-4 fw-bolder">{{'Categories'|translate}}</h1>
+    </div>
+  </div>
+</header>
 <div class="container">
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>{{'Name'|translate}}</th>
-                <th>{{'Action'|translate}}</th>
-            </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let x of tableData">
-            <td>{{x.name}}</td>
-            <td>
-                <button class="btn btn-danger" (click)="izbrisi(x.id)">{{'Delete'|translate}}</button>&nbsp;
-                <button class="btn btn-primary" (click)="showModal=true; odabrani=x">{{'Edit'|translate}}</button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+  <button style="font-size: 24px" class="btn btn-transparent" [routerLink]="'/employee'">
+    <i class="bi bi-arrow-left "></i><b> Return to Employee page </b>
+  </button><br><br>
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th>{{'Name'|translate}}</th>
+      <th>{{'Action'|translate}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let x of tableData">
+      <td>{{x.name}}</td>
+      <td>
+        <button class="btn btn-danger" (click)="izbrisi(x.id)">{{'Delete'|translate}}</button>&nbsp;
+        <button class="btn btn-primary" (click)="showModal=true; odabrani=x">{{'Edit'|translate}}</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
 
-    <button class="form-label btn btn-success" (click)="showModal=true; odabrani={}">{{'New category'|translate}}</button>
+  <button class="form-label btn btn-success" (click)="showModal=true; odabrani={}">{{'New category'|translate}}</button>
 </div>
 
 <app-category-snimi
-*ngIf="showModal"
-(closeModal)="showModal = false"
-(reloadData)="loadData()"
-[odabrani]="odabrani"
+  *ngIf="showModal"
+  (closeModal)="showModal = false"
+  (reloadData)="loadData()"
+  [odabrani]="odabrani"
 ></app-category-snimi>
 <!--<app-product-snimi-->
 <!--  (loadCategories)="loadData()"-->

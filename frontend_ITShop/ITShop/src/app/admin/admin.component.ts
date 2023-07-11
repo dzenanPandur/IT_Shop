@@ -13,7 +13,7 @@ export class AdminComponent implements OnInit {
   tableData?: UserGetVM[];
   selectData?: UserRoleGetVM[];
   currentPage = 1;
-  itemsPerPage = 10;
+  itemsPerPage = 7;
   totalPages = 0;
   visibleTableData: UserGetVM[] = [];
   allPages: number[] = [];

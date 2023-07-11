@@ -117,7 +117,8 @@
   margin-top:40px;
 }
 .reviews-container {
-  margin-top: 20px;
+  width: 50%;
+  margin: 20px auto 0;
 }
 
 .toggle-reviews-btn {
@@ -129,6 +130,7 @@
 
 .reviews {
   margin-top: 10px;
+
 }
 
 .review {
