@@ -6,6 +6,8 @@
   </div>
 </header>
 <div class="container">
+  <div *ngIf="errorResponse" class="error-message" style="color: red">{{ errorResponse.error.info }}</div>
+  <div *ngIf="successResponse" class="error-message" style="color: green">{{ successResponse.info }}</div>
   <table class="table table-hover">
     <thead>
     <tr>
@@ -87,7 +89,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Close</button>
-        <button type="button" class="btn btn-primary" (click)="generateReport()">Generate report</button>
+        <button type="button" class="btn btn-primary" (click)="generateReport()" [disabled]="isButtonDisabled">Generate report</button>
       </div>
     </div>
   </div>

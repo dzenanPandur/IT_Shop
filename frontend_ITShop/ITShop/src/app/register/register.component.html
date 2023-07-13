@@ -66,8 +66,8 @@
                 <option value="2">{{'Female'|translate}}</option>
               </select>
             </div>
-
-            <button class="btn btn-light mt-3"(click)="register()">{{'Register'|translate}}</button>
+            <div *ngIf="errorResponse && errorResponse.error.info != 'User security stamp cannot be null.'" class="error-message" style="color: red">{{ errorResponse.error.info }}</div>
+            <button class="btn btn-light mt-3"(click)="register()" [disabled]="isButtonDisabled">{{'Register'|translate}}</button>
             <p>{{'Already have an account?'|translate}} <a data-bs-target="#ModalForm" data-bs-toggle="modal">{{'Back to login'|translate}}</a></p>
           </form>
         </div>

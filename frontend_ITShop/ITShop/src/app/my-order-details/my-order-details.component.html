@@ -62,7 +62,7 @@
 
             <div class="d-flex justify-content-between pt-2">
               <p class="text-muted mb-0">{{'Order No'|translate}} : {{order.id}}</p>
-              <p class="text-muted mb-0" *ngIf="(this.subscribedUser_data!=null && this.subscribedUser_data.data[0].isSubscribed==true)"><span class="fw-bold me-4" >{{'Membership Discount Included'|translate}}</span> 10%</p>
+              <p class="text-muted mb-0" *ngIf="(order.isSubscribed && true)"><span class="fw-bold me-4" >{{'Membership Discount Included'|translate}}</span> 10%</p>
             </div>
             <div class="d-flex justify-content-between">
               <p class="text-muted mb-0">{{'Order Date'|translate}} : {{order.orderDate| date:'yyyy-MM-dd'}}</p>
@@ -70,7 +70,7 @@
             </div>
 
             <div class="d-flex justify-content-between mb-5">
-              <p class="text-muted mb-0">{{'Payment intent id'|translate}} : {{order.payment_intent_id}}</p>
+              <p class="text-muted mb-0"></p>
               <p class="text-muted mb-0"><span class="fw-bold me-4">{{'Delivery Charges'|translate}}</span> Free</p>
             </div>
           </div>

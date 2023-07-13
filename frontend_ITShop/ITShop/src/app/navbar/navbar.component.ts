@@ -42,9 +42,6 @@ export class NavbarComponent implements OnInit {
       userID: this.fullName.userId,
       isSubscribed: true
     }
-    //this.getSubscriptionById()
-    console.log("This is the status of the subscription: " + this.is_subscribed);
-    console.log("User subscription: "+ this.subscribedUser_data)
   }
 
   loadData() {
@@ -54,7 +51,8 @@ export class NavbarComponent implements OnInit {
           this.tableData = value.data;
           console.log(this.tableData);
           //if(this.subscribedUser_data.data != null)
-          this.getSubscriptionById()
+          if(this.roles("Kupac"))
+            this.getSubscriptionById()
         },
         error: (err: any) => {
           alert("error");

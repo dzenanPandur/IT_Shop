@@ -1,5 +1,5 @@
-import {Component, OnInit, ElementRef, ViewChild, Input,Output} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {Globals} from "../globals";
 import {ActivatedRoute, Router} from "@angular/router";
 import {
@@ -32,7 +32,9 @@ export class CartComponent implements OnInit {
   charge_id: string="";
   public fullName: any;
   subscribedUser_data: any;
+  orderSub: boolean = false;
   stripeAmount: number = 0;
+  errorResponse: HttpErrorResponse | null = null;
   @ViewChild('cardElement') cardElementRef!: ElementRef;
   constructor(private httpClient: HttpClient, public globals: Globals, private router: Router, private route: ActivatedRoute, public _cookieService: CookieService) {
 
@@ -87,6 +89,7 @@ export class CartComponent implements OnInit {
   discountAmount: any;
   discountMemberAmount: any;
   totalDiscountedPrice: any;
+  isButtonDisabled: boolean=false;
   openModal() {
     this.showModal = true;
   }
@@ -192,25 +195,24 @@ export class CartComponent implements OnInit {
 
   }
   onSubmit() {
-
+    this.isButtonDisabled = true;
     this.stripe.createPaymentMethod({
       type: 'card',
       card: this.cardElement
     })
       .then((result:any) => {
         if (result.error) {
+          (error: HttpErrorResponse) => {
+            this.errorResponse = error.error;
+          }//ovo sam ja dodao maloprije za ovaj error "your card is declined"
           // Error occurred while creating payment method
-          console.error(result.error.message);
+         // console.error(result.error.message);
+          this.isButtonDisabled=false;
         } else {
           // Payment method created successfully
           const paymentMethodId = result.paymentMethod.id;
 
-          // Use the paymentMethodId for further processing
           console.log('Payment method created. Payment Method ID:', paymentMethodId);
-
-
-
-          // Send the paymentMethodId to your server-side API for additional processing
           this.processPaymentOnServer(paymentMethodId);
         }
       });
@@ -236,11 +238,11 @@ export class CartComponent implements OnInit {
             (response: Receipt |Object)=>{
               const receipt_url = (response as Receipt).receiptUrl;
               this.CreateOrder(receipt_url, this.paymentIntentId);
-              console.log(receipt_url);
-            }
-          )
-          console.log('Payment Intent ID:', this.paymentIntentId);
-          console.log('Charge ID:', this.charge_id);
+              //console.log(receipt_url);
+            }, error => console.log( error)
+          );
+          //console.log('Payment Intent ID:', this.paymentIntentId);
+          //console.log('Charge ID:', this.charge_id);
 
           // Remove items from cart
           this.tableData.forEach((item: { id: number; }) => {
@@ -252,16 +254,18 @@ export class CartComponent implements OnInit {
                   window.location.reload();
                 },
                 error: (err: any) => {
-                  alert("error");
-                  console.log(err);
+                  //alert("error");
+                  //console.log(err);
                 }
               });
           });
-          console.log(response);
+          //console.log(response);
         },
-        error => {
-          // Handle any errors that occur during payment processing
-          console.error(error);
+        (error: HttpErrorResponse) => {
+          this.isButtonDisabled=false;
+          this.errorResponse = error.error;
+          //console.log("Ovo je error response" + this.errorResponse)
+          //console.error(error);
         }
       );
   }
@@ -324,12 +328,15 @@ export class CartComponent implements OnInit {
 
     const isSubscribed = this.subscribedUser_data && this.subscribedUser_data.data[0].isSubscribed;
     const membershipDiscount = isSubscribed ? 0.1 : 0; // 10% discount if subscribed, otherwise 0% discount
+    if(isSubscribed)
+      this.orderSub = true;
 
     this.order = {
 
       quantity: this.totalItems,
       totalTotalPrice: Math.round(this.totalTotalPrice-(this.totalTotalPrice*membershipDiscount)),
       payment_intent_id: payment_intend_id,
+      isSubscribed: this.orderSub,
       shippingAdress: this.shippingAdress,
       receipt_url: receipt_url,
       orderItems: this.tableData.map((item: any) => {

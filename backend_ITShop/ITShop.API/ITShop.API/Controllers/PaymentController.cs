@@ -45,7 +45,6 @@ namespace ITShop.API.Controllers
                 return BadRequest(new { error = ex.Message });
             }
         }
-
         [HttpPost("create-customer")]
         public IActionResult CreateCustomer([FromBody] PaymentMethodRequestVM requestDto)
         {

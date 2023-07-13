@@ -74,6 +74,7 @@
               <input id="txtPassword" type="password" name="password" class="form-control"
                      [(ngModel)]="authRequest.password" required>
             </div>
+            <div *ngIf="errorResponse" class="error-message" style="color: red">{{ errorResponse.error.info }}</div>
             <div *ngIf="TFAStatus"  class="mb-3">
               <label for="txtVerificationCode" class="form-label">Verification code</label>
               <input id="txtVerificationCode" type="text" name="verificationCode" class="form-control"

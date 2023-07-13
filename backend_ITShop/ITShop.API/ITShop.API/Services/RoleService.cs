@@ -160,22 +160,34 @@ namespace ITShop.API.Services
                 {
                     var record = await _dbContext.UserRoles.Where(x=>x.UserId == userRoleVM.UserId).FirstOrDefaultAsync(cancellationToken);
 
-                     _dbContext.UserRoles.Remove(record);
-
-                    var newRole = new IdentityUserRole<Guid>()
+                    if (userRoleVM.RoleId == record.RoleId)
                     {
-                        RoleId = userRoleVM.RoleId,
-                        UserId = userRoleVM.UserId,
-                    };
-                    await _dbContext.AddAsync(newRole,cancellationToken);
-                    await _dbContext.SaveChangesAsync(cancellationToken);
-
-                    return new Message
+                        return new Message
+                        {
+                            Info = "Korisnik već ima ovu ulogu!",
+                            IsValid = false,
+                            Status = ExceptionCode.BadRequest
+                        };
+                    }
+                    else
                     {
-                        IsValid = true,
-                        Info = "Successfuly updated role",
-                        Status = ExceptionCode.Success
-                    };
+                        _dbContext.UserRoles.Remove(record);
+
+                        var newRole = new IdentityUserRole<Guid>()
+                        {
+                            RoleId = userRoleVM.RoleId,
+                            UserId = userRoleVM.UserId,
+                        };
+                        await _dbContext.AddAsync(newRole, cancellationToken);
+                        await _dbContext.SaveChangesAsync(cancellationToken);
+
+                        return new Message
+                        {
+                            IsValid = true,
+                            Info = "Successfuly updated role",
+                            Status = ExceptionCode.Success
+                        };
+                    }
                 }
                 catch (Exception ex)
                 {

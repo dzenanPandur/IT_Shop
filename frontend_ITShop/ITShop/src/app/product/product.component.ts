@@ -45,6 +45,7 @@ export class ProductComponent implements OnInit {
     this.loadProducers();
     this.loadCategories();
   }//
+  isButtonDisabled: boolean = false;
 
 
 
@@ -100,6 +101,7 @@ export class ProductComponent implements OnInit {
   }
 
   generateReport() {
+    this.isButtonDisabled=true;
     // Define the report parameters
     const parameters = {
       category: this.category,
@@ -125,12 +127,13 @@ export class ProductComponent implements OnInit {
             link.click();
           else
             window.open(url, '_blank');
-
+          this.isButtonDisabled=false;
           // Clean up the Blob URL after the download
           window.URL.revokeObjectURL(url);
         }, error => {
           console.log('An error occurred while generating the report:', error);
           // Handle the error as needed
+          this.isButtonDisabled=false;
         });
     }
   }

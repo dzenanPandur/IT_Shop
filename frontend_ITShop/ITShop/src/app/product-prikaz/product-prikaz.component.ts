@@ -69,6 +69,7 @@ export class ProductPrikazComponent implements OnInit{
 
   ratingDisplay:any;
   totalRating: any;
+  isButtonDisabled: boolean=false;
 
   calculateAverageRating() {
     if (this.product && this.product.reviews && this.product.reviews.length > 0) {
@@ -142,7 +143,10 @@ export class ProductPrikazComponent implements OnInit{
   }
 
   AddToCart() {
-
+    this.isButtonDisabled = true;
+    setTimeout(() => {
+      this.isButtonDisabled = false;
+    }, 1000);
     this.cartItem = {
       id: 0,
       quantity: this.quantity,

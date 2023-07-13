@@ -40,7 +40,7 @@
         <button (click)="brojacplus()">+</button>
         <div *ngIf="_cookieService.get('auth')!==undefined && roles('Kupac')" class="card-footer p-4 pt-0 border-top-0 bg-transparent">
 
-            <a  class="w-100 btn btn-lg btn-outline-primary" (click)="AddToCart()">{{'Add to cart'|translate}}</a>
+            <a  class="w-100 btn btn-lg btn-outline-primary" (click)="AddToCart()" [class.disabled]="isButtonDisabled" >{{'Add to cart'|translate}}</a>
 
         </div>
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserGetVM } from "../_models/UserGetVM";
-import { HttpClient } from "@angular/common/http";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import { Globals } from "../globals";
 import { UserRoleGetVM } from "../_models/UserRoleGetVM";
 
@@ -23,6 +23,9 @@ export class AdminComponent implements OnInit {
   report_name: string="";
   fromDate: Date;
   toDate: Date;
+  isButtonDisabled: boolean=false;
+  successResponse : any;
+  errorResponse: HttpErrorResponse | null = null;
 
   constructor(public http: HttpClient, public globals: Globals) {
     this.fromDate = new Date("2020-06-30T17:06:50.930Z");
@@ -71,8 +74,19 @@ export class AdminComponent implements OnInit {
       userId: userId
     };
     this.http.put(this.globals.serverAddress + '/Role/update-role', request).subscribe(data => {
+      this.successResponse = data;
+      setTimeout(() => {
+        this.successResponse = null;
+      }, 2000);
       this.loadUserData();
-    });
+    },
+      (error: HttpErrorResponse) => {
+        this.errorResponse = error;
+        setTimeout(() => {
+          this.errorResponse = null;
+        }, 2000);
+      }
+    )
   }
 
   updateTableData() {
@@ -107,6 +121,9 @@ export class AdminComponent implements OnInit {
   }
 
   generateReport() {
+    this.isButtonDisabled = true;
+
+
     // Define the report parameters
     const parameters = {
       role: this.role,
@@ -128,12 +145,13 @@ export class AdminComponent implements OnInit {
           link.click();
         else
           window.open(url, '_blank');
-
+        this.isButtonDisabled = false;
         // Clean up the Blob URL after the download
         window.URL.revokeObjectURL(url);
       }, error => {
         console.log('An error occurred while generating the report:', error);
         // Handle the error as needed
+        this.isButtonDisabled=false;
       });
   }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {Globals} from "../globals";
 import {RegisterUser} from "../View models/RegisterUser";
 import {AuthData} from "../View models/AuthData";
@@ -14,16 +14,22 @@ import {CookieService} from "ngx-cookie";
 export class RegisterComponent implements OnInit {
   isPasswordHidden: boolean = true;
   public registerRequest: RegisterUser;
-
+  isButtonDisabled: boolean=false;
+  errorResponse: HttpErrorResponse | null = null;
   register(){
+    this.isButtonDisabled = true;
     this.http.post<any>(this.globals.serverAddress + '/User', this.registerRequest).subscribe(data=>{
       console.log(data);
 
       this.login(this.registerRequest.userName, this.registerRequest.password, "")
       console.log(this.registerRequest.userName, this.registerRequest.password)
 
-
-    })
+    },
+      (error: HttpErrorResponse) => {
+        this.isButtonDisabled = false;
+        this.errorResponse = error;
+      }
+    )
   }
   login(username: string, password: string, verificationCode: string){
 

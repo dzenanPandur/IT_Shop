@@ -21,7 +21,6 @@ export class MyOrderDetailsComponent implements OnInit {
   public user:any;
   order:any;
   orderItems:any;
-  subscribedUser_data: any;
 
   ngOnInit(): void {
     this.user=this._cookieService.getObject('auth');
@@ -39,16 +38,6 @@ export class MyOrderDetailsComponent implements OnInit {
         next: (value: any) => {
           this.order = value.data;
           this.orderItems=this.order.orderItems;
-          this.httpClient.get(this.globals.serverAddress + "/Subscription/get-subscriptions-by-id-emp?id=" + this.order.userID)
-            .subscribe(data=>{
-              this.subscribedUser_data=data;
-              console.log(this.subscribedUser_data);
-            })
-          this.httpClient.get(this.globals.serverAddress + "/Subscription/get-subscriptions-by-id?id=" + this.order.userID)
-            .subscribe(data=>{
-              this.subscribedUser_data=data;
-              console.log(this.subscribedUser_data);
-            })
           //this.totalProduct=value.data.length();
           console.log(this.order);
           console.log(this.orderItems);

@@ -35,7 +35,7 @@ namespace ITShop.API.Services
                 if (duplicateEmail && duplicateUserName)
                 {
                     status = ExceptionCode.BadRequest;
-                    throw new Exception($"Korisnik sa e-mailom: '{userCreateVM.Email}' već postoji!#Korisnik sa username:'{userCreateVM.UserName}' već postoji");
+                    throw new Exception($"Korisnik sa e-mailom: '{userCreateVM.Email}' već postoji!" + Environment.NewLine + $"Korisnik sa username: '{userCreateVM.UserName}' već postoji!");
                 }
 
                 if (duplicateEmail)

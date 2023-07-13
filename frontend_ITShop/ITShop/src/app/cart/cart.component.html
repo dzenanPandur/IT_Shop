@@ -39,9 +39,9 @@
       <p class="text-muted mb-0"><span class="fw-bold me-4">{{totalTotalPrice}} KM</span></p>
     </div>
 
-    <div class="d-flex justify-content-between pt-2">
+    <div class="d-flex justify-content-between pt-2" *ngIf="(this.subscribedUser_data!=null && this.subscribedUser_data.data[0].isSubscribed==true)  && this.totalItems>0">
       <p class="fw-bold mb-0">{{'Membership discount:'|translate}}</p>
-      <p class="text-muted mb-0" *ngIf="(this.subscribedUser_data!=null && this.subscribedUser_data.data[0].isSubscribed==true)  && this.totalItems>0"><span class="fw-bold me-4" >- {{discountMemberAmount}} KM</span></p>
+      <p class="text-muted mb-0" ><span class="fw-bold me-4" >- {{discountMemberAmount}} KM</span></p>
     </div>
 
     <div class="total">
@@ -69,8 +69,11 @@
           <form style="margin-top: 35px" (ngSubmit)="onSubmit()">
             <div #cardElement></div>
             <br>
+            <div *ngIf="errorResponse" class="error-message" style="color: red">{{ errorResponse.error }}</div>
+            <br>
+
             <!-- ...other form fields... -->
-            <button  type="submit" >{{'Submit Payment '|translate}}</button>
+            <button  type="submit" [disabled]="isButtonDisabled" >{{'Submit Payment '|translate}}</button>
           </form>
         </div>
       </div>

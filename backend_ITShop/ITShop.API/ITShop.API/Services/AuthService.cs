@@ -85,7 +85,7 @@ namespace ITShop.API.Services
             {
                 return new Message
                 {
-                    Info = "Forbidden",
+                    Info = "Incorrect username or password!",
                     IsValid = false,
                     Status = ExceptionCode.Forbidden
                 };
@@ -164,7 +164,7 @@ namespace ITShop.API.Services
 
             return new Message
             {
-                Info = "Forbidden",
+                Info = "Incorrect username or password!",
                 IsValid = false,
                 Status = ExceptionCode.Forbidden
             };

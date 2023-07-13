@@ -25,6 +25,7 @@ export class AllOrdersComponent implements OnInit {
   report_name: string="";
   fromDate: Date;
   toDate: Date;
+  isButtonDisabled: boolean=false;
   openModal() {
     this.showModal = true;
   }
@@ -67,7 +68,7 @@ export class AllOrdersComponent implements OnInit {
   }
 
   generateReport() {
-    // Define the report parameters
+    this.isButtonDisabled=true;
     const parameters = {
 
       minPrice: this.minPrice,
@@ -93,12 +94,13 @@ export class AllOrdersComponent implements OnInit {
             link.click();
           else
             window.open(url, '_blank');
-
+          this.isButtonDisabled=false;
           // Clean up the Blob URL after the download
           window.URL.revokeObjectURL(url);
         }, error => {
           console.log('An error occurred while generating the report:', error);
           // Handle the error as needed
+          this.isButtonDisabled=false;
         });
     }
   }

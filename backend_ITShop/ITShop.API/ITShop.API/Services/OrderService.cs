@@ -39,6 +39,7 @@ namespace ITShop.API.Services
                     UserID = entity.UserID,
                     Payment_intent_id = entity.Payment_intent_id,
                     Receipt_url = entity.Receipt_url,
+                    isSubscribed = entity.isSubscribed,
                     TotalTotalPrice = entity.TotalTotalPrice,
                     Quantity = entity.Quantity,
                     ShippingAdress = entity.ShippingAdress,
@@ -82,6 +83,7 @@ namespace ITShop.API.Services
                     UserID = entity.UserID,
                     Payment_intent_id = entity.Payment_intent_id,
                     Receipt_url = entity.Receipt_url,
+                    isSubscribed = entity.isSubscribed,
                     TotalTotalPrice = entity.TotalTotalPrice,
                     Quantity = entity.Quantity,
                     ShippingAdress = entity.ShippingAdress,
@@ -120,6 +122,7 @@ namespace ITShop.API.Services
                 UserID = entity.UserID,
                 Payment_intent_id = entity.Payment_intent_id,
                 Receipt_url = entity.Receipt_url,
+                isSubscribed = entity.isSubscribed,
                 TotalTotalPrice = entity.TotalTotalPrice,
                 Quantity = entity.Quantity,
                 ShippingAdress = entity.ShippingAdress,
@@ -204,6 +207,7 @@ namespace ITShop.API.Services
             entity.UserID = loggedUserId;
             entity.Payment_intent_id = x.Payment_intent_id;
             entity.Receipt_url = x.Receipt_url;
+            entity.isSubscribed = x.isSubscribed;
             entity.TotalTotalPrice = x.TotalTotalPrice;
             entity.Quantity = x.Quantity;
             entity.ShippingAdress = x.ShippingAdress;
@@ -219,6 +223,7 @@ namespace ITShop.API.Services
                 UserID = entity.UserID,
                 Payment_intent_id = entity.Payment_intent_id,
                 Receipt_url = entity.Receipt_url,
+                isSubscribed = entity.isSubscribed,
                 TotalTotalPrice = entity.TotalTotalPrice,
                 Quantity = entity.Quantity,
                 ShippingAdress = entity.ShippingAdress,

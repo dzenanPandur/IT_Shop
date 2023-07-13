@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Auth} from "../View models/Auth";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {Globals} from "../globals";
 import {Router} from "@angular/router";
 import { CookieService } from 'ngx-cookie';
@@ -14,6 +14,8 @@ import {AuthData} from "../View models/AuthData";
 export class LoginComponent implements OnInit {
   public authRequest: Auth;
   public TFAStatus: any;
+
+  errorResponse: HttpErrorResponse | null = null;
 
   login(){
 
@@ -37,7 +39,12 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/']).then(()=>window.location.reload());
       }
       //window.location.reload();
-    })
+    },
+      (error: HttpErrorResponse) => {
+        this.errorResponse = error;
+
+    }
+    )
   }
   logout() {
     this._cookieService.remove('auth');

@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {Globals} from "../globals";
 import {Router} from "@angular/router";
 import {CookieService} from "ngx-cookie";
@@ -30,6 +30,8 @@ export class ProfileComponent implements OnInit {
   elements!: StripeElements;
   cardElement!: StripeCardElement;
   @ViewChild('cardElement') cardElementRef!: ElementRef;
+  isButtonDisabled: boolean=false;
+  errorResponse: HttpErrorResponse | null = null;
   constructor(
     public globals: Globals,
     public _cookieService: CookieService,
@@ -111,16 +113,25 @@ export class ProfileComponent implements OnInit {
     this.httpClient.post(this.globals.serverAddress + "/Subscription/create-subscription", this.loggedUser )
       .subscribe(data=>{
         console.log(data);
-        window.location.reload();})
-
+        window.location.reload();},
+        (error: HttpErrorResponse) => {
+          this.isButtonDisabled = false;
+          this.errorResponse = error;
+        }
+      )
   }
   onSubmit() {
+    this.isButtonDisabled = true;
+
     this.stripe.createPaymentMethod({
       type: 'card',
       card: this.cardElement
     }).then((result: any) => {
       if (result.error) {
-        console.error(result.error.message);
+        (error: HttpErrorResponse) => {
+          this.isButtonDisabled = false;
+          this.errorResponse = error;
+        }
       } else {
         const paymentMethodId = result.paymentMethod.id;
         console.log('Payment method created. Payment Method ID:', paymentMethodId);
@@ -141,8 +152,9 @@ export class ProfileComponent implements OnInit {
           this.customerId = response['customerId']; // Store the customer ID
           this.createSubscription(paymentMethodId);
         },
-        error => {
-          console.error(error);
+        (error: HttpErrorResponse) => {
+          this.isButtonDisabled = false;
+          this.errorResponse = error;
         }
       );
   }
@@ -166,23 +178,39 @@ export class ProfileComponent implements OnInit {
             this.updateSubscription()
 
         },
-        error => {
-          console.error(error);
+        (error: HttpErrorResponse) => {
+          this.isButtonDisabled = false;
+          this.errorResponse = error;
         }
       );
   }
 
   cancelSubscription() {
+    this.isButtonDisabled = true;
+    setTimeout(() => {
+      this.isButtonDisabled = false;
+    }, 5000);
     this.httpClient.put(this.globals.serverAddress + "/Subscription/update-subscription", {userID: this.fullName.userId, isSubscribed: false} )
       .subscribe(data=>{
         console.log(data);
-        window.location.reload();})
+        window.location.reload();},
+        (error: HttpErrorResponse) => {
+          this.isButtonDisabled = false;
+          this.errorResponse = error;
+        }
+      )
   }
+
   updateSubscription() {
     this.httpClient.put(this.globals.serverAddress + "/Subscription/update-subscription", {userID: this.fullName.userId, isSubscribed: true} )
       .subscribe(data=>{
         console.log(data);
-        window.location.reload();})
+        window.location.reload();},
+        (error: HttpErrorResponse) => {
+          this.isButtonDisabled = false;
+          this.errorResponse = error;
+        }
+      )
   }
   roles(role: string): boolean{
     return this.globals.authData.roles.filter(((x:string) => role === x))[0] !== undefined;
