@@ -48,8 +48,11 @@ import { MyOrderDetailsComponent } from './my-order-details/my-order-details.com
 import { AllOrdersComponent } from './all-orders/all-orders.component';
 import { ProfileComponent } from './profile/profile.component';
 import { NgxStarsModule } from 'ngx-stars';
-import { ReviewModalComponent } from './review-modal/review-modal.component';
 import { EmployeeComponent } from './employee/employee.component';
+import { AboutUsComponent } from './about-us/about-us.component';
+
+
+
 
 
 const routes: Routes = [
@@ -59,6 +62,7 @@ const routes: Routes = [
   {path: 'producers', component: ProducersComponent, canActivate: [EmployeeGuard]},
   {path: 'all-orders', component: AllOrdersComponent, canActivate: [EmployeeGuard]},
   {path: 'contact',component: ContactComponent},
+  {path: 'about-us',component: AboutUsComponent},
   {path: 'my-order',component: MyOrderComponent, canActivate: [AuthGuard]},
   {path: 'products', component: ProductComponent, canActivate: [EmployeeGuard]},
   {path: 'product-pictures/:id', component: ProductPictureComponent, canActivate: [EmployeeGuard]},
@@ -66,6 +70,9 @@ const routes: Routes = [
   {path: 'my-order-details/:id', component: MyOrderDetailsComponent, canActivate: [AuthGuard]},
   {path: 'cart', component: CartComponent, canActivate: [AuthGuard]},
   {path: 'search', component: SearchComponent},
+
+
+
   {path: 'problem', component: ProblemReportComponent, canActivate: [AuthGuard]},
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   {path: 'shop/:category_id/:category', component: ShopComponent},
@@ -100,8 +107,10 @@ const routes: Routes = [
     MyOrderDetailsComponent,
     AllOrdersComponent,
     ProfileComponent,
-    ReviewModalComponent,
-    EmployeeComponent
+    EmployeeComponent,
+    AboutUsComponent,
+
+
   ],
     imports: [
         BrowserModule,
@@ -121,6 +130,12 @@ const routes: Routes = [
         OwlModule,
         NgxStarsModule,
         CarouselModule.forRoot(),
+        ToastrModule.forRoot({
+        enableHtml: true,
+        timeOut: 10000,
+        positionClass: 'toast-top-right',
+        preventDuplicates: false,
+      }),
         TranslateModule.forRoot({
           loader:{
             provide:TranslateLoader,

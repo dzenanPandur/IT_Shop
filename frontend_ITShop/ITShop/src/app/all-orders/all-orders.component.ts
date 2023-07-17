@@ -4,6 +4,8 @@ import {ProductGetVM} from "../_models/ProductGetVM";
 import { HttpClient } from '@angular/common/http';
 import {Globals} from "../globals";
 import {Router} from "@angular/router";
+import {SignalrService} from "../signalr.service";
+import {IndividualConfig} from "ngx-toastr";
 @Component({
   selector: 'app-all-orders',
   templateUrl: './all-orders.component.html',
@@ -34,7 +36,7 @@ export class AllOrdersComponent implements OnInit {
     this.showModal = false;
   }
 
-  constructor(private httpClient: HttpClient, public globals: Globals, private route: Router) {
+  constructor(private httpClient: HttpClient, public globals: Globals, private route: Router,public signalrService: SignalrService) {
     this.fromDate = new Date("2020-06-30T17:06:50.930Z");
     this.toDate = new Date();
   }
@@ -50,6 +52,12 @@ export class AllOrdersComponent implements OnInit {
           this.tableData = value.data;
           this.totalItems= value.data.totalCount;
           console.log(this.tableData);
+          var message="Orders loaded successfully";
+          this.signalrService.toastr.success('', message, {
+            timeOut: 2500,
+            progressBar: true,
+            closeButton: true,
+          } as IndividualConfig);
         },
         error: (err: any) => {
           alert("error");

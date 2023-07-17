@@ -67,7 +67,7 @@ export class ProductComponent implements OnInit {
   izbrisi(id: number) {
     if (!confirm("Da li ste sigurni da zelite pobrisati ovaj zapis?"))
       return;
-    this.httpClient.delete(this.globals.serverAddress + '/Product/${id}')
+    this.httpClient.delete(`${this.globals.serverAddress}/Product/${id}`)
       .subscribe({
         next: (value: any) => {
           this.loadData();

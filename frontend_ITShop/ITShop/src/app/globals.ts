@@ -6,6 +6,7 @@ export class Globals {
   public authData: any;
   public isAuthenticated: boolean;
   public serverAddress = 'https://localhost:7093/api';
+  public signalrAdresss = 'https://localhost:7093/toastr';
   public readonly stripeApiPublishableKey = 'pk_test_51N7gLcAQDwep3kcFybqnBC3Zki2l1qgsJxyZaSVLnTgqZXwe6DTCa2TTin7c1Y4uW3iJEYzCHV4pylfZmkhlUT8f002b5K8Gxa';
   public constructor(){
 

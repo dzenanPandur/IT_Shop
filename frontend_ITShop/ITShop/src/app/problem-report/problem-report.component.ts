@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Globals} from "../globals";
+import {IndividualConfig} from "ngx-toastr";
+import { SignalrService } from '../signalr.service';
 
 @Component({
   selector: 'app-problem-report',
@@ -11,7 +13,8 @@ export class ProblemReportComponent implements OnInit {
 
   constructor(
     public http: HttpClient,
-    public globals: Globals
+    public globals: Globals,
+    public signalrService:SignalrService
   ) { }
 
   title:any;
@@ -23,7 +26,12 @@ export class ProblemReportComponent implements OnInit {
 
 
   submit() {
-
+    var message="Problem has been reported";
+    this.signalrService.toastr.success('', message, {
+      timeOut: 2500,
+      progressBar: true,
+      closeButton: true,
+    } as IndividualConfig);
     this.http.post<any>(this.globals.serverAddress + '/SendGrid/send-email-troubleshoot?title='+this.title +'&message='+this.message+'&description='+this.description, null ).subscribe(data=>{
 
     })

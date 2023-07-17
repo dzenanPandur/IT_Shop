@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Globals} from "../globals";
 import {RegisterUser} from "../View models/RegisterUser";
+import {IndividualConfig} from "ngx-toastr";
+import {SignalrService} from "../signalr.service";
 declare function porukaSuccess(a: string): any;
 declare function porukaError(a: string): any;
 
@@ -23,7 +25,8 @@ export class ContactComponent implements OnInit {
 
   constructor(
     public http: HttpClient,
-    public globals: Globals
+    public globals: Globals,
+    public signalrService: SignalrService
   ) {
   }
 
@@ -32,7 +35,12 @@ export class ContactComponent implements OnInit {
   }
 
   submit() {
-
+    this.message="Message has been sent";
+    this.signalrService.toastr.success('', this.message, {
+      timeOut: 2500,
+      progressBar: true,
+      closeButton: true,
+    } as IndividualConfig);
     this._name=this.fname+' '+this.lname;
     this.http.post<any>(this.globals.serverAddress + '/SendGrid?name='+this._name+'&email='+this._email+'&message='+this.message+'&subject='+this.subject, null ).subscribe(data=>{
 

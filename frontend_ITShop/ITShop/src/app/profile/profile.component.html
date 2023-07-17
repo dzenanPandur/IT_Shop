@@ -31,7 +31,7 @@
         <div *ngIf="roles('Kupac')" class="col-xl-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
           <div class="icon-box">
             <div class="icon"><i class="bi bi-cart-check"></i></div>
-            <h4 class="title"><a [routerLink]="'/my-order'" class="stretched-link">My Orders</a></h4>
+            <h4 class="title"><a [routerLink]="'/my-order'" class="stretched-link">{{'My orders'|translate}}</a></h4>
           </div>
         </div><!--End Icon Box -->
 
@@ -41,8 +41,8 @@
               <i class="bi bi-gem"></i>
             </div>
             <ng-container *ngIf="!subscribedUser_data?.data[0]?.isSubscribed">
-              <h4 class="title" style="color: white">Membership status: <span style="color: red"><br>Not subscribed</span></h4>
-              <h3 class="title" style="color: white">Subscribe</h3>
+              <h4 class="title" style="color: white">{{'Membership status'|translate}}: <span style="color: red"><br>{{'Not subscribed'|translate}}</span></h4>
+              <h3 class="title" style="color: white">{{'Subscribe'|translate}}</h3>
             </ng-container>
           </div>
         </div>
@@ -53,8 +53,8 @@
             </div>
 
             <ng-container *ngIf="subscribedUser_data?.data[0]?.isSubscribed">
-              <h4 class="title" style="color: white">Membership status: <span style="color: gold"><br>Subscribed</span></h4>
-              <h3 class="title" style="color: white">Unsubscribe</h3>
+              <h4 class="title" style="color: white">{{'Membership status'|translate}}: <span style="color: gold"><br>{{'Subscribed'|translate}}</span></h4>
+              <h3 class="title" style="color: white">{{'Unsubscribe'|translate}}</h3>
             </ng-container>
           </div>
         </div>

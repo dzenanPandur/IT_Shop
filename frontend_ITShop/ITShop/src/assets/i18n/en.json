@@ -106,7 +106,56 @@
   "With our IT Shop": "With our IT Shop",
   "Sale": "Sale",
   "Complete Order": "Complete Order",
-  "Customer Name": "Customer Name"
+  "Customer Name": "Customer Name",
+
+  "about us": "Welcome to ITShop, your premier destination for all your hardware needs in Bosnia.\n      We are dedicated to providing high-quality computer hardware and accessories to customers throughout the region.\n      Whether you're a tech enthusiast, a gaming aficionado, or a professional in need of reliable equipment, we've got you covered.\n\n      At ITShop, we understand the importance of having the right tools for the job.\n      That's why we stock a wide range of products sourced from reputable manufacturers, ensuring top-notch performance and durability.\n      Customer satisfaction is our utmost priority.\n      We believe in building long-term relationships with our clients by offering exceptional service and reliable products.\n      Thank you for choosing ITShop as your go-to destination for hardware solutions.\n      We look forward to serving you and being your trusted partner in technology.",
+  "Generate report": "Generate report",
+  "All": "All",
+  "User creation date": "User creation date",
+  "Download report": "Download report",
+  "Yes": "Yes",
+  "Return to employee page": "Return to employee page",
+  "From": "From",
+  "To": "To",
+  "Minimum Total Order Price": "Minimum Total Order Price",
+  "Maximum Total Order Price": "Maximum Total Order Price",
+  "Invalid price range": "Invalid price range, please check your input",
+  "Success": "Success",
+  "Order has been successfully created": "Order has been successfully created",
+  "Producers": "Producers",
+  "Log in": "Log in",
+  "Verification code": "Verification code",
+  "Please check the email for verification code": "Please check the email for verification code",
+  "Didnt get the email": "Didn't get the email",
+  "Resend": "Resend",
+  "Not a member": "Not a member",
+  "Return to profile": "Return to profile",
+  "Free": "Free",
+  "Stripe receipt": "Stripe receipt",
+  "Minimum price": "Minimum price",
+  "Maximum price": "Maximum price",
+  "Product picture": "Product picture",
+  "Write a review": "Write a review",
+  "Product successfully added to cart": "Product successfully added to cart",
+  "Review successfully added": "Review successfully added",
+  "Review": "Review",
+  "Submit review": "Submit review",
+  "Membership status": "Membership status",
+  "Not subscribed": "Not subscribed",
+  "Subscribe": "Subscribe",
+  "Unsubscribe": "Unsubscribe",
+  "Subscribed": "Subscribed"
+
+
+
+
+
+
+
+
+
+
+
 
 
 

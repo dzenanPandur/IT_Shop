@@ -4,6 +4,8 @@ import {Globals} from "../globals";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CookieService} from "ngx-cookie";
 import {NgxStarsComponent} from "ngx-stars";
+import {IndividualConfig} from "ngx-toastr";
+import {SignalrService} from "../signalr.service";
 
 
 
@@ -62,12 +64,11 @@ export class ProductPrikazComponent implements OnInit{
   }
 
   constructor(private httpClient: HttpClient, public globals: Globals,private router: Router, private route: ActivatedRoute,
-              public _cookieService: CookieService ) {
+              public _cookieService: CookieService,public signalrService:SignalrService ) {
 
   }
-  @ViewChild(NgxStarsComponent)
 
-  ratingDisplay:any;
+  ratingDisplay: number = 0;
   totalRating: any;
   isButtonDisabled: boolean=false;
 
@@ -158,7 +159,12 @@ export class ProductPrikazComponent implements OnInit{
         .subscribe({
           next: (value: any) => {
             console.log("Proizvod je uspješno dodan u korpu");
-            this.showSuccessToast();
+            var message="Product has been added to your cart";
+            this.signalrService.toastr.success('', message, {
+              timeOut: 2500,
+              progressBar: true,
+              closeButton: true,
+            } as IndividualConfig);
           },
           error: (err: any) => {
             alert("error");
@@ -217,6 +223,12 @@ export class ProductPrikazComponent implements OnInit{
   }
 
   createReview() {
+    console.log(this.ratingDisplay);
+ /*   if(!this.ratingDisplay) {
+      alert('Cannot rate a product with 0 stars');
+      return;
+    }*/
+
     this.review={
       id:0,
       reviewText:this.reviewText,
@@ -227,13 +239,20 @@ export class ProductPrikazComponent implements OnInit{
       .subscribe({
         next: (value: any) => {
           console.log("Uspjesno ste ocjenili proizvod");
-          this.showSuccesToast();
+          var message="You submited your review";
+          this.signalrService.toastr.success('', message, {
+            timeOut: 2500,
+            progressBar: true,
+            closeButton: true,
+          } as IndividualConfig);
+          this.loadData();
+          this.closeModal();
         },
         error: (err: any) => {
-          const errorMessage = err.info || 'Nemate pravo ocijeniti ovaj proizvod jer nije sadržan u vašoj narudžbi.';
+          const errorMessage = err.error.info || 'Nemate pravo ocijeniti ovaj proizvod jer nije sadržan u vašoj narudžbi.';
           alert(errorMessage);
           console.log(err);
         }});
-    this.loadData();
+
   }
 }

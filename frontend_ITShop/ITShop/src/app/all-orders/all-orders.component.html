@@ -7,7 +7,7 @@
 </header>
 <div class="container">
   <button style="font-size: 24px" class="btn btn-transparent" [routerLink]="'/employee'">
-    <i class="bi bi-arrow-left "></i><b> Return to Employee page </b>
+    <i class="bi bi-arrow-left "></i><b> {{'Return to employee page'|translate}} </b>
   </button><br><br>
   {{'Items per page'|translate}} <select [(ngModel)]="itemsPerPage" (click)="cc()">
   <option value="6">6</option>
@@ -51,7 +51,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel4">Generate report</h5>
+        <h5 class="modal-title" id="exampleModalLabel4">{{'Generate report'|translate}}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -60,25 +60,25 @@
             <div class="card mb-4 rounded-3 shadow-sm">
               <div class="card-header py-3">
                 <div class="row mt-3">
-                  <label class="form-label">Order creation date:</label>
+                  <label class="form-label">{{'Order creation date'|translate}}:</label>
                   <div class="col">
-                    <label class="form-label">From</label>
+                    <label class="form-label">{{'From'|translate}}</label>
                     <input type="date" class="form-control" [(ngModel)]="fromDate">
                   </div>
                   <div class="col">
-                    <label class="form-label">To</label>
+                    <label class="form-label">{{'To'|translate}}</label>
                     <input type="date" class="form-control" [(ngModel)]="toDate">
                   </div>
                 </div>
-                <label for="min-price-input">Minimum Total Order Price</label>
+                <label for="min-price-input">{{'Minimum Total Order Price'|translate}}</label>
                 <input type="number" id="min-price-input" [(ngModel)]="minPrice" class="form-control">
-                <label for="max-price-input">Maximum Total Order Price</label>
+                <label for="max-price-input">{{'Maximum Total Order Price'|translate}}</label>
                 <input type="number" id="max-price-input" [(ngModel)]="maxPrice" class="form-control">
-                <p *ngIf="isInvalidPriceRange" style="color: red;">Invalid price range. Please check your inputs.</p>
-                <label class="form-label mt-3" for="myCheckbox">Download report?</label>
+                <p *ngIf="isInvalidPriceRange" style="color: red;">{{'Invalid price range'|translate}}.</p>
+                <label class="form-label mt-3" for="myCheckbox">{{'Download report'|translate}}?</label>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" id="myCheckbox" [(ngModel)]="isDownloadChecked">
-                  <label class="form-check-label" for="myCheckbox">Yes, download report</label>
+                  <label class="form-check-label" for="myCheckbox">{{'Yes'|translate}}, {{'Download report'|translate}}</label>
                 </div>
                 <div class="mt-3">
                   <input *ngIf="isDownloadChecked" type="text" id="report-name" placeholder="Name your report.." [(ngModel)]="report_name" class="form-control">
@@ -87,8 +87,8 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close" >Close</button>
-            <button type="button" class="btn btn-primary" (click)="validatePriceRange(); generateReport()" [disabled]="isButtonDisabled">Generate report</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close" >{{'Close'|translate}}</button>
+            <button type="button" class="btn btn-primary" (click)="validatePriceRange(); generateReport()" [disabled]="isButtonDisabled">{{'Generate report'|translate}}</button>
           </div>
         </div>
       </div>

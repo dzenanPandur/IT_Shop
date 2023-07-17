@@ -25,7 +25,7 @@
             <li *ngFor="let i of tableData"><a class="dropdown-item" href="/shop/{{i.id}}/{{i.name}}">{{i.name}}</a></li>
           </ul>
         </li>
-        <li class="nav-item"><a class="nav-link" href="#!">{{'About'|translate}}</a></li>
+        <li class="nav-item"><a class="nav-link" [routerLink]="'/about-us'">{{'About'|translate}}</a></li>
         <li class="nav-item"><a class="nav-link" [routerLink]="'/contact'">{{'Contact'|translate}}</a></li>
 
 

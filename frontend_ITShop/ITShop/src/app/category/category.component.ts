@@ -4,6 +4,8 @@ import { MyConfig } from '../my-config';
 import { ProductCategorySnimiVM } from '../_models/ProductCategorySnimiVM';
 import { ProdutCategoryGetVM } from '../_models/ProdutCategoryGetVM';
 import {Globals} from "../globals";
+import {IndividualConfig} from "ngx-toastr";
+import { SignalrService } from '../signalr.service';
 
 
 @Component({
@@ -17,7 +19,7 @@ export class CategoryComponent implements OnInit {
   odabrani: any;
   showModal: boolean = false;
 
-  constructor(private httpClient: HttpClient, public globals: Globals) { }
+  constructor(private httpClient: HttpClient, public globals: Globals,public signalrService:SignalrService) { }
 
   ngOnInit(): void {
     this.loadData();
@@ -36,12 +38,13 @@ export class CategoryComponent implements OnInit {
   }
 
   izbrisi(id: number) {
-    if(!confirm("Da li ste sigurni da zelite pobrisati ovaj zapis?"))
+    if(!confirm("Are you sure you want to delete this?"))
       return;
 
-    this.httpClient.delete(this.globals.serverAddress + '/ProductCategory/${id}')
+    this.httpClient.delete(`${this.globals.serverAddress}/ProductCategory/${id}`)
     .subscribe({
       next: (value: any) => {
+
         this.loadData();
       },
       error: (err: any) => {

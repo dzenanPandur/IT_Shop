@@ -10,6 +10,8 @@ import {
   loadStripe
 } from '@stripe/stripe-js';
 import {CookieService} from "ngx-cookie";
+import {IndividualConfig} from "ngx-toastr";
+import {SignalrService} from "../signalr.service";
 interface PaymentResponse {
   paymentIntentId: string;
   charge_id: string;
@@ -36,7 +38,7 @@ export class CartComponent implements OnInit {
   stripeAmount: number = 0;
   errorResponse: HttpErrorResponse | null = null;
   @ViewChild('cardElement') cardElementRef!: ElementRef;
-  constructor(private httpClient: HttpClient, public globals: Globals, private router: Router, private route: ActivatedRoute, public _cookieService: CookieService) {
+  constructor(private httpClient: HttpClient, public globals: Globals, private router: Router, private route: ActivatedRoute, public _cookieService: CookieService,public signalrService:SignalrService) {
 
   }
 
@@ -105,11 +107,12 @@ export class CartComponent implements OnInit {
     this.httpClient.get(this.globals.serverAddress + "/CartItems?items_per_page=" + this.itemsPerPage + "&page_number=" + this.p)
       .subscribe({
         next: (value: any) => {
-          /* if(this.filter_productName!=null){
-
-             this.itemsPerPage=this.totalItems;
-             this.loadData();
-           }*/
+          var message="Cart loaded successfully";
+          this.signalrService.toastr.success('', message, {
+            timeOut: 2500,
+            progressBar: true,
+            closeButton: true,
+          } as IndividualConfig);
           this.tableData = value.data;
 
           this.totalItems = this.tableData.length;
@@ -168,6 +171,12 @@ export class CartComponent implements OnInit {
       .subscribe({
         next: (value: any) => {
           this.loadData();
+          var message="This item has been removed";
+          this.signalrService.toastr.success('', message, {
+            timeOut: 2500,
+            progressBar: true,
+            closeButton: true,
+          } as IndividualConfig);
         },
         error: (err: any) => {
           alert("error");
@@ -185,6 +194,12 @@ export class CartComponent implements OnInit {
         .subscribe({
           next: (value: any) => {
             this.loadData();
+            var message="All items have been removed";
+            this.signalrService.toastr.success('', message, {
+              timeOut: 2500,
+              progressBar: true,
+              closeButton: true,
+            } as IndividualConfig);
           },
           error: (err: any) => {
             alert("error");
@@ -313,6 +328,12 @@ export class CartComponent implements OnInit {
         next: (value: any) => {
           this.loadData();
           console.log("Korpa je uspješno ažurirana");
+          var message="Cart successfully updated";
+          this.signalrService.toastr.success('', message, {
+            timeOut: 2500,
+            progressBar: true,
+            closeButton: true,
+          } as IndividualConfig);
         },
         error: (err: any) => {
           alert("error");
@@ -355,7 +376,12 @@ export class CartComponent implements OnInit {
       .subscribe({
         next: (value: any) => {
           console.log("Narudžba je uspješno izvršena");
-          this.showSuccessToast();
+          var message="Order created successfully";
+          this.signalrService.toastr.success('', message, {
+            timeOut: 2500,
+            progressBar: true,
+            closeButton: true,
+          } as IndividualConfig);
         },
         error: (err: any) => {
           alert("error");

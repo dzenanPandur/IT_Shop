@@ -5,6 +5,8 @@ import {RegisterUser} from "../View models/RegisterUser";
 import {AuthData} from "../View models/AuthData";
 import {Router} from "@angular/router";
 import {CookieService} from "ngx-cookie";
+import {SignalrService} from "../signalr.service";
+import {IndividualConfig} from "ngx-toastr";
 
 @Component({
   selector: 'app-register',
@@ -20,7 +22,12 @@ export class RegisterComponent implements OnInit {
     this.isButtonDisabled = true;
     this.http.post<any>(this.globals.serverAddress + '/User', this.registerRequest).subscribe(data=>{
       console.log(data);
-
+        var message="Successful registration";
+        this.signalrService.toastr.success('', message, {
+          timeOut: 2500,
+          progressBar: true,
+          closeButton: true,
+        } as IndividualConfig);
       this.login(this.registerRequest.userName, this.registerRequest.password, "")
       console.log(this.registerRequest.userName, this.registerRequest.password)
 
@@ -47,7 +54,8 @@ export class RegisterComponent implements OnInit {
     public http: HttpClient,
     public globals: Globals,
     public router: Router,
-    public _cookieService: CookieService
+    public _cookieService: CookieService,
+    public signalrService:SignalrService
   ) {
 
     this.registerRequest= new RegisterUser();

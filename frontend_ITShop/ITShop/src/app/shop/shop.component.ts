@@ -241,4 +241,6 @@ export class ShopComponent implements OnInit {
     }
     return price;
   }
+
+
 }

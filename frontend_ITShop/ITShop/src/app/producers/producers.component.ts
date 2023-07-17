@@ -39,7 +39,7 @@ export class ProducersComponent implements OnInit {
     if(!confirm("Da li ste sigurni da zelite pobrisati ovaj zapis?"))
       return;
 
-    this.httpClient.delete(this.globals.serverAddress + '/ProductProducer/${id}')
+    this.httpClient.delete(`${this.globals.serverAddress}/ProductProducer/${id}`)
       .subscribe({
         next: (value: any) => {
           this.loadData();
