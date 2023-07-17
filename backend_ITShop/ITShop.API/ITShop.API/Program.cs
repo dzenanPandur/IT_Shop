@@ -26,6 +26,9 @@ using ITShop.API.Database;
 using ITShop.API.Entities;
 using ITShop.API.Helper;
 using Microsoft.AspNetCore.Identity;
+using ITShop.API.HubConfig;
+using Microsoft.Azure.Management.Storage.Fluent.Models;
+using Microsoft.AspNetCore.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -56,8 +59,13 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
 {
-    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+    builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
 }));
+builder.Services.AddSignalR(options => { options.EnableDetailedErrors = true; });
+
+
+
+
 
 var jwtConfig = builder.Configuration.GetSection("Jwt").Get<JwtConfiguration>();
 builder.Services.AddSingleton(jwtConfig);
@@ -101,6 +109,7 @@ builder.Services.AddTransient<IProductInventoryService, ProductInventoryService>
 builder.Services.AddTransient<IProductPictureService, ProductPictureService>();
 builder.Services.AddTransient<ICartItemsService, CartItemsService>();
 builder.Services.AddTransient<IOrderService, OrderService>();
+builder.Services.AddTransient< MyHub >();
 
 builder.Services.AddTransient<IProductProducerService, ProductProducerService>();
 builder.Services.AddTransient<ISendGridService, SendGridService>();
@@ -130,16 +139,37 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseRouting();
+
 app.UseCors(x => x
             .AllowAnyOrigin()
             .AllowAnyMethod()
             .AllowAnyHeader());
+
 
 app.UseCors("corsapp");
 app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseEndpoints(endpoints =>
+{
+
+
+    endpoints.MapControllers();
+
+
+    endpoints.MapHub<MyHub>("/toastr");
+
+});
+
+//app.UseStaticFiles();
+//app.UseHttpsRedirection();
+//app.UseAuthentication();
+//app.UseAuthorization();
+
 
 app.MapControllers();
 

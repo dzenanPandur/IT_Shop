@@ -16,6 +16,7 @@ namespace ITShop.API.Services
         private UserManager<User> UserManager { get; set; }
         public IAuthContext AuthContext { get; set; }
 
+
         public CartItemsService(ITShop_DBContext dBContext, UserManager<User> userManager, IAuthContext authContext)
         {
             _dBContext = dBContext;

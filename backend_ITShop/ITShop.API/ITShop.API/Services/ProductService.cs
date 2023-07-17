@@ -3,6 +3,7 @@ using ITShop.API.Database;
 using ITShop.API.Entities;
 using ITShop.API.Enums;
 using ITShop.API.Helper;
+using ITShop.API.HubConfig;
 using ITShop.API.Interface;
 
 using ITShop.API.ViewModels.User;
@@ -25,14 +26,17 @@ namespace ITShop.API.Services
     public class ProductService : IProductService
     {
         public readonly ITShop_DBContext _dbContext;
+        private readonly MyHub hub;
+
         private UserManager<User> UserManager { get; set; }
         public IAuthContext AuthContext { get; set; }
 
-        public ProductService(ITShop_DBContext dbContext, UserManager<User> userManager, IAuthContext authContext)
+        public ProductService(ITShop_DBContext dbContext, UserManager<User> userManager, IAuthContext authContext, MyHub hub)
         {
             _dbContext = dbContext;
             UserManager = userManager;
             AuthContext = authContext;
+            this.hub = hub;
         }
 
         public async Task<Message> GetAllPaged(ProductGetVM vm, int items_per_page = 10, int page_number = 1)
@@ -151,6 +155,12 @@ namespace ITShop.API.Services
             entity.DiscountID = x.DiscountID;
 
             await _dbContext.SaveChangesAsync();
+
+            if(x.Id == 0)
+            {
+                await hub.SendNewProductNotification(entity.Name);
+            }
+
             return new Message
             {
                 IsValid = true,

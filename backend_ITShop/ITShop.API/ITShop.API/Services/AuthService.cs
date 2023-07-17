@@ -28,6 +28,7 @@ namespace ITShop.API.Services
         private IAuthContext authContext { get; set; }
         private readonly string _apiKey;
         private readonly string template_id;
+        private string message;
 
         public AuthService(JwtConfiguration jwtConfiguration,
          UserManager<User> userManager,
@@ -90,6 +91,8 @@ namespace ITShop.API.Services
                     Status = ExceptionCode.Forbidden
                 };
             }
+            
+
 
             // Check if the user has verified their account
             //if (!user.EmailConfirmed)
@@ -151,7 +154,7 @@ namespace ITShop.API.Services
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
                 var session = await GetSession(user.Id, accessToken, expiresIn, cancellationToken);
-
+              
                 return new Message
                 {
                     Info = "Success",
@@ -161,7 +164,6 @@ namespace ITShop.API.Services
                 };
 
             }
-
             return new Message
             {
                 Info = "Incorrect username or password!",
@@ -262,12 +264,19 @@ namespace ITShop.API.Services
         public async Task<Message> LogoutAsync(User user)
         {
             await _signInManager.SignOutAsync();
+           
 
             try
             {
                 user.RefreshToken = null;
                 user.RefreshTokenExpireDate = DateTime.MinValue;
                 await _dbContext.SaveChangesAsync(CancellationToken.None);
+                return new Message
+                {
+                    Info = "Success",
+                    IsValid = true,
+                    Status = ExceptionCode.Success,
+                };
             }
             catch (Exception ex)
             {
@@ -285,6 +294,7 @@ namespace ITShop.API.Services
                 IsValid = true,
                 Status = ExceptionCode.Success,
             };
+            
         }
 
         private async Task<SessionVM> GetSession(Guid userId, string accessToken, long accessTokenExpiration, CancellationToken cancellationToken)

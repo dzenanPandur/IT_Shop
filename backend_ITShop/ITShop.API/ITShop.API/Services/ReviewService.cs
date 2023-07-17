@@ -24,6 +24,16 @@ namespace ITShop.API.Services
 
         public async Task<Message> Snimi(ReviewSnimiVM x)
         {
+            if(!(x.ReviewValue >= 1 && x.ReviewValue <= 5))
+            {
+                return new Message
+                {
+                    IsValid = false,
+                    Info = "Cannot rate a product with 0 stars",
+                    Status = ExceptionCode.BadRequest
+                };
+            }
+
             var product = await _dBContext.Products.FindAsync(x.ProductID);
             if (product == null)
             {

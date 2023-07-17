@@ -20,6 +20,7 @@ namespace ITShop.API.Database
         public DbSet<Subscription> Subscriptions { get; set; }
         public DbSet<OrderItems> OrderItems { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<Connections> Connections { get; set; }
 
 
         public ITShop_DBContext(DbContextOptions<ITShop_DBContext> options) : base(options)
