@@ -28,11 +28,18 @@
               <label for="txtVerificationCode" class="form-label">{{'Verification code'|translate}}</label>
               <input id="txtVerificationCode" type="text" name="verificationCode" class="form-control"
                      [(ngModel)]="authRequest.verificationCode" required>
-              <p style="color: red; font-size:14px">{{'Please check the email for verification code'|translate}}.</p>
-              <p style="color:white; font-size:15px; display: inline; margin-right: 25px">{{'Didnt get the email'|translate}}?</p>
-              <button class="btn-outline-info w-50" (click)="generateNewCode(authRequest.username)">{{'Resend'|translate}}</button>
+              <p style="color: red; font-size:14px">{{'Please check your email for the verification code'|translate}}.</p>
+              <div *ngIf="timer > 0" class="mb-3">
+                <p style="color: red; font-size: 16px;">
+                  {{'Code expires in' | translate}}: <span style="font-weight: bold;">{{ timer }}</span> {{'seconds'|translate}}
+                </p>
+              </div>
+              <p *ngIf="codeExpired">{{'Code has expired, resend for new code'|translate}}.</p>
+              <p style="color:white; font-size:15px; display: inline; margin-right: 25px">{{"Didn't get the email" |translate}}?</p>
+              <button class="btn-outline-info w-50" [disabled]="isButtonDisabled" (click)="generateNewCode(authRequest.username);  resetTimer()">{{'Resend'|translate}}</button>
+
             </div>
-            <button type="submit" class="btn btn-light mt-3" (click)="login(); cc(); check2FA()">{{'LOGIN'|translate}}</button>
+            <button type="submit" class="btn btn-light mt-3" (click)="login(); cc(); check2FA();startTimer();">{{'LOGIN'|translate}}</button>
             <p>{{'Not a member'|translate}}? <a data-bs-target="#SignUpModalForm" data-bs-toggle="modal">{{'Sign up now'|translate}}</a></p>
           </form>
         </div>

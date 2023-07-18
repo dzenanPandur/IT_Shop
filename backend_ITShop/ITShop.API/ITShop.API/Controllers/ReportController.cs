@@ -28,20 +28,17 @@ namespace ITShop.API.Controllers
         }
 
         [HttpPost("product-report"), Authorize(Roles = "Zaposlenik")]
-        
+
         public async Task<IActionResult> GenerateProductReport([FromBody] ProductReportParameters parameters)
         {
             try
             {
-                // Generate the report using the provided parameters
                 byte[] reportData = await _reportService.GenerateProductReportData(parameters);
 
-                // Create a response with the report data
                 return File(reportData, "application/pdf", "report.pdf");
             }
             catch (Exception ex)
             {
-                // Handle exception and return appropriate error response
                 return StatusCode((int)HttpStatusCode.InternalServerError, "An error occurred while generating the report: " + ex.Message);
             }
         }
@@ -51,33 +48,27 @@ namespace ITShop.API.Controllers
         {
             try
             {
-                // Generate the report using the provided parameters
                 byte[] reportData = await _reportService.GenerateUserReportData(parameters);
 
-                // Create a response with the report data
                 return File(reportData, "application/pdf", "report.pdf");
             }
             catch (Exception ex)
             {
-                // Handle exception and return appropriate error response
                 return StatusCode((int)HttpStatusCode.InternalServerError, "An error occurred while generating the report: " + ex.Message);
             }
         }
 
-        [HttpPost("order-report")] //, Authorize(Roles = "Zaposlenik")
+        [HttpPost("order-report") , Authorize(Roles = "Zaposlenik")]
         public async Task<IActionResult> GenerateOrderReport([FromBody] OrderReportParameters parameters)
         {
             try
             {
-                // Generate the report using the provided parameters
                 byte[] reportData = await _reportService.GenerateOrderReportData(parameters);
 
-                // Create a response with the report data
                 return File(reportData, "application/pdf", "report.pdf");
             }
             catch (Exception ex)
             {
-                // Handle exception and return appropriate error response
                 return StatusCode((int)HttpStatusCode.InternalServerError, "An error occurred while generating the report: " + ex.Message);
             }
         }

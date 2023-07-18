@@ -3,6 +3,8 @@ import { UserGetVM } from "../_models/UserGetVM";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import { Globals } from "../globals";
 import { UserRoleGetVM } from "../_models/UserRoleGetVM";
+import {IndividualConfig} from "ngx-toastr";
+import {SignalrService} from "../signalr.service";
 
 @Component({
   selector: 'app-admin',
@@ -27,7 +29,7 @@ export class AdminComponent implements OnInit {
   successResponse : any;
   errorResponse: HttpErrorResponse | null = null;
 
-  constructor(public http: HttpClient, public globals: Globals) {
+  constructor(public http: HttpClient, public globals: Globals, public signalrService:SignalrService) {
     this.fromDate = new Date("2020-06-30T17:06:50.930Z");
     this.toDate = new Date();
   }
@@ -75,16 +77,22 @@ export class AdminComponent implements OnInit {
     };
     this.http.put(this.globals.serverAddress + '/Role/update-role', request).subscribe(data => {
       this.successResponse = data;
-      setTimeout(() => {
-        this.successResponse = null;
-      }, 2000);
+        var message=this.successResponse.info;
+        this.signalrService.toastr.success('', message, {
+          timeOut: 2500,
+          progressBar: true,
+          closeButton: true,
+        } as IndividualConfig);
       this.loadUserData();
     },
       (error: HttpErrorResponse) => {
         this.errorResponse = error;
-        setTimeout(() => {
-          this.errorResponse = null;
-        }, 2000);
+        var message=this.errorResponse.error.info;
+        this.signalrService.toastr.error('', message, {
+          timeOut: 2500,
+          progressBar: true,
+          closeButton: true,
+        } as IndividualConfig);
       }
     )
   }

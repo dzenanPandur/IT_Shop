@@ -29,8 +29,14 @@ using Microsoft.AspNetCore.Identity;
 using ITShop.API.HubConfig;
 using Microsoft.Azure.Management.Storage.Fluent.Models;
 using Microsoft.AspNetCore.SignalR;
+using Hangfire;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddHangfire(config =>
+{
+    config.UseSqlServerStorage(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -153,6 +159,8 @@ app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseHangfireServer();
+app.UseHangfireDashboard();
 
 app.UseEndpoints(endpoints =>
 {

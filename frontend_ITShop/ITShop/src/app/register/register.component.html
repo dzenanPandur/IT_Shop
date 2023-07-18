@@ -5,23 +5,31 @@
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         <div class="myform bg-dark">
           <h1 class="text-center">{{'Sign up'|translate}}</h1>
-          <form class="was-validated" novalidate>
+          <form class="was-validated" novalidate oninput='confirmPassword.setCustomValidity(confirmPassword.value !== password.value ? "Passwords do not match" : "")' (input)="checkForm()">
             <div class="mb-3 mt-4">
               <label for="txtIme" class="form-label">{{'First name'|translate}}</label>
               <input name="firstName" id="txtIme" placeholder="Enter first name" class="form-control"
-                     [(ngModel)]="registerRequest.firstName" required>
-              <div class="valid-feedback">
-                {{'Looks good!'|translate}}
+                     [(ngModel)]="registerRequest.firstName" required minlength="2">
+              <div class="invalid-feedback">
+                {{'You must enter at least 2 characters.'|translate}}
               </div>
             </div>
 
             <div class="mb-3">
               <label for="txtPrezime" class="form-label">{{'Last name'|translate}}</label>
               <input name="lastName" id="txtPrezime" placeholder="Enter last name" class="form-control"
-                     [(ngModel)]="registerRequest.lastName" required>
-              <div class="valid-feedback">
-                {{'Looks good!'|translate}}
+                     [(ngModel)]="registerRequest.lastName" required minlength="2">
+              <div class="invalid-feedback">
+                {{'You must enter at least 2 characters.'|translate}}
               </div>
+            </div>
+
+            <label for="txtGender" class="form-label">{{'Gender'|translate}}</label>
+            <div>
+              <select  id="txtGender" name="gender" class="w-50 form-select selectpicker myClass show-tick dropup" [(ngModel)]="registerRequest.gender" required>
+                <option value="1">{{'Male'|translate}}</option>
+                <option value="2">{{'Female'|translate}}</option>
+              </select>
             </div>
 
             <div class="mb-3 mt-4">
@@ -36,36 +44,43 @@
             <div class="mb-3 mt-4">
               <label for="txtUsername" class="form-label">{{'Username'|translate}}</label>
               <input name="userName" id="txtUsername" placeholder="Enter username" class="form-control"
-                     [(ngModel)]="registerRequest.userName" required>
+                     [(ngModel)]="registerRequest.userName" required minlength="5">
               <div class="invalid-feedback">
-                {{'Please choose a username'|translate}}
+                {{'Please choose a username.'|translate}}
               </div>
             </div>
 
             <div class="mb-3 mt-4">
               <label for="txtPhoneNumber" class="form-label">{{'Phone number'|translate}}</label>
               <input name="phoneNumber" id="txtPhoneNumber" placeholder="Enter phone number" class="form-control"
-                     [(ngModel)]="registerRequest.phoneNumber" required>
+                     [(ngModel)]="registerRequest.phoneNumber" required type="text" pattern="[0-9]*" minlength="7">
+              <div class="invalid-feedback">
+                {{'Please enter a valid phone number.'|translate}}
+              </div>
             </div>
 
             <div>
               <label class="form-label">{{'Password'|translate}}</label>
               <div class="input-group-text form-control ">
-              <input placeholder="Enter password" [type]="!isPasswordHidden? 'text' : 'password'"
-                     name="password" id="password" class="form-control" data-toggle="password" minlength="6"
-                     [(ngModel)]="registerRequest.password"  required>
+                <input placeholder="Enter password" [type]="!isPasswordHidden? 'text' : 'password'"
+                       name="password" id="password" class="form-control" data-toggle="password" minlength="6"
+                       [(ngModel)]="registerRequest.password" required>
                 <i (click)="isPasswordHidden=!isPasswordHidden;" class="fa fa-eye"></i>
               </div>
-
             </div>
             <br>
-            <label for="txtGender" class="form-label">{{'Gender'|translate}}</label>
-            <div>
-              <select  id="txtGender" name="gender" class="w-50 form-select selectpicker myClass show-tick dropup" [(ngModel)]="registerRequest.gender" required>
-                <option value="1">{{'Male'|translate}}</option>
-                <option value="2">{{'Female'|translate}}</option>
-              </select>
+            <div class="mb-3" *ngIf="registerRequest.password!== ''">
+              <label class="form-label">{{'Confirm password'|translate}}</label>
+              <div class="input-group-text form-control">
+                <input placeholder="Confirm password" [type]="!isPasswordConfirmHidden ? 'text' : 'password'"
+                       name="confirmPassword" id="passwordConfirm" class="form-control"
+                       [(ngModel)]="confirmPassword">
+                <i (click)="isPasswordConfirmHidden=!isPasswordConfirmHidden;" class="fa fa-eye"></i>
+              </div>
             </div>
+
+            <br>
+
             <div *ngIf="errorResponse && errorResponse.error.info != 'User security stamp cannot be null.'" class="error-message" style="color: red">{{ errorResponse.error.info }}</div>
             <button class="btn btn-light mt-3"(click)="register()" [disabled]="isButtonDisabled">{{'Register'|translate}}</button>
             <p>{{'Already have an account?'|translate}} <a data-bs-target="#ModalForm" data-bs-toggle="modal">{{'Back to login'|translate}}</a></p>

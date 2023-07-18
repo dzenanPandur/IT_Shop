@@ -48,7 +48,6 @@ export class ProfileComponent implements OnInit {
       userID: this.fullName.userId,
       isSubscribed: true
     }
-    //console.log((this.fullName));
     this.check2FA();
     this.getSubscriptionById();
     const stripePromise = loadStripe(this.globals.stripeApiPublishableKey);
@@ -149,7 +148,7 @@ export class ProfileComponent implements OnInit {
       .subscribe(
         response  => {
           console.log(response);
-          this.customerId = response['customerId']; // Store the customer ID
+          this.customerId = response['customerId'];
           this.createSubscription(paymentMethodId);
         },
         (error: HttpErrorResponse) => {
@@ -162,7 +161,7 @@ export class ProfileComponent implements OnInit {
   createSubscription(paymentMethodId: string) {
     const subscriptionData = {
       paymentMethodId,
-      customerId: this.customerId, // Pass the customer ID
+      customerId: this.customerId,
       priceId: 'price_1N7zQqAQDwep3kcFVNgBeFvl'
     };
 
@@ -171,7 +170,6 @@ export class ProfileComponent implements OnInit {
         response => {
           console.log(response);
           console.log(this.loggedUser)
-          // Handle the subscription response as needed
           if(this.subscribedUser_data==null)
             this.subscribe()
           else

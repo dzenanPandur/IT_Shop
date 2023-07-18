@@ -1,13 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ProductSnimiVM} from "../_models/ProductSnimiVM";
-import {ProductGetVM} from "../_models/ProductGetVM";
 import { HttpClient } from '@angular/common/http';
 import {Globals} from "../globals";
 import {Router} from "@angular/router";
 import {ProductProducerGetVM} from "../_models/ProductProducerGetVM";
 import {ProdutCategoryGetVM} from "../_models/ProdutCategoryGetVM";
-import {ProductDiscountGetVM} from "../_models/ProductDiscountGetVM";
-import {ProductInventoryGetVM} from "../_models/ProductInventoryGetVM";
 
 
 
@@ -34,10 +30,6 @@ export class ProductComponent implements OnInit {
   currentDate = new Date();
   report_name: string="";
 
-
-  //totalProduct:any;
-  //@Output() loadCategories = new EventEmitter<void>();
-
   constructor(private httpClient: HttpClient, public globals: Globals, private route: Router) { }
 
   ngOnInit(): void {
@@ -56,7 +48,6 @@ export class ProductComponent implements OnInit {
         next: (value: any) => {
           this.tableData = value.data.dataItems;
           this.totalItems= value.data.totalCount;
-          //this.totalProduct=value.data.length();
           console.log(this.tableData);
         },
         error: (err: any) => {
@@ -102,7 +93,6 @@ export class ProductComponent implements OnInit {
 
   generateReport() {
     this.isButtonDisabled=true;
-    // Define the report parameters
     const parameters = {
       category: this.category,
       producer: this.producer,
@@ -112,14 +102,11 @@ export class ProductComponent implements OnInit {
     if(this.isInvalidPriceRange)
       return;
     else {
-      // Make an HTTP POST request to the server to generate the report
       this.httpClient.post(this.globals.serverAddress + '/Report/product-report', parameters, {responseType: 'blob'})
         .subscribe(response => {
-          // Create a Blob URL from the response
           const blob = new Blob([response], {type: 'application/pdf'});
           const url = window.URL.createObjectURL(blob);
 
-          // Create a download link for the report
           const link = document.createElement('a');
           link.href = url;
           link.download = this.report_name + "_" + this.currentDate.getDate() + '.' + (this.currentDate.getMonth()+1) + '.' + this.currentDate.getFullYear() + '_report.pdf';
@@ -128,11 +115,10 @@ export class ProductComponent implements OnInit {
           else
             window.open(url, '_blank');
           this.isButtonDisabled=false;
-          // Clean up the Blob URL after the download
           window.URL.revokeObjectURL(url);
         }, error => {
           console.log('An error occurred while generating the report:', error);
-          // Handle the error as needed
+
           this.isButtonDisabled=false;
         });
     }
@@ -167,7 +153,6 @@ export class ProductComponent implements OnInit {
       this.isInvalidPriceRange = true;
     } else {
       this.isInvalidPriceRange = false;
-      // Proceed with further actions
     }
   }
 

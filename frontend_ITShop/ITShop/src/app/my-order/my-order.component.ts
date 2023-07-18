@@ -95,13 +95,11 @@ export class MyOrderComponent implements OnInit {
       },
       (error) => {
         console.error('Refund error:', error);
-        // Handle error response here
       }
     );
   }
   cc() {
     this.loadData();
-    //console.log(this.p);
   }
 
   productDetails(x: any) {

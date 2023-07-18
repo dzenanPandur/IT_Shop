@@ -148,11 +148,6 @@ export class CartComponent implements OnInit {
   }
 
   cc() {
-    /*if(this.filter_productName!=null){
-
-      this.itemsPerPage=this.totalItems;
-      this.loadData();
-    }*/
     this.loadData();
   }
   getSubscriptionById(){
@@ -189,7 +184,6 @@ export class CartComponent implements OnInit {
     if (!confirm("Da li ste sigurni da zelite ukloniti sve proizvode iz korpe?"))
       return;
     this.tableData.forEach((item: { id: number; }) => {
-      // Perform operations on each item
       this.httpClient.delete(this.globals.serverAddress + '/CartItems/' + item.id)
         .subscribe({
           next: (value: any) => {
@@ -219,12 +213,9 @@ export class CartComponent implements OnInit {
         if (result.error) {
           (error: HttpErrorResponse) => {
             this.errorResponse = error.error;
-          }//ovo sam ja dodao maloprije za ovaj error "your card is declined"
-          // Error occurred while creating payment method
-         // console.error(result.error.message);
+          }
           this.isButtonDisabled=false;
         } else {
-          // Payment method created successfully
           const paymentMethodId = result.paymentMethod.id;
 
           console.log('Payment method created. Payment Method ID:', paymentMethodId);
@@ -253,15 +244,12 @@ export class CartComponent implements OnInit {
             (response: Receipt |Object)=>{
               const receipt_url = (response as Receipt).receiptUrl;
               this.CreateOrder(receipt_url, this.paymentIntentId);
-              //console.log(receipt_url);
+
             }, error => console.log( error)
           );
-          //console.log('Payment Intent ID:', this.paymentIntentId);
-          //console.log('Charge ID:', this.charge_id);
 
-          // Remove items from cart
           this.tableData.forEach((item: { id: number; }) => {
-            // Perform operations on each item
+
             this.httpClient.delete(this.globals.serverAddress + '/CartItems/' + item.id)
               .subscribe({
                 next: (value: any) => {
@@ -269,18 +257,16 @@ export class CartComponent implements OnInit {
                   window.location.reload();
                 },
                 error: (err: any) => {
-                  //alert("error");
-                  //console.log(err);
+
                 }
               });
           });
-          //console.log(response);
+
         },
         (error: HttpErrorResponse) => {
           this.isButtonDisabled=false;
           this.errorResponse = error.error;
-          //console.log("Ovo je error response" + this.errorResponse)
-          //console.error(error);
+
         }
       );
   }
@@ -294,7 +280,7 @@ export class CartComponent implements OnInit {
     x.totalPrice = x.product.price * x.quantity;
     this.totalTotalPrice = this.tableData.reduce((total: number, product: any) => total + product.totalPrice, 0);
 
-    this.updateCartItem(x); // Call the function to update the cart item
+    this.updateCartItem(x);
 
     console.log(x.totalPrice);
 
@@ -310,7 +296,7 @@ export class CartComponent implements OnInit {
     x.totalPrice = x.product.price * x.quantity;
     this.totalTotalPrice = this.tableData.reduce((total: number, product: any) => total + product.totalPrice, 0);
 
-    this.updateCartItem(x); // Call the function to update the cart item
+    this.updateCartItem(x);
 
 
     console.log(this.tableData);
@@ -348,7 +334,7 @@ export class CartComponent implements OnInit {
       return;
 
     const isSubscribed = this.subscribedUser_data && this.subscribedUser_data.data[0].isSubscribed;
-    const membershipDiscount = isSubscribed ? 0.1 : 0; // 10% discount if subscribed, otherwise 0% discount
+    const membershipDiscount = isSubscribed ? 0.1 : 0;
     if(isSubscribed)
       this.orderSub = true;
 
@@ -394,7 +380,7 @@ export class CartComponent implements OnInit {
       toast.classList.add('show');
       setTimeout(() => {
         toast.classList.remove('show');
-      }, 3000); // Hide the toast after 3 seconds (adjust the delay as needed)
+      }, 3000);
     }
   }
   calculateDiscountedPrice(price: number, discountPercent: number): number {

@@ -137,16 +137,6 @@ export class ShopComponent implements OnInit {
     if(this.tableData==null)
       return [];
     return this.tableData;
-    /*.filter((x:any)=>
-      (!this.filter_productName
-        ||
-        (x.name).includes(this.filter_productName)
-        ||
-        (x.name).toLowerCase().includes(this.filter_productName)
-      )*/
-      /*&&
-      (x.price >= this.priceRange[0] && x.price <= this.priceRange[1])
-   )*/
 
   }
   loadDataProducers() {
@@ -181,11 +171,7 @@ export class ShopComponent implements OnInit {
     this.httpClient.get(url)
       .subscribe({
         next: (value: any) => {
-         /* if(this.filter_productName!=null){
 
-            this.itemsPerPage=this.totalItems;
-            this.loadData();
-          }*/
 
           this.tableData = value.data.dataItems;
 
@@ -219,15 +205,12 @@ export class ShopComponent implements OnInit {
     this.timer = setTimeout(() => { this.cc(update_price_slider) }, 250);
   }
   getDiscounts() {
-    for (let product of this.tableData) { // Replace `productsArray` with your actual array of products
+    for (let product of this.tableData) {
       const discountID = product.discountID;
       if (discountID) {
         this.httpClient.get(this.globals.serverAddress + '/Discount/' + discountID).subscribe(data => {
           this.discountAmount = data;
-          //console.log("Ovo je discount" + this.discountAmount);
-          //console.log("Ovo je discount: " + this.discountAmount.data.discountPercent);
 
-          // Store the discount in the discounts array
           this.discounts[discountID] = this.discountAmount.data.discountPercent;
         });
       }

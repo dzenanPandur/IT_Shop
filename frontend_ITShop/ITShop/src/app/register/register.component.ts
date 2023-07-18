@@ -15,9 +15,11 @@ import {IndividualConfig} from "ngx-toastr";
 })
 export class RegisterComponent implements OnInit {
   isPasswordHidden: boolean = true;
+  isPasswordConfirmHidden: boolean = true;
   public registerRequest: RegisterUser;
-  isButtonDisabled: boolean=false;
+  isButtonDisabled: boolean=true;
   errorResponse: HttpErrorResponse | null = null;
+  confirmPassword: string = "";
   register(){
     this.isButtonDisabled = true;
     this.http.post<any>(this.globals.serverAddress + '/User', this.registerRequest).subscribe(data=>{
@@ -48,7 +50,19 @@ export class RegisterComponent implements OnInit {
       window.location.reload();
     })
   }
+  checkForm() {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+    const firstNameValid = this.registerRequest.firstName.length >= 2;
+    const lastNameValid = this.registerRequest.lastName.length >= 2;
+    const emailValid = emailRegex.test(this.registerRequest.email);
+    const userNameValid = this.registerRequest.userName.length >= 5;
+    const phoneNumberValid = this.registerRequest.phoneNumber.length >= 7;
+    const passwordValid = this.registerRequest.password.length >= 6;
+    const confirmPasswordValid = this.confirmPassword === this.registerRequest.password;
+
+    this.isButtonDisabled = !(firstNameValid && lastNameValid && emailValid && userNameValid && phoneNumberValid && passwordValid && confirmPasswordValid);
+  }
 
   constructor(
     public http: HttpClient,

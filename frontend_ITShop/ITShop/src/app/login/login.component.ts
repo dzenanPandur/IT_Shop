@@ -8,6 +8,7 @@ import {AuthData} from "../View models/AuthData";
 import {SignalrService} from "../signalr.service";
 import {IndividualConfig, ToastrService} from "ngx-toastr";
 import * as signalR from "@aspnet/signalr";
+import {interval} from "rxjs";
 
 @Component({
   selector: 'app-login',
@@ -20,8 +21,13 @@ export class LoginComponent {
   message:any;
   errorResponse: HttpErrorResponse | null = null;
   hubConnection!: signalR.HubConnection;
+  timer: number = 0;
+  intervalSubscription: any;
+  codeExpired: boolean = false;
+  isButtonDisabled: boolean = false;
   login(){
-    this.signalrService.toastr.info("Loging in attempt...")
+    this.signalrService.toastr.info("Logging in attempt...")
+    this.codeExpired = false;
     this.http.post<AuthData>(this.globals.serverAddress + '/Auth', this.authRequest).subscribe(
       data=>{
       this.globals.authData=data;
@@ -46,7 +52,7 @@ export class LoginComponent {
     },
       (error: HttpErrorResponse) => {
         this.errorResponse = error;
-
+        this.codeExpired = false;
     }
     )
   }
@@ -58,7 +64,38 @@ export class LoginComponent {
       this.router.navigate(['']).then(() => window.location.reload());
 
   }
+  startTimer() {
+    if (!this.intervalSubscription) {
+      this.timer = 60;
 
+      this.intervalSubscription = interval(1000).subscribe(() => {
+        this.timer--;
+        if (this.timer === 0) {
+          this.intervalSubscription.unsubscribe();
+          this.intervalSubscription = null;
+          this.codeExpired = true;
+        }
+      });
+    }
+  }
+
+
+  resetTimer() {
+    if(this.timer>0) {
+      this.intervalSubscription.unsubscribe();
+      this.intervalSubscription = null;
+    }
+    this.timer = 60;
+
+    this.intervalSubscription = interval(1000).subscribe(() => {
+      this.timer--;
+      if (this.timer === 0) {
+        this.intervalSubscription.unsubscribe();
+        this.intervalSubscription = null;
+        this.codeExpired = true;
+      }
+    });
+  }
 
   constructor(
     public http: HttpClient,
@@ -102,7 +139,13 @@ check2FA(){
   }
 
   generateNewCode(username: string) {
+    this.codeExpired = false;
+    this.isButtonDisabled = true;
+    setTimeout(() => {
+      this.isButtonDisabled = false;
+    }, 5000);
     this.http.post(this.globals.serverAddress + '/Auth/generate-new-code?username=' + username, null).subscribe(data=> {
+
     })
   }
 }

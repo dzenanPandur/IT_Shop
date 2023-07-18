@@ -8,15 +8,14 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using ITShop.API.Helper;
 using ITShop.API.ViewModels.Auth;
 using SendGrid.Helpers.Mail;
 using SendGrid;
-
+using Hangfire;
+using Hangfire.Common;
+using Hangfire.Storage;
 namespace ITShop.API.Services
 {
     public class AuthService : IAuthService
@@ -28,13 +27,13 @@ namespace ITShop.API.Services
         private IAuthContext authContext { get; set; }
         private readonly string _apiKey;
         private readonly string template_id;
-        private string message;
-
         public AuthService(JwtConfiguration jwtConfiguration,
          UserManager<User> userManager,
          SignInManager<User> signInManager,
          ITShop_DBContext dbContext, IAuthContext authContext,
-         IConfiguration configuration)
+         IConfiguration configuration,
+         JobStorage jobStorage,
+         IJobFilterProvider jobFilterProvider)
         {
             _jwtConfiguration = jwtConfiguration;
             _userManager = userManager;
@@ -58,17 +57,27 @@ namespace ITShop.API.Services
 
             return false;
         }
-
-        public async Task<string> GenerateVerificationCodeAsync(User user)
+        public async Task GenerateVerificationCodeWithDelayAsync(User user)
         {
-            var verificationCode = GenerateRandomCode(); // Implement your own code generation logic
+            var verificationCode = GenerateRandomCode();
             user.VerificationCode = verificationCode;
 
             await _userManager.UpdateAsync(user);
 
             await SendVerificationCodeEmail(user.UserName, user.Email, verificationCode, "Verification Code");
 
-            return verificationCode;
+            var jobId = BackgroundJob.Schedule(() => DeleteVerificationCode(user.Id), TimeSpan.FromSeconds(60));
+        }
+        public async Task DeleteVerificationCode(Guid userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            user.VerificationCode = null;
+            await _userManager.UpdateAsync(user);
+        }
+        public async Task<string> GenerateVerificationCodeAsync(User user)
+        {
+            await GenerateVerificationCodeWithDelayAsync(user);
+            return user.VerificationCode;
         }
 
         private string GenerateRandomCode()
@@ -91,21 +100,7 @@ namespace ITShop.API.Services
                     Status = ExceptionCode.Forbidden
                 };
             }
-            
 
-
-            // Check if the user has verified their account
-            //if (!user.EmailConfirmed)
-            //{
-            //    return new Message
-            //    {
-            //        Info = "Account not verified",
-            //        IsValid = false,
-            //        Status = ExceptionCode.Forbidden
-            //    };
-            //}
-
-            // Check if the user has enabled two-factor authentication (2FA)
 
 
             var userSignInResult = await _userManager.CheckPasswordAsync(user, loginVM.Password);
@@ -120,7 +115,6 @@ namespace ITShop.API.Services
                         if (user.VerificationCode == null || user.VerificationCode == "")
                         {
                             await GenerateVerificationCodeAsync(user);
-                            // Verify the provided verification code
 
                             return new Message
                             {
@@ -131,7 +125,6 @@ namespace ITShop.API.Services
                     }
                     bool isCodeValid = await VerifyCodeAsync(user, loginVM.VerificationCode);
 
-                    //bool isCodeValid = await VerifyCodeAsync(user, verificationCode);
 
                     if (!isCodeValid)
                     {
@@ -143,10 +136,20 @@ namespace ITShop.API.Services
                         };
                     }
                 }
+                var recurringJobs = JobStorage.Current.GetConnection().GetRecurringJobs();
+
+                var jobToRemove = recurringJobs.FirstOrDefault(x =>
+                    x.Job.Method.Name == "DeleteVerificationCode" &&
+                    x.Job.Args[0].ToString() == user.Id.ToString());
+
+                if (jobToRemove != null)
+                {
+                    RecurringJob.RemoveIfExists(jobToRemove.Id);
+                }
+
 
                 var roles = await _userManager.GetRolesAsync(user);
 
-                //var permissions = await GetPermissionsByRoles(roles, cancellationToken);
 
                 (string accessToken, long expiresIn) = GenerateJwt(user, roles);
 
@@ -154,7 +157,7 @@ namespace ITShop.API.Services
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
                 var session = await GetSession(user.Id, accessToken, expiresIn, cancellationToken);
-              
+
                 return new Message
                 {
                     Info = "Success",
@@ -164,6 +167,7 @@ namespace ITShop.API.Services
                 };
 
             }
+
             return new Message
             {
                 Info = "Incorrect username or password!",
@@ -210,7 +214,6 @@ namespace ITShop.API.Services
 
             var roles = await _userManager.GetRolesAsync(user);
 
-            //var permissions = await GetPermissionsByRoles(roles, cancellationToken);
 
             (string accessToken, long expiresIn) = GenerateJwt(user, roles);
 
@@ -233,7 +236,6 @@ namespace ITShop.API.Services
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             };
 
-            // Adding role claims. 
             var roleClaims = roles.Select(x => new Claim(ClaimTypes.Role, x));
             claims.AddRange(roleClaims);
 
@@ -264,19 +266,12 @@ namespace ITShop.API.Services
         public async Task<Message> LogoutAsync(User user)
         {
             await _signInManager.SignOutAsync();
-           
 
             try
             {
                 user.RefreshToken = null;
                 user.RefreshTokenExpireDate = DateTime.MinValue;
                 await _dbContext.SaveChangesAsync(CancellationToken.None);
-                return new Message
-                {
-                    Info = "Success",
-                    IsValid = true,
-                    Status = ExceptionCode.Success,
-                };
             }
             catch (Exception ex)
             {
@@ -294,7 +289,6 @@ namespace ITShop.API.Services
                 IsValid = true,
                 Status = ExceptionCode.Success,
             };
-            
         }
 
         private async Task<SessionVM> GetSession(Guid userId, string accessToken, long accessTokenExpiration, CancellationToken cancellationToken)

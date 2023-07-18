@@ -28,7 +28,7 @@ namespace ITShop.API.Controllers
                 var createOptions = new PaymentIntentCreateOptions
                 {
                     PaymentMethod = paymentRequest.PaymentMethodId,
-                    Amount = paymentRequest.Amount, // Use the custom amount from the request
+                    Amount = paymentRequest.Amount,
                     Currency = "bam",
                     ConfirmationMethod = "manual",
                     Confirm = true
@@ -41,7 +41,6 @@ namespace ITShop.API.Controllers
             }
             catch (Exception ex)
             {
-                // Handle any errors that occur during payment processing
                 return BadRequest(new { error = ex.Message });
             }
         }
@@ -124,13 +123,11 @@ namespace ITShop.API.Controllers
                 };
                 var refund = service.Create(refundOptions);
 
-                // Here, you can perform any additional business logic or update your database with refund details
 
                 return Ok(new { refundId = refund.Id });
             }
             catch (Exception ex)
             {
-                // Handle any errors that occur during refund processing
                 return BadRequest(new { error = ex.Message });
             }
         }
@@ -150,7 +147,6 @@ namespace ITShop.API.Controllers
             }
             catch (Exception ex)
             {
-                // Handle any errors that occur during retrieval
                 return BadRequest(new { error = ex.Message });
             }
         }

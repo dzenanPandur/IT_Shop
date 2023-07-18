@@ -1,7 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { MyConfig } from '../my-config';
-import { ProductProducerSnimiVM } from '../_models/ProductProducerSnimiVM';
 import { ProductProducerGetVM } from '../_models/ProductProducerGetVM';
 import {Globals} from "../globals";
 

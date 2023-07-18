@@ -38,7 +38,6 @@ export class MyOrderDetailsComponent implements OnInit {
         next: (value: any) => {
           this.order = value.data;
           this.orderItems=this.order.orderItems;
-          //this.totalProduct=value.data.length();
           console.log(this.order);
           console.log(this.orderItems);
         },
